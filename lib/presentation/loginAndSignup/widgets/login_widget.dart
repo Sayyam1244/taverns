@@ -3,7 +3,12 @@ import 'package:taverns/core/app_export.dart';
 import 'package:taverns/widgets/custom_text_form_field.dart';
 
 class LoginWidget extends StatelessWidget {
-  LoginWidget({Key? key, required this.email, required this.password, required this.loginformKey}) : super(key: key);
+  LoginWidget(
+      {Key? key,
+      required this.email,
+      required this.password,
+      required this.loginformKey})
+      : super(key: key);
   final TextEditingController email;
   final TextEditingController password;
   final GlobalKey<FormState> loginformKey;
@@ -11,9 +16,7 @@ class LoginWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 30
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 30),
       child: Form(
         key: loginformKey,
         child: ListView(
@@ -75,7 +78,8 @@ class LoginWidget extends StatelessWidget {
               children: [
                 Checkbox(
                     value: false,
-                    checkColor: theme.colorScheme.onErrorContainer.withOpacity(1),
+                    checkColor:
+                        theme.colorScheme.onErrorContainer.withOpacity(1),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(4),
                     ),

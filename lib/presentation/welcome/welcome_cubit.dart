@@ -7,10 +7,10 @@ import 'welcome_state.dart';
 class WelcomeCubit extends Cubit<WelcomeState> {
   final WelcomeInitialParams initialParams;
   final WelcomeNavigator navigator;
-  WelcomeCubit(this.initialParams, this.navigator) : super(WelcomeState.initial(initialParams: initialParams));
+  WelcomeCubit(this.initialParams, this.navigator)
+      : super(WelcomeState.initial(initialParams: initialParams));
 
   void openLoginAndSignup() {
     navigator.openLoginAndSignup(LoginAndSignupInitialParams());
   }
-
 }

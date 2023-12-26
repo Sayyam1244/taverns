@@ -77,17 +77,20 @@ class _WelcomeState extends State<WelcomePage> {
               WelcomeItem(
                 imagePath: ImageConstant.welcomeToTavern,
                 title: 'Welcome to Tavern',
-                body: 'Your gateway to safe and enjoyable tabletop gaming experiences',
+                body:
+                    'Your gateway to safe and enjoyable tabletop gaming experiences',
               ),
               WelcomeItem(
                 imagePath: ImageConstant.safetyFirst,
                 title: 'Safety First',
-                body: 'Enjoy gaming in a secure environment. Learn our safety guidelines',
+                body:
+                    'Enjoy gaming in a secure environment. Learn our safety guidelines',
               ),
               WelcomeItem(
                 imagePath: ImageConstant.discoverTaverns,
                 title: 'Discover Taverns and GMs',
-                body: 'Connect with local Taverns and experienced Game Masters.',
+                body:
+                    'Connect with local Taverns and experienced Game Masters.',
               ),
               Spacer(),
               CustomElevatedButton(

@@ -14,10 +14,9 @@ class CustomTextStyles {
   static get bodySmall => theme.textTheme.bodySmall!.copyWith(
         color: theme.colorScheme.onErrorContainer.withOpacity(1),
       );
-    static get bodySmallwithLetterSpacing => theme.textTheme.bodySmall!.copyWith(
-        color: theme.colorScheme.onErrorContainer.withOpacity(1),
-        letterSpacing: 10
-      );
+  static get bodySmallwithLetterSpacing => theme.textTheme.bodySmall!.copyWith(
+      color: theme.colorScheme.onErrorContainer.withOpacity(1),
+      letterSpacing: 10);
   static get bodySmallPrimary => theme.textTheme.bodySmall!.copyWith(
         color: theme.colorScheme.primary,
       );

@@ -1,4 +1,3 @@
 class WelcomeInitialParams {
-
-const WelcomeInitialParams();
+  const WelcomeInitialParams();
 }

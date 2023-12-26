@@ -4,7 +4,13 @@ import 'package:taverns/core/app_export.dart';
 import '../../../widgets/custom_text_form_field.dart';
 
 class SignupWidget extends StatelessWidget {
-  SignupWidget({Key? key, required this.email, required this.setPassword, required this.confirmPassword, required this.loginformKey}) : super(key: key);
+  SignupWidget(
+      {Key? key,
+      required this.email,
+      required this.setPassword,
+      required this.confirmPassword,
+      required this.loginformKey})
+      : super(key: key);
   final TextEditingController email;
   final TextEditingController setPassword;
   final TextEditingController confirmPassword;
@@ -88,24 +94,31 @@ class SignupWidget extends StatelessWidget {
               children: [
                 Checkbox(
                     value: false,
-                    checkColor: theme.colorScheme.onErrorContainer.withOpacity(1),
+                    checkColor:
+                        theme.colorScheme.onErrorContainer.withOpacity(1),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(4),
                     ),
                     onChanged: (v) {}),
                 SizedBox(width: 4.h),
                 RichText(
-                    text: TextSpan(text: 'Accept ', style: theme.textTheme.bodyMedium, children: [
-                  TextSpan(
-                    text: 'Terms of Service',
-                    style: theme.textTheme.bodyMedium!.copyWith(decoration: TextDecoration.underline),
-                  ),
-                  TextSpan(text: ' and ', style: theme.textTheme.bodyMedium!),
-                  TextSpan(
-                    text: 'Privacy Policy',
-                    style: theme.textTheme.bodyMedium!.copyWith(decoration: TextDecoration.underline),
-                  )
-                ])),
+                    text: TextSpan(
+                        text: 'Accept ',
+                        style: theme.textTheme.bodyMedium,
+                        children: [
+                      TextSpan(
+                        text: 'Terms of Service',
+                        style: theme.textTheme.bodyMedium!
+                            .copyWith(decoration: TextDecoration.underline),
+                      ),
+                      TextSpan(
+                          text: ' and ', style: theme.textTheme.bodyMedium!),
+                      TextSpan(
+                        text: 'Privacy Policy',
+                        style: theme.textTheme.bodyMedium!
+                            .copyWith(decoration: TextDecoration.underline),
+                      )
+                    ])),
               ],
             ),
           ],

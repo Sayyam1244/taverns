@@ -1,4 +1,3 @@
 class SplashInitialParams {
-
-const SplashInitialParams();
+  const SplashInitialParams();
 }

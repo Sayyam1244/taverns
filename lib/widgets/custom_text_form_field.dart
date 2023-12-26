@@ -87,9 +87,10 @@ class CustomTextFormField extends StatelessWidget {
           controller: controller,
           focusNode: focusNode ?? FocusNode(),
           autofocus: autofocus!,
-          style: textStyle ?? theme.textTheme.titleMedium!.copyWith(color: theme.colorScheme.onPrimary,
-          fontWeight: FontWeight.w600
-          ),
+          style: textStyle ??
+              theme.textTheme.titleMedium!.copyWith(
+                  color: theme.colorScheme.onPrimary,
+                  fontWeight: FontWeight.w600),
           obscureText: obscureText!,
           textInputAction: textInputAction ?? TextInputAction.done,
           keyboardType: textInputType,
@@ -119,7 +120,10 @@ class CustomTextFormField extends StatelessWidget {
               borderRadius: BorderRadius.circular(16.h),
               borderSide: BorderSide.none,
             ),
-        enabledBorder: borderDecoration ?? OutlineInputBorder(borderRadius: BorderRadius.circular(16.h), borderSide: BorderSide.none),
+        enabledBorder: borderDecoration ??
+            OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16.h),
+                borderSide: BorderSide.none),
         focusedBorder: borderDecoration ??
             OutlineInputBorder(
               borderRadius: BorderRadius.circular(16.h),

@@ -21,7 +21,8 @@ class LoginAndSignupPage extends StatefulWidget {
   State<LoginAndSignupPage> createState() => _LoginAndSignupState();
 }
 
-class _LoginAndSignupState extends State<LoginAndSignupPage> with SingleTickerProviderStateMixin {
+class _LoginAndSignupState extends State<LoginAndSignupPage>
+    with SingleTickerProviderStateMixin {
   LoginAndSignupCubit get cubit => widget.cubit;
   TextEditingController loginEmail = TextEditingController();
   TextEditingController loginPassword = TextEditingController();
@@ -85,7 +86,10 @@ class _LoginAndSignupState extends State<LoginAndSignupPage> with SingleTickerPr
               ),
               Expanded(
                 child: TabBarView(controller: tabviewController, children: [
-                  LoginWidget(email: loginEmail, password: loginPassword, loginformKey: loginformKey),
+                  LoginWidget(
+                      email: loginEmail,
+                      password: loginPassword,
+                      loginformKey: loginformKey),
                   SignupWidget(
                     email: signupEmail,
                     setPassword: signupSetPassword,

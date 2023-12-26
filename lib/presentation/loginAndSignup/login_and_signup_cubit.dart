@@ -5,5 +5,6 @@ import 'login_and_signup_state.dart';
 class LoginAndSignupCubit extends Cubit<LoginAndSignupState> {
   final LoginAndSignupInitialParams initialParams;
 
-  LoginAndSignupCubit(this.initialParams) : super(LoginAndSignupState.initial(initialParams: initialParams));
+  LoginAndSignupCubit(this.initialParams)
+      : super(LoginAndSignupState.initial(initialParams: initialParams));
 }

@@ -1,4 +1,3 @@
 class LoginAndSignupInitialParams {
-
-const LoginAndSignupInitialParams();
+  const LoginAndSignupInitialParams();
 }

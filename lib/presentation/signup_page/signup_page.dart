@@ -15,7 +15,8 @@ class SignupPage extends StatefulWidget {
   SignupPageState createState() => SignupPageState();
 }
 
-class SignupPageState extends State<SignupPage> with AutomaticKeepAliveClientMixin<SignupPage> {
+class SignupPageState extends State<SignupPage>
+    with AutomaticKeepAliveClientMixin<SignupPage> {
   TextEditingController emailController = TextEditingController();
 
   TextEditingController passwordController = TextEditingController();
@@ -109,15 +110,18 @@ class SignupPageState extends State<SignupPage> with AutomaticKeepAliveClientMix
                           children: [
                             TextSpan(
                               text: "Adam",
-                              style: CustomTextStyles.titleMediumSecondaryContainerSemiBold_1,
+                              style: CustomTextStyles
+                                  .titleMediumSecondaryContainerSemiBold_1,
                             ),
                             TextSpan(
                               text: "w",
-                              style: CustomTextStyles.titleMediumSecondaryContainerSemiBold_1,
+                              style: CustomTextStyles
+                                  .titleMediumSecondaryContainerSemiBold_1,
                             ),
                             TextSpan(
                               text: "ale",
-                              style: CustomTextStyles.titleMediumSecondaryContainerSemiBold_1,
+                              style: CustomTextStyles
+                                  .titleMediumSecondaryContainerSemiBold_1,
                             ),
                             TextSpan(
                               text: "|",

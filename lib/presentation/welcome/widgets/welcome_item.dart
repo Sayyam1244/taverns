@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:taverns/core/app_export.dart';
 
 class WelcomeItem extends StatelessWidget {
-  const WelcomeItem({Key? key, required this.imagePath, required this.title, required this.body})
+  const WelcomeItem(
+      {Key? key,
+      required this.imagePath,
+      required this.title,
+      required this.body})
       : super(
           key: key,
         );
@@ -59,7 +63,8 @@ class WelcomeItem extends StatelessWidget {
                     title,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: CustomTextStyles.titleSmallSecondaryContainer.copyWith(
+                    style:
+                        CustomTextStyles.titleSmallSecondaryContainer.copyWith(
                       height: 1.71,
                     ),
                   ),

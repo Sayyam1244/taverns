@@ -23,9 +23,12 @@ void main() {
   getIt.registerSingleton<SplashNavigator>(SplashNavigator(getIt()));
   getIt.registerSingleton<WelcomeNavigator>(WelcomeNavigator(getIt()));
 
-  getIt.registerFactoryParam<SplashCubit, SplashInitialParams, dynamic>((params, param2) => SplashCubit(params, getIt()));
-  getIt.registerFactoryParam<WelcomeCubit,WelcomeInitialParams, dynamic>((params, param2) => WelcomeCubit(params, getIt()));
-  getIt.registerFactoryParam<LoginAndSignupCubit, LoginAndSignupInitialParams, dynamic>((params, param2) => LoginAndSignupCubit(params));
+  getIt.registerFactoryParam<SplashCubit, SplashInitialParams, dynamic>(
+      (params, param2) => SplashCubit(params, getIt()));
+  getIt.registerFactoryParam<WelcomeCubit, WelcomeInitialParams, dynamic>(
+      (params, param2) => WelcomeCubit(params, getIt()));
+  getIt.registerFactoryParam<LoginAndSignupCubit, LoginAndSignupInitialParams,
+      dynamic>((params, param2) => LoginAndSignupCubit(params));
 }
 
 class MyApp extends StatelessWidget {

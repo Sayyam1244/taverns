@@ -5,14 +5,12 @@ import '../../main.dart';
 import '../../navigation/app_navigation.dart';
 import 'welcome_initial_params.dart';
 
-class WelcomeNavigator 
-with LoginAndSignupRoute
-{
+class WelcomeNavigator with LoginAndSignupRoute {
   @override
- late BuildContext context;
+  late BuildContext context;
 
   @override
-  final AppNavigator navigator ;
+  final AppNavigator navigator;
 
   WelcomeNavigator(this.navigator);
 }

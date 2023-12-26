@@ -48,7 +48,8 @@ class _SplashState extends State<SplashPage> {
                         children: [
                           Text(
                             "Tavern".toUpperCase(),
-                            style: CustomTextStyles.headlineLargeCairoOnErrorContainer,
+                            style: CustomTextStyles
+                                .headlineLargeCairoOnErrorContainer,
                           ),
                           CustomImageView(
                             imagePath: ImageConstant.imgVector,
