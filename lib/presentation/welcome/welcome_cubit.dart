@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:taverns/presentation/loginAndSignup/login_and_signup_initial_params.dart';
+import 'package:taverns/presentation/login_and_signup/login_and_signup_initial_params.dart';
 import 'package:taverns/presentation/welcome/welcome_navigator.dart';
 import 'welcome_initial_params.dart';
 import 'welcome_state.dart';

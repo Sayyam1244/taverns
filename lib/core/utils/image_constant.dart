@@ -40,7 +40,7 @@ class ImageConstant {
   static String imgVectorPrimary = '$imagePath/img_vector_primary.svg';
 
   // sign_up_select_role images
-  static String imgUndrawPlayingCardsCywn =
+  static String selectRole =
       '$imagePath/img_undraw_playing_cards_cywn.svg';
 
   // Signup images

@@ -9,4 +9,3 @@ bricks:
   # Uncomment the following lines to import the "widget" brick from git.
   initfiles:
             path: initfiles
-

@@ -34,46 +34,18 @@ class _WelcomeState extends State<WelcomePage> {
         body: SizedBox(
           width: double.maxFinite,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: SizedBox(
-                  height: 196.v,
-                  width: 250.h,
-                  child: Stack(
-                    alignment: Alignment.bottomRight,
-                    children: [
-                      Align(
-                        alignment: Alignment.bottomRight,
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                            right: 1.h,
-                            bottom: 49.v,
-                          ),
-                          child: Text(
-                            "Welcome to",
-                            style: theme.textTheme.headlineSmall,
-                          ),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.bottomRight,
-                        child: Text(
-                          "Tavern".toUpperCase(),
-                          style: CustomTextStyles.headlineLargeCairoPrimary,
-                        ),
-                      ),
-                      CustomImageView(
-                        imagePath: ImageConstant.imgSubtract,
-                        height: 143.v,
-                        width: 164.h,
-                        alignment: Alignment.topLeft,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
               Spacer(),
+              Text(
+                "Welcome to",
+                style: theme.textTheme.headlineSmall,
+              ),
+              Text(
+                "Tavern".toUpperCase(),
+                style: CustomTextStyles.headlineLargeCairoPrimary,
+              ),
+              SizedBox(height: 40.v),
               WelcomeItem(
                 imagePath: ImageConstant.welcomeToTavern,
                 title: 'Welcome to Tavern',

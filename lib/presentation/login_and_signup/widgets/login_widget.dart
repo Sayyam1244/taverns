@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:taverns/core/app_export.dart';
+import 'package:taverns/presentation/login_and_signup/login_and_signup_cubit.dart';
+import 'package:taverns/presentation/login_and_signup/login_and_signup_state.dart';
 import 'package:taverns/widgets/custom_text_form_field.dart';
 
 class LoginWidget extends StatelessWidget {
@@ -7,11 +9,13 @@ class LoginWidget extends StatelessWidget {
       {Key? key,
       required this.email,
       required this.password,
-      required this.loginformKey})
+      required this.loginformKey, required this.state, required this.cubit})
       : super(key: key);
   final TextEditingController email;
   final TextEditingController password;
   final GlobalKey<FormState> loginformKey;
+  final LoginAndSignupState state;
+  final LoginAndSignupCubit cubit;
 
   @override
   Widget build(BuildContext context) {
@@ -77,20 +81,27 @@ class LoginWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Checkbox(
-                    value: false,
+                    value: state.rememberMe,
                     checkColor:
                         theme.colorScheme.onErrorContainer.withOpacity(1),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(4),
                     ),
-                    onChanged: (v) {}),
+                    onChanged: (v) {
+                      cubit.changeRememberMe(v!);
+                    }),
                 SizedBox(width: 4.h),
                 Text("Remember me", style: theme.textTheme.bodyMedium),
                 Spacer(),
-                Text(
-                  "Forgot Password?",
-                  style: CustomTextStyles.titleSmallPrimary.copyWith(
-                    decoration: TextDecoration.underline,
+                GestureDetector(
+                  onTap: () {
+                    cubit.navigateToForgotScreen();
+                  },
+                  child: Text(
+                    "Forgot Password?",
+                    style: CustomTextStyles.titleSmallPrimary.copyWith(
+                      decoration: TextDecoration.underline,
+                    ),
                   ),
                 ),
               ],

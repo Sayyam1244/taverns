@@ -1,0 +1,4 @@
+class SignupCompletionInitialParams {
+
+const SignupCompletionInitialParams();
+}

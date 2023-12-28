@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "131804642820",
+    "project_id": "taverns-4d3f1",
+    "storage_bucket": "taverns-4d3f1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:131804642820:android:a42a889e167e7dee177f51",
+        "android_client_info": {
+          "package_name": "com.taverns.provider.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9K-7zj1cvX42rIj5pNigqd54TzD_JMDI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

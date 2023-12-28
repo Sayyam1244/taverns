@@ -1,21 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taverns/core/app_export.dart';
-import 'package:taverns/widgets/custom_elevated_button.dart';
-import 'package:taverns/widgets/custom_text_form_field.dart';
+import '../../widgets/custom_elevated_button.dart';
+import '../../widgets/custom_text_form_field.dart';
+import 'forgot_password_cubit.dart';
+import 'forgot_password_state.dart';
 
-class ForgotPasswordScreen extends StatelessWidget {
-  ForgotPasswordScreen({Key? key})
-      : super(
-          key: key,
-        );
+class ForgotPasswordPage extends StatefulWidget {
+  final ForgotPasswordCubit cubit;
 
+  const ForgotPasswordPage({
+    Key? key,
+    required this.cubit,
+  }) : super(key: key);
+
+  @override
+  State<ForgotPasswordPage> createState() => _ForgotPasswordState();
+}
+
+class _ForgotPasswordState extends State<ForgotPasswordPage> {
+  ForgotPasswordCubit get cubit => widget.cubit;
   TextEditingController passwordController = TextEditingController();
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  @override
+  void initState() {
+    super.initState();
+    cubit.navigator.context= context;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return 
+    SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         body: Form(
@@ -25,14 +42,13 @@ class ForgotPasswordScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  height: 64.v,
-                  width: double.maxFinite,
-                  decoration: BoxDecoration(
-                    color: theme.colorScheme.onErrorContainer.withOpacity(1),
-                  ),
+                Padding(
+                  padding: EdgeInsets.only(left: 24,top: 20,bottom: 20),
+                  child: CustomPopButton(ontap: () {
+
+                    cubit.navigateBack();
+                  },),
                 ),
-                SizedBox(height: 14.v),
                 Padding(
                   padding: EdgeInsets.only(left: 24.h),
                   child: Text(
@@ -86,6 +102,31 @@ class ForgotPasswordScreen extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class CustomPopButton extends StatelessWidget {
+  const CustomPopButton({
+    Key? key, required this.ontap,
+  }) : super(key: key);
+  final VoidCallback ontap;
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: ontap,
+      child: Container(
+        height: 40.v,
+        width: 40.v,
+        padding: EdgeInsets.only(left: 10.h),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: appTheme.gray400
+          )
+        ),
+        child: Icon(Icons.arrow_back_ios,color: appTheme.gray600,),
       ),
     );
   }

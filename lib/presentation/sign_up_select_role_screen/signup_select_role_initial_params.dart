@@ -1,0 +1,4 @@
+class SignupSelectRoleInitialParams {
+
+const SignupSelectRoleInitialParams();
+}

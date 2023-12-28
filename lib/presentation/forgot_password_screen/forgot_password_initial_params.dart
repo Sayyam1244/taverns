@@ -1,0 +1,4 @@
+class ForgotPasswordInitialParams {
+
+const ForgotPasswordInitialParams();
+}
