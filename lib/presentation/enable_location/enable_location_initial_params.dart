@@ -1,0 +1,4 @@
+class EnableLocationInitialParams {
+
+const EnableLocationInitialParams();
+}

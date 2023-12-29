@@ -94,4 +94,6 @@ class ImageConstant {
       '$imagePath/img_nav_more_secondarycontainer.svg';
 
   static String imageNotFound = 'assets/images/image_not_found.png';
+  static String enableLocation = 'assets/images/enable_location.png';
+
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taverns/core/app_export.dart';
+import 'package:taverns/core/utils/flushbar.dart';
 import 'package:taverns/presentation/login_and_signup/login_and_signup_state.dart';
 import 'package:taverns/presentation/login_and_signup/widgets/login_signup_tabview.dart';
 import 'package:taverns/presentation/login_and_signup/widgets/login_widget.dart';
@@ -21,8 +22,7 @@ class LoginAndSignupPage extends StatefulWidget {
   State<LoginAndSignupPage> createState() => _LoginAndSignupState();
 }
 
-class _LoginAndSignupState extends State<LoginAndSignupPage>
-    with SingleTickerProviderStateMixin {
+class _LoginAndSignupState extends State<LoginAndSignupPage> with SingleTickerProviderStateMixin {
   LoginAndSignupCubit get cubit => widget.cubit;
   TextEditingController loginEmail = TextEditingController();
   TextEditingController loginPassword = TextEditingController();
@@ -35,7 +35,6 @@ class _LoginAndSignupState extends State<LoginAndSignupPage>
   GlobalKey<FormState> loginformKey = GlobalKey<FormState>();
   GlobalKey<FormState> signUpformKey = GlobalKey<FormState>();
 
-  bool rememberMe = false;
   late TabController tabviewController;
 
   @override
@@ -89,15 +88,19 @@ class _LoginAndSignupState extends State<LoginAndSignupPage>
                 Expanded(
                   child: TabBarView(controller: tabviewController, children: [
                     LoginWidget(
-                        email: loginEmail,
-                        password: loginPassword,
-                        loginformKey: loginformKey, cubit: cubit,
-                         state: state,),
+                      email: loginEmail,
+                      password: loginPassword,
+                      loginformKey: loginformKey,
+                      cubit: cubit,
+                      state: state,
+                    ),
                     SignupWidget(
                       email: signupEmail,
                       setPassword: signupSetPassword,
                       confirmPassword: signupConfirmPassword,
                       loginformKey: signUpformKey,
+                      cubit: cubit,
+
                     ),
                   ]),
                 )
@@ -108,8 +111,21 @@ class _LoginAndSignupState extends State<LoginAndSignupPage>
             padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
             child: CustomElevatedButton(
               onPressed: () {
-                cubit.navigateToSelectRoleScreen();
-                // loginformKey.currentState!.validate();
+                if (tabviewController.index == 0) {
+                  if (loginformKey.currentState!.validate()==true) {
+                    cubit.signInWithEmail(loginEmail.text,loginPassword.text, context);
+                  }
+                }else
+                 {
+                  if (signUpformKey.currentState!.validate()==true && signupSetPassword.text == signupConfirmPassword.text && state.termsAccepted == true) {
+                    cubit.signUpwithEmail(signupEmail.text, signupConfirmPassword.text, context);
+                  }else if (state.termsAccepted != true){
+                    FlushbarDialogue().showErrorFlushbar(context: context, title: 'Error', body:'Please accept Terms of Service and Privacy Policy to continue');
+                  }else if (signupSetPassword.text != signupConfirmPassword.text){
+                    FlushbarDialogue().showErrorFlushbar(context: context, title: 'Error', body:'Confirm password and set password does not match');
+                    
+                  }
+                }
               },
               text: "Continue",
             ),

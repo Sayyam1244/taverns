@@ -80,18 +80,18 @@ class LoginWidget extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Checkbox(
-                    value: state.rememberMe,
-                    checkColor:
-                        theme.colorScheme.onErrorContainer.withOpacity(1),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    onChanged: (v) {
-                      cubit.changeRememberMe(v!);
-                    }),
-                SizedBox(width: 4.h),
-                Text("Remember me", style: theme.textTheme.bodyMedium),
+                // Checkbox(
+                //     value: state.rememberMe,
+                //     checkColor:
+                //         theme.colorScheme.onErrorContainer.withOpacity(1),
+                //     shape: RoundedRectangleBorder(
+                //       borderRadius: BorderRadius.circular(4),
+                //     ),
+                //     onChanged: (v) {
+                //       cubit.changeRememberMe(v!);
+                //     }),
+                // SizedBox(width: 4.h),
+                // Text("Remember me", style: theme.textTheme.bodyMedium),
                 Spacer(),
                 GestureDetector(
                   onTap: () {

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taverns/core/app_export.dart';
+import 'package:taverns/presentation/login_and_signup/login_and_signup_cubit.dart';
+import 'package:taverns/presentation/login_and_signup/login_and_signup_state.dart';
 
 import '../../../widgets/custom_text_form_field.dart';
 
@@ -9,12 +12,13 @@ class SignupWidget extends StatelessWidget {
       required this.email,
       required this.setPassword,
       required this.confirmPassword,
-      required this.loginformKey})
+      required this.loginformKey, required this.cubit})
       : super(key: key);
   final TextEditingController email;
   final TextEditingController setPassword;
   final TextEditingController confirmPassword;
   final GlobalKey<FormState> loginformKey;
+  final LoginAndSignupCubit cubit;
 
   @override
   Widget build(BuildContext context) {
@@ -89,37 +93,43 @@ class SignupWidget extends StatelessWidget {
               contentPadding: EdgeInsets.symmetric(vertical: 14.v),
             ),
             SizedBox(height: 14.v),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Checkbox(
-                    value: false,
-                    checkColor:
-                        theme.colorScheme.onErrorContainer.withOpacity(1),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    onChanged: (v) {}),
-                SizedBox(width: 4.h),
-                RichText(
-                    text: TextSpan(
-                        text: 'Accept ',
-                        style: theme.textTheme.bodyMedium,
-                        children: [
-                      TextSpan(
-                        text: 'Terms of Service',
-                        style: theme.textTheme.bodyMedium!
-                            .copyWith(decoration: TextDecoration.underline),
+            BlocBuilder<LoginAndSignupCubit,LoginAndSignupState>(
+              
+              bloc: cubit,
+              builder: (context, state) => Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                     Checkbox(
+                      value: state.termsAccepted,
+                      checkColor:
+                          theme.colorScheme.onErrorContainer.withOpacity(1),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4),
                       ),
-                      TextSpan(
-                          text: ' and ', style: theme.textTheme.bodyMedium!),
-                      TextSpan(
-                        text: 'Privacy Policy',
-                        style: theme.textTheme.bodyMedium!
-                            .copyWith(decoration: TextDecoration.underline),
-                      )
-                    ])),
-              ],
+                      onChanged: (v) {
+                        cubit.changeTermsAccepted(v!);
+                      }),
+                  SizedBox(width: 4.h),
+                  RichText(
+                      text: TextSpan(
+                          text: 'Accept ',
+                          style: theme.textTheme.bodyMedium,
+                          children: [
+                        TextSpan(
+                          text: 'Terms of Service',
+                          style: theme.textTheme.bodyMedium!
+                              .copyWith(decoration: TextDecoration.underline),
+                        ),
+                        TextSpan(
+                            text: ' and ', style: theme.textTheme.bodyMedium!),
+                        TextSpan(
+                          text: 'Privacy Policy',
+                          style: theme.textTheme.bodyMedium!
+                              .copyWith(decoration: TextDecoration.underline),
+                        )
+                      ])),
+                ],
+              ),
             ),
           ],
         ),

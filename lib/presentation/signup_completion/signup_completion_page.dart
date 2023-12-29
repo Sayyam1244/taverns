@@ -1,34 +1,209 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:taverns/core/app_export.dart';
+import '../../widgets/custom_elevated_button.dart';
+import '../../widgets/custom_text_form_field.dart';
 import 'signup_completion_cubit.dart';
 import 'signup_completion_state.dart';
 
 class SignupCompletionPage extends StatefulWidget {
-final SignupCompletionCubit cubit;
+  final SignupCompletionCubit cubit;
 
-const SignupCompletionPage({
-Key? key,
-required this.cubit,
-}) : super(key: key);
+  const SignupCompletionPage({
+    Key? key,
+    required this.cubit,
+  }) : super(key: key);
 
-@override
-State<SignupCompletionPage> createState() => _SignupCompletionState();
+  @override
+  State<SignupCompletionPage> createState() => _SignupCompletionState();
 }
 
 class _SignupCompletionState extends State<SignupCompletionPage> {
+  SignupCompletionCubit get cubit => widget.cubit;
 
-SignupCompletionCubit get cubit => widget.cubit;
+  @override
+  void initState() {
+    super.initState();
+    cubit.navigator.context = context;
+  }
 
-@override
-void initState() {
-super.initState();
-}
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController numberController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController fieldController = TextEditingController();
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-@override
-Widget build(BuildContext context) {
-return Scaffold(
-appBar: AppBar(),
-body: const SizedBox(),
-);
-}
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+        body: Form(
+          key: _formKey,
+          child: Container(
+            width: double.maxFinite,
+            decoration: AppDecoration.fillOnErrorContainer,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: ListView(
+                children: [
+                  SizedBox(height: 54.v),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Tavern".toUpperCase(),
+                        style: CustomTextStyles.headlineLargeCairoOnPrimary,
+                      ),
+                      CustomImageView(
+                        imagePath: ImageConstant.imgVectorPrimary,
+                        height: 4.adaptSize,
+                        width: 4.adaptSize,
+                        margin: EdgeInsets.only(
+                          left: 4.h,
+                          top: 36.v,
+                          bottom: 19.v,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 30.v),
+                  Align(
+                    alignment: Alignment.center,
+                    child: Container(
+                      height: 120.v,
+                      width: 120.v,
+                      child: Stack(
+                        children: [
+                          Container(
+                            height: 120.v,
+                            width: 120.v,
+                            decoration: BoxDecoration(color: appTheme.gray50, shape: BoxShape.circle, border: Border.all(color: theme.colorScheme.primary, width: 2)),
+                          ),
+                          Align(
+                            alignment: Alignment.bottomRight,
+                            child: Container(
+                              margin: EdgeInsets.only(bottom: 5.v,right: 5.v),
+                              padding: EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                 shape: BoxShape.circle,
+                                color: theme.colorScheme.primary
+                              ),
+                              child: Icon(Icons.edit, size: 16, color: theme.colorScheme.background,)))
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 16.v),
+                  CustomTextFormField(
+                    controller: usernameController,
+                    hintText: "Username",
+                    prefix: Container(
+                      margin: EdgeInsets.fromLTRB(16.h, 16.v, 12.h, 16.v),
+                      child: CustomImageView(
+                        imagePath: ImageConstant.user,
+                        height: 24.adaptSize,
+                        width: 24.adaptSize,
+                      ),
+                    ),
+                    prefixConstraints: BoxConstraints(
+                      maxHeight: 56.v,
+                    ),
+                  ),
+                  SizedBox(height: 16.v),
+                  CustomTextFormField(
+                    controller: nameController,
+                    hintText: "Business Name",
+                    prefix: Container(
+                        margin: EdgeInsets.fromLTRB(16.h, 16.v, 12.h, 16.v),
+                        child: Icon(
+                          Icons.business,
+                          color: theme.colorScheme.primary,
+                          size: 20,
+                        )),
+                    prefixConstraints: BoxConstraints(
+                      maxHeight: 56.v,
+                    ),
+                  ),
+                  SizedBox(height: 16.v),
+                  CustomTextFormField(
+                    controller: numberController,
+                    hintText: "Business Number",
+                    prefix: Container(
+                        margin: EdgeInsets.fromLTRB(16.h, 16.v, 12.h, 16.v),
+                        child: Icon(
+                          Icons.phone,
+                          color: theme.colorScheme.primary,
+                          size: 20,
+                        )),
+                    prefixConstraints: BoxConstraints(
+                      maxHeight: 56.v,
+                    ),
+                  ),
+                  SizedBox(height: 16.v),
+                  CustomTextFormField(
+                    controller: addressController,
+                    hintText: "Business Address",
+                    prefix: Container(
+                        margin: EdgeInsets.fromLTRB(16.h, 16.v, 12.h, 16.v),
+                        child: Icon(
+                          Icons.location_on,
+                          color: theme.colorScheme.primary,
+                          size: 20,
+                        )),
+                    prefixConstraints: BoxConstraints(
+                      maxHeight: 56.v,
+                    ),
+                  ),
+                  SizedBox(height: 16.v),
+                  CustomTextFormField(
+                    controller: emailController,
+                    hintText: "Contact Email",
+                    textInputType: TextInputType.emailAddress,
+                    prefix: Container(
+                      margin: EdgeInsets.fromLTRB(16.h, 16.v, 12.h, 16.v),
+                      child: CustomImageView(
+                        imagePath: ImageConstant.email,
+                        height: 24.adaptSize,
+                        width: 24.adaptSize,
+                      ),
+                    ),
+                    prefixConstraints: BoxConstraints(
+                      maxHeight: 56.v,
+                    ),
+                  ),
+                  SizedBox(height: 16.v),
+                  CustomTextFormField(
+                    controller: fieldController,
+                    hintText: "Business Hours",
+                    prefix: Container(
+                        margin: EdgeInsets.fromLTRB(16.h, 16.v, 12.h, 16.v),
+                        child: Icon(
+                          Icons.timelapse,
+                          color: theme.colorScheme.primary,
+                          size: 20,
+                        )),
+                    prefixConstraints: BoxConstraints(
+                      maxHeight: 56.v,
+                    ),
+                  ),
+                  SizedBox(height: 30.v),
+                ],
+              ),
+            ),
+          ),
+        ),
+        bottomNavigationBar: Padding(
+          padding: EdgeInsets.only(left: 24.h, right: 24.h, bottom: 20.v),
+          child: CustomElevatedButton(
+            text: "Next",
+            onPressed: () {
+              cubit.navigateToEnableLocationScreen();
+            },
+          ),
+        ),
+      ),
+    );
+  }
 }

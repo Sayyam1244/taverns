@@ -40,6 +40,11 @@ class CustomTextStyles {
         color: theme.colorScheme.primary,
         fontSize: 32.fSize,
       );
+  static get headlineLargeGrey =>
+      theme.textTheme.headlineLarge!.cairo.copyWith(
+        color: theme.colorScheme.errorContainer,
+        fontSize: 32.fSize,
+      );
   static get headlineSmallOnPrimary => theme.textTheme.headlineSmall!.copyWith(
         color: theme.colorScheme.onPrimary,
       );

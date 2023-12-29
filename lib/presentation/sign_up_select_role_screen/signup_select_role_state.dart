@@ -1,10 +1,12 @@
 import 'signup_select_role_initial_params.dart';
 
 class SignupSelectRoleState {
+  final int selectedRoleIndex;
+  const SignupSelectRoleState({required this.selectedRoleIndex});
 
-const SignupSelectRoleState();
+  factory SignupSelectRoleState.initial({required SignupSelectRoleInitialParams initialParams}) => SignupSelectRoleState(
+        selectedRoleIndex: 0,
+      );
 
-factory SignupSelectRoleState.initial({required SignupSelectRoleInitialParams initialParams}) => SignupSelectRoleState();
-
-SignupSelectRoleState copyWith() => const SignupSelectRoleState();
+  SignupSelectRoleState copyWith({int? selectedRoleIndex}) => SignupSelectRoleState(selectedRoleIndex: selectedRoleIndex ?? this.selectedRoleIndex);
 }

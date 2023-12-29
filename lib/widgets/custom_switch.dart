@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:taverns/core/app_export.dart';
 
 class CustomSwitch extends StatelessWidget {
   CustomSwitch({
@@ -41,10 +40,13 @@ class CustomSwitch extends StatelessWidget {
             : switchWidget);
   }
 
-  Widget get switchWidget => Switch(
-        value: value ?? false,
-        onChanged: (value) {
-          onChange(value);
-        },
+  Widget get switchWidget => Transform.scale(
+        scale: 0.8,
+        child: CupertinoSwitch(
+          value: value ?? false,
+          onChanged: (value) {
+            onChange(value);
+          },
+        ),
       );
 }
