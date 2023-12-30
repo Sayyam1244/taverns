@@ -104,6 +104,7 @@ class CustomTextFormField extends StatelessWidget {
         hintStyle: hintStyle ?? theme.textTheme.titleSmall,
         prefixIcon: prefix,
         prefixIconConstraints: prefixConstraints,
+        
         suffixIcon: suffix,
         suffixIconConstraints: suffixConstraints,
         isDense: true,

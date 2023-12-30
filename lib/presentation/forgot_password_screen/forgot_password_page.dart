@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taverns/core/app_export.dart';
+import 'package:taverns/widgets/custom_pop_button.dart';
 import '../../widgets/custom_elevated_button.dart';
 import '../../widgets/custom_text_form_field.dart';
 import 'forgot_password_cubit.dart';
@@ -102,31 +103,6 @@ class _ForgotPasswordState extends State<ForgotPasswordPage> {
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class CustomPopButton extends StatelessWidget {
-  const CustomPopButton({
-    Key? key, required this.ontap,
-  }) : super(key: key);
-  final VoidCallback ontap;
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: ontap,
-      child: Container(
-        height: 40.v,
-        width: 40.v,
-        padding: EdgeInsets.only(left: 10.h),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: appTheme.gray400
-          )
-        ),
-        child: Icon(Icons.arrow_back_ios,color: appTheme.gray600,),
       ),
     );
   }

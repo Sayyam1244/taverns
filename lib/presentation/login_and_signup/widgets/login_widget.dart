@@ -75,23 +75,28 @@ class LoginWidget extends StatelessWidget {
               ),
               obscureText: true,
               contentPadding: EdgeInsets.symmetric(vertical: 14.v),
+              validator: (value) {
+                if (value == '' || value == null) {
+                  return 'Invalid Password';
+                }
+              },
             ),
             SizedBox(height: 14.v),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Checkbox(
-                    value: state.rememberMe,
-                    checkColor:
-                        theme.colorScheme.onErrorContainer.withOpacity(1),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    onChanged: (v) {
-                      cubit.changeRememberMe(v!);
-                    }),
-                SizedBox(width: 4.h),
-                Text("Remember me", style: theme.textTheme.bodyMedium),
+                // Checkbox(
+                //     value: state.rememberMe,
+                //     checkColor:
+                //         theme.colorScheme.onErrorContainer.withOpacity(1),
+                //     shape: RoundedRectangleBorder(
+                //       borderRadius: BorderRadius.circular(4),
+                //     ),
+                //     onChanged: (v) {
+                //       cubit.changeRememberMe(v!);
+                //     }),
+                // SizedBox(width: 4.h),
+                // Text("Remember me", style: theme.textTheme.bodyMedium),
                 Spacer(),
                 GestureDetector(
                   onTap: () {

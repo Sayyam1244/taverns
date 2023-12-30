@@ -1,0 +1,4 @@
+class TavernDashboardInitialParams {
+
+const TavernDashboardInitialParams();
+}

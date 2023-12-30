@@ -1,0 +1,4 @@
+class SignupSuccessFullInitialParams {
+
+const SignupSuccessFullInitialParams();
+}

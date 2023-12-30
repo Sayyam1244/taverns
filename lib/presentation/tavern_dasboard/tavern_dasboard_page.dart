@@ -1,7 +1,8 @@
-import '../tavern_dasboard_page/widgets/eventcard_item_widget.dart';
-import '../tavern_dasboard_page/widgets/notificationcard_item_widget.dart';
+
 import 'package:flutter/material.dart';
 import 'package:taverns/core/app_export.dart';
+import 'package:taverns/presentation/tavern_dasboard/widgets/eventcard_item_widget.dart';
+import 'package:taverns/presentation/tavern_dasboard/widgets/notificationcard_item_widget.dart';
 import 'package:taverns/widgets/app_bar/appbar_title.dart';
 import 'package:taverns/widgets/app_bar/appbar_title_image.dart';
 import 'package:taverns/widgets/app_bar/custom_app_bar.dart';
