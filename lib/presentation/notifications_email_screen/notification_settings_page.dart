@@ -38,23 +38,18 @@ class _NotificationSettingsState extends State<NotificationSettingsPage> {
       child: Scaffold(
         extendBodyBehindAppBar: true,
         appBar: CustomAppBar(
-          height: 60.h,
-          leading: AppbarLeadingImage(imagePath: ImageConstant.imgArrowLeft, margin: EdgeInsets.only(top: 20, bottom: 20), onTap: () {}),
+          height: 70.h,
+          // leading: AppbarLeadingImage(imagePath: ImageConstant.imgArrowLeft, margin: EdgeInsets.only(top: 20, bottom: 20), onTap: () {}),
           centerTitle: true,
           title: AppbarSubtitleOne(text: "Notifications Board"),
-          actions: [
-            AppbarSubtitleTwo(
-              text: "Skip",
-              margin: EdgeInsets.only(left: 21.h, top: 15.v, right: 21.h),
-            ),
-          ],
+         
         ),
         body: Stack(
           alignment: Alignment.topCenter,
           children: [
             BlocBuilder<NotificationSettingsCubit, NotificationSettingsState>(
               bloc: cubit,
-              builder: (context, state) => Align(
+              builder: (ctx, state) => Align(
                 alignment: Alignment.topCenter,
                 child: Container(
                   margin: EdgeInsets.only(top: 5.v),
@@ -63,7 +58,7 @@ class _NotificationSettingsState extends State<NotificationSettingsPage> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      SizedBox(height: 60.v),
+                      SizedBox(height: 75.v),
                       CustomToggleButtonWithPrefixText(
                         text: 'Likes and Reviews',
                         isSelected: state.likeReviews,
@@ -107,7 +102,7 @@ class _NotificationSettingsState extends State<NotificationSettingsPage> {
           child: CustomElevatedButton(
             text: "Next",
             onPressed: () {
-              cubit.navigateToSignupSuccessfulScreen();
+              cubit.saveNotificationSettings(context);
             },
           ),
         ),

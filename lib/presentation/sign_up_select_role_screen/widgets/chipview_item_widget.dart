@@ -3,7 +3,11 @@ import 'package:taverns/core/app_export.dart';
 
 // ignore: must_be_immutable
 class ChipviewItemWidget extends StatelessWidget {
-  const ChipviewItemWidget({Key? key, required this.isSelected, required this.text, required this.ontap})
+  const ChipviewItemWidget(
+      {Key? key,
+      required this.isSelected,
+      required this.text,
+      required this.ontap})
       : super(
           key: key,
         );
@@ -25,17 +29,21 @@ class ChipviewItemWidget extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            isSelected ? Icon(Icons.check, color: theme.colorScheme.background) : Container(),
+            isSelected
+                ? Icon(Icons.check, color: theme.colorScheme.background)
+                : Container(),
             SizedBox(width: 10.h),
             Text(
               text,
               style: TextStyle(
-                color: isSelected ? theme.colorScheme.background : theme.colorScheme.onBackground.withOpacity(0.7),
+                color: isSelected
+                    ? theme.colorScheme.background
+                    : theme.colorScheme.onBackground.withOpacity(0.7),
                 fontSize: 14.fSize,
                 fontFamily: 'Circular Std',
                 fontWeight: FontWeight.w700,
               ),
-            )
+            ),
           ],
         ),
       ),

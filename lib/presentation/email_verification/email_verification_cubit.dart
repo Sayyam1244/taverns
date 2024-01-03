@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taverns/core/utils/flushbar.dart';
@@ -21,7 +22,7 @@ class EmailVerificationCubit extends Cubit<EmailVerificationState> {
     const duration = Duration(seconds: 1);
     Timer.periodic(duration, (Timer timer) {
       emit(state.copyWith(secondsRemaining: state.secondsRemaining - 1));
-
+      log('message ${timer.tick}');
       if (state.secondsRemaining <= 0) {
         emit(state.copyWith(isCountdownComplete: true));
         timer.cancel();
@@ -44,10 +45,15 @@ class EmailVerificationCubit extends Cubit<EmailVerificationState> {
     time?.cancel();
   }
 
-  resendVerificationEmail(context) {
+  resendVerificationEmail(context) async{
     emit(state.copyWith(isVerificationEmailSend: true));
     if (!state.isVerificationEmailSend) {
-      FlushbarDialogue().showFlushbar(context: context, title: 'Email Sent!', body: 'Verification email has been sent to your email address');
+     await _auth.currentUser().sendEmailVerification()
+     .then((value) => 
+      FlushbarDialogue().showFlushbar(context: context, title: 'Email Sent!', body: 'Verification email has been sent to your email address')
+     ).onError((error, stackTrace) => 
+           FlushbarDialogue().showFlushbar(context: context, title: 'Error', body: 'Error hapened! please try again later')
+     );
     } else {
       FlushbarDialogue().showFlushbar(context: context, title: 'Email already sent!', body: 'Verification email has already been sent to the email address you provided.');
     }

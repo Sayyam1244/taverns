@@ -113,12 +113,12 @@ class _LoginAndSignupState extends State<LoginAndSignupPage> with SingleTickerPr
               onPressed: () {
                 if (tabviewController.index == 0) {
                   if (loginformKey.currentState!.validate()==true) {
-                    cubit.signInWithEmail(loginEmail.text,loginPassword.text, context);
+                    cubit.signInWithEmail(loginEmail.text.trim(),loginPassword.text, context);
                   }
                 }else
                  {
                   if (signUpformKey.currentState!.validate()==true && signupSetPassword.text == signupConfirmPassword.text && state.termsAccepted == true) {
-                    cubit.signUpwithEmail(signupEmail.text, signupConfirmPassword.text, context);
+                    cubit.signUpwithEmail(signupEmail.text.trim(), signupConfirmPassword.text, context);
                   }else if (state.termsAccepted != true){
                     FlushbarDialogue().showErrorFlushbar(context: context, title: 'Error', body:'Please accept Terms of Service and Privacy Policy to continue');
                   }else if (signupSetPassword.text != signupConfirmPassword.text){

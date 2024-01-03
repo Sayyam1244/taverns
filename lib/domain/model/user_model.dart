@@ -1,16 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class CommonModel {
-  String? docId;
-  DateTime? createdDate;
-  DateTime? modifiedDate;
+import 'common_model.dart';
 
-  CommonModel({
-    this.docId,
-    this.createdDate,
-    this.modifiedDate,
-  });
-}
+
 
 class UserModel extends CommonModel {
   String? userName;
@@ -29,48 +21,48 @@ class UserModel extends CommonModel {
   bool? timeSlotsRequests;
   String? profilePicture;
 
-UserModel({
-  String? docId,
-  DateTime? createdDate,
-  DateTime? modifiedDate,
-  required this.email,
-  required this.profileOnboardingCompleted,
-  required this.userName,
-  required this.businessName,
-  required this.businessNumber,
-  required this.businessAddress,
-  required this.contactEmail,
-  required this.businessHours,
-  required this.accountType,
-  required this.lat,
-  required this.long,
-  required this.likeReview,
-  required this.eventsNearMe,
-  required this.timeSlotsRequests,
-  required this.profilePicture,
-}) : super(docId: docId, createdDate: createdDate, modifiedDate: modifiedDate);
-
+  UserModel({
+    String? docId,
+    DateTime? createdDate,
+    DateTime? modifiedDate,
+    this.email,
+    this.profileOnboardingCompleted,
+    this.userName,
+    this.businessName,
+    this.businessNumber,
+    this.businessAddress,
+    this.contactEmail,
+    this.businessHours,
+    this.accountType,
+    this.lat,
+    this.long,
+    this.likeReview,
+    this.eventsNearMe,
+    this.timeSlotsRequests,
+    this.profilePicture,
+  }) : super(
+            docId: docId, createdDate: createdDate, modifiedDate: modifiedDate);
 
   Map<String, dynamic> toMapForUpload() {
     return {
-      'userName': userName,
-      'email': email,
-      'profileOnboardingCompleted': profileOnboardingCompleted,
-      'docId': docId,
-      'creationDate': createdDate,
-      'modifiedDate': modifiedDate,
-      'businessName': businessName,
-      'businessNumber': businessNumber,
-      'businessAddress': businessAddress,
-      'contactEmail': contactEmail,
-      'businessHours': businessHours,
-      'accountType': accountType,
-      'lat': lat,
-      'long': long,
-      'likeReview': likeReview,
-      'eventsNearMe': eventsNearMe,
-      'timeSlotsRequests': timeSlotsRequests,
-      'profilePicture': profilePicture,
+     if(userName != null) 'userName': userName,
+     if(email != null) 'email': email,
+     if(profileOnboardingCompleted != null) 'profileOnboardingCompleted': profileOnboardingCompleted,
+     if(docId != null) 'docId': docId,
+     if(createdDate != null) 'creationDate': createdDate,
+     if(modifiedDate != null) 'modifiedDate': modifiedDate,
+     if(businessName != null) 'businessName': businessName,
+     if(businessNumber != null) 'businessNumber': businessNumber,
+     if(businessAddress != null) 'businessAddress': businessAddress,
+     if(contactEmail != null) 'contactEmail': contactEmail,
+     if(businessHours != null) 'businessHours': businessHours,
+     if(accountType != null) 'accountType': accountType,
+     if(lat != null) 'lat': lat,
+     if(long != null) 'long': long,
+     if(likeReview != null) 'likeReview': likeReview,
+    if(eventsNearMe != null)  'eventsNearMe': eventsNearMe,
+    if(timeSlotsRequests != null)  'timeSlotsRequests': timeSlotsRequests,
+    if(profilePicture != null)  'profilePicture': profilePicture,
     };
   }
 

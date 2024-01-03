@@ -28,11 +28,11 @@ class _SignupCompletionState extends State<SignupCompletionPage> {
   }
 
   TextEditingController usernameController = TextEditingController();
-  TextEditingController nameController = TextEditingController();
-  TextEditingController numberController = TextEditingController();
-  TextEditingController addressController = TextEditingController();
+  TextEditingController businessNameController = TextEditingController();
+  TextEditingController businessNumberController = TextEditingController();
+  TextEditingController businessAddressController = TextEditingController();
   TextEditingController emailController = TextEditingController();
-  TextEditingController fieldController = TextEditingController();
+  TextEditingController businessHoursController = TextEditingController();
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
@@ -79,18 +79,27 @@ class _SignupCompletionState extends State<SignupCompletionPage> {
                           Container(
                             height: 120.v,
                             width: 120.v,
-                            decoration: BoxDecoration(color: appTheme.gray50, shape: BoxShape.circle, border: Border.all(color: theme.colorScheme.primary, width: 2)),
+                            decoration: BoxDecoration(
+                                color: appTheme.gray50,
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                    color: theme.colorScheme.primary,
+                                    width: 2)),
                           ),
                           Align(
-                            alignment: Alignment.bottomRight,
-                            child: Container(
-                              margin: EdgeInsets.only(bottom: 5.v,right: 5.v),
-                              padding: EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                 shape: BoxShape.circle,
-                                color: theme.colorScheme.primary
-                              ),
-                              child: Icon(Icons.edit, size: 16, color: theme.colorScheme.background,)))
+                              alignment: Alignment.bottomRight,
+                              child: Container(
+                                  margin:
+                                      EdgeInsets.only(bottom: 5.v, right: 5.v),
+                                  padding: EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: theme.colorScheme.primary),
+                                  child: Icon(
+                                    Icons.edit,
+                                    size: 16,
+                                    color: theme.colorScheme.background,
+                                  )))
                         ],
                       ),
                     ),
@@ -110,10 +119,15 @@ class _SignupCompletionState extends State<SignupCompletionPage> {
                     prefixConstraints: BoxConstraints(
                       maxHeight: 56.v,
                     ),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Field's empty";
+                      }
+                    },
                   ),
                   SizedBox(height: 16.v),
                   CustomTextFormField(
-                    controller: nameController,
+                    controller: businessNameController,
                     hintText: "Business Name",
                     prefix: Container(
                         margin: EdgeInsets.fromLTRB(16.h, 16.v, 12.h, 16.v),
@@ -125,10 +139,15 @@ class _SignupCompletionState extends State<SignupCompletionPage> {
                     prefixConstraints: BoxConstraints(
                       maxHeight: 56.v,
                     ),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Field's empty";
+                      }
+                    },
                   ),
                   SizedBox(height: 16.v),
                   CustomTextFormField(
-                    controller: numberController,
+                    controller: businessNumberController,
                     hintText: "Business Number",
                     prefix: Container(
                         margin: EdgeInsets.fromLTRB(16.h, 16.v, 12.h, 16.v),
@@ -140,10 +159,15 @@ class _SignupCompletionState extends State<SignupCompletionPage> {
                     prefixConstraints: BoxConstraints(
                       maxHeight: 56.v,
                     ),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Field's empty";
+                      }
+                    },
                   ),
                   SizedBox(height: 16.v),
                   CustomTextFormField(
-                    controller: addressController,
+                    controller: businessAddressController,
                     hintText: "Business Address",
                     prefix: Container(
                         margin: EdgeInsets.fromLTRB(16.h, 16.v, 12.h, 16.v),
@@ -155,6 +179,11 @@ class _SignupCompletionState extends State<SignupCompletionPage> {
                     prefixConstraints: BoxConstraints(
                       maxHeight: 56.v,
                     ),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Field's empty";
+                      }
+                    },
                   ),
                   SizedBox(height: 16.v),
                   CustomTextFormField(
@@ -172,10 +201,16 @@ class _SignupCompletionState extends State<SignupCompletionPage> {
                     prefixConstraints: BoxConstraints(
                       maxHeight: 56.v,
                     ),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Field's empty";
+                      }
+                    },
                   ),
                   SizedBox(height: 16.v),
                   CustomTextFormField(
-                    controller: fieldController,
+                    textInputType: TextInputType.datetime,
+                    controller: businessHoursController,
                     hintText: "Business Hours",
                     prefix: Container(
                         margin: EdgeInsets.fromLTRB(16.h, 16.v, 12.h, 16.v),
@@ -187,6 +222,11 @@ class _SignupCompletionState extends State<SignupCompletionPage> {
                     prefixConstraints: BoxConstraints(
                       maxHeight: 56.v,
                     ),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Field's empty";
+                      }
+                    },
                   ),
                   SizedBox(height: 30.v),
                 ],
@@ -199,7 +239,17 @@ class _SignupCompletionState extends State<SignupCompletionPage> {
           child: CustomElevatedButton(
             text: "Next",
             onPressed: () {
-              cubit.navigateToEnableLocationScreen();
+              if (_formKey.currentState!.validate() == true) {
+                cubit.saveUserData(
+                  context,
+                  usernameController.text,
+                  businessNameController.text,
+                  businessNumberController.text,
+                  businessAddressController.text,
+                  emailController.text,
+                  businessHoursController.text,
+                );
+              }
             },
           ),
         ),

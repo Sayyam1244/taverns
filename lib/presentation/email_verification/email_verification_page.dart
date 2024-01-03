@@ -55,32 +55,27 @@ class _EmailVerificationState extends State<EmailVerificationPage> {
               //   alignment: Alignment.center,
               // ),
               SizedBox(height: 43.v),
-              Text(
-                "Email Sent!",
-                style: theme.textTheme.headlineMedium,
-              ),
-              SizedBox(height: 11.v),
-              Container(
-                width: 302.h,
-                margin: EdgeInsets.only(right: 36.h),
-                child: Text(
+               Text(
+                 "Email Sent!",
+                 style: theme.textTheme.headlineSmall,
+               ),
+                SizedBox(height: 7.v),
+                Text(
                   "An email has been to verify your email, kindly check your email.",
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: CustomTextStyles.bodySmallPrimary.copyWith(
-                    height: 1.32,
+                  style: theme.textTheme.bodyLarge!.copyWith(
+                    height: 1.50,
                   ),
                 ),
-              ),
+              
               SizedBox(height: 5.v),
             ],
           ),
         ),
         bottomNavigationBar: BlocBuilder<EmailVerificationCubit, EmailVerificationState>(
           bloc: cubit,
-          builder: (context, state) => CustomElevatedButton(
+          builder: (ctx, state) => CustomElevatedButton(
             onPressed: () {
-              // cubit.resendVerificationEmail(context);
+              cubit.resendVerificationEmail(context);
             },
             text: state.isVerificationEmailSend
                 ? 'Sent!'

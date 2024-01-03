@@ -33,7 +33,7 @@ class LocationHelper implements LocationRepository {
       Position currentPosition = await Geolocator.getCurrentPosition();
       return right(LatLng(currentPosition.latitude, currentPosition.longitude));
     } catch (e) {
-      log('getCurrentlocation=========>' + e.toString());
+      print('getCurrentlocation=========>' + e.toString());
       return left(GeneralError('Error', 'Error happened, please try again later!'));
     }
   }

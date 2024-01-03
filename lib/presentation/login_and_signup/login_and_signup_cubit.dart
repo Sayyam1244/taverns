@@ -65,7 +65,9 @@ class LoginAndSignupCubit extends Cubit<LoginAndSignupState> {
       return value.fold(
         (l) => FlushbarDialogue().showErrorFlushbar(context: context, title: l.title, body: l.message),
         (r)async {
-          navigator.openSignupSelectRole(SignupSelectRoleInitialParams());
+                _auth.currentUser().sendEmailVerification();
+
+          navigator.openEmailVerification(EmailVerificationInitialParams());
         });
     });
   }

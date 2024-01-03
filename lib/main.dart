@@ -77,12 +77,12 @@ void main() async {
   getIt.registerFactoryParam<WelcomeCubit, WelcomeInitialParams, dynamic>((params, param2) => WelcomeCubit(params, getIt()));
   getIt.registerFactoryParam<LoginAndSignupCubit, LoginAndSignupInitialParams, dynamic>((params, param2) => LoginAndSignupCubit(params, getIt(), getIt()));
   getIt.registerFactoryParam<ForgotPasswordCubit, ForgotPasswordInitialParams, dynamic>((params, param2) => ForgotPasswordCubit(params, getIt()));
-  getIt.registerFactoryParam<SignupSelectRoleCubit, SignupSelectRoleInitialParams, dynamic>((params, param2) => SignupSelectRoleCubit(params, getIt()));
-  getIt.registerFactoryParam<SignupCompletionCubit, SignupCompletionInitialParams, dynamic>((params, param2) => SignupCompletionCubit(params, getIt()));
-  getIt.registerFactoryParam<EnableLocationCubit, EnableLocationInitialParams, dynamic>((params, param2) => EnableLocationCubit(params, getIt()));
-  getIt.registerFactoryParam<NotificationSettingsCubit, NotificationSettingsInitialParams, dynamic>((params, param2) => NotificationSettingsCubit(params, getIt()));
+  getIt.registerFactoryParam<SignupSelectRoleCubit, SignupSelectRoleInitialParams, dynamic>((params, param2) => SignupSelectRoleCubit(params, getIt(), getIt(), getIt()));
+  getIt.registerFactoryParam<SignupCompletionCubit, SignupCompletionInitialParams, dynamic>((params, param2) => SignupCompletionCubit(params, getIt(), getIt(), getIt()));
+  getIt.registerFactoryParam<EnableLocationCubit, EnableLocationInitialParams, dynamic>((params, param2) => EnableLocationCubit(params, getIt(), getIt(), getIt(), getIt()));
+  getIt.registerFactoryParam<NotificationSettingsCubit, NotificationSettingsInitialParams, dynamic>((params, param2) => NotificationSettingsCubit(params, getIt(), getIt(), getIt()));
   getIt.registerFactoryParam<SignupSuccessFullCubit, SignupSuccessFullInitialParams, dynamic>((params, param2) => SignupSuccessFullCubit(params, getIt()));
-  getIt.registerFactoryParam<TavernDashboardCubit, TavernDashboardInitialParams, dynamic>((params, param2) => TavernDashboardCubit(params, getIt(),getIt(),getIt()));
+  getIt.registerFactoryParam<TavernDashboardCubit, TavernDashboardInitialParams, dynamic>((params, param2) => TavernDashboardCubit(params, getIt()));
   getIt.registerFactoryParam<EmailVerificationCubit,EmailVerificationInitialParams, dynamic>((params, param2) => EmailVerificationCubit(params, getIt(),getIt()));
 }
 

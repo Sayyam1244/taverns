@@ -3,6 +3,6 @@ class CommonModel{
    DateTime? createdDate;
    DateTime? modifiedDate;
 
-  CommonModel({required this.docId, required this.createdDate, required this.modifiedDate});
+  CommonModel({ this.docId,  this.createdDate,  this.modifiedDate});
 
 }

@@ -75,6 +75,11 @@ class LoginWidget extends StatelessWidget {
               ),
               obscureText: true,
               contentPadding: EdgeInsets.symmetric(vertical: 14.v),
+              validator: (value) {
+                if (value == '' || value == null) {
+                  return 'Invalid Password';
+                }
+              },
             ),
             SizedBox(height: 14.v),
             Row(

@@ -59,7 +59,7 @@ class _SignupSelectRoleState extends State<SignupSelectRolePage> {
                                 flex: 1,
                                 child: ChipviewItemWidget(
                                   isSelected: state.selectedRoleIndex == 0,
-                                  text: 'Tavern',
+                                  text: state.userType[0],
                                   ontap: () {
                                     cubit.changeRole(0);
                                   },
@@ -69,7 +69,7 @@ class _SignupSelectRoleState extends State<SignupSelectRolePage> {
                                 flex: 1,
                                 child: ChipviewItemWidget(
                                   isSelected: state.selectedRoleIndex == 1,
-                                  text: 'GM',
+                                  text: state.userType[1],
                                   ontap: () {
                                     cubit.changeRole(1);
                                   },
@@ -85,7 +85,7 @@ class _SignupSelectRoleState extends State<SignupSelectRolePage> {
                                 flex: 2,
                                 child: ChipviewItemWidget(
                                   isSelected: state.selectedRoleIndex == 2,
-                                  text: 'Player',
+                                  text: state.userType[2],
                                   ontap: () {
                                     cubit.changeRole(2);
                                   },
@@ -102,7 +102,7 @@ class _SignupSelectRoleState extends State<SignupSelectRolePage> {
                   child: Padding(
                     padding: EdgeInsets.only(left: 24.h, right: 24.h, bottom: 5.v),
                     child: CustomElevatedButton(text: "Next",onPressed: () {
-                      cubit.navigateToSignupCompletionScreen();
+                      cubit.saveType(context);
                     },),
                   ),
                 ),

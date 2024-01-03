@@ -47,7 +47,7 @@ class _EnableLocationState extends State<EnableLocationPage> {
         child: CustomElevatedButton(
           text: "Enable location",
           onPressed: () {
-            cubit.navigateToNotificationSetting();
+            cubit.saveUserLocation(context);
           },
         ),
       ),

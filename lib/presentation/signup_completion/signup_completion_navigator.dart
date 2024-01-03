@@ -5,7 +5,7 @@ import '../../main.dart';
 import '../../navigation/app_navigation.dart';
 import 'signup_completion_initial_params.dart';
 
-class SignupCompletionNavigator  with EnableLocationRoute{
+class SignupCompletionNavigator with EnableLocationRoute {
   @override
   late BuildContext context;
 
@@ -13,17 +13,20 @@ class SignupCompletionNavigator  with EnableLocationRoute{
   final AppNavigator navigator;
 
   SignupCompletionNavigator(this.navigator);
+
+  openSignupCompletion(
+      SignupCompletionInitialParams signupCompletionInitialParams) {}
 }
 
 mixin SignupCompletionRoute {
-openSignupCompletion(SignupCompletionInitialParams initialParams) {
-navigator.push(
-context,
-SignupCompletionPage(cubit: getIt(param1: initialParams)),
-);
-}
+  openSignupCompletion(SignupCompletionInitialParams initialParams) {
+    navigator.push(
+      context,
+      SignupCompletionPage(cubit: getIt(param1: initialParams)),
+    );
+  }
 
-AppNavigator get navigator;
+  AppNavigator get navigator;
 
-BuildContext get context;
+  BuildContext get context;
 }
