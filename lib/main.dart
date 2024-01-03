@@ -82,7 +82,7 @@ void main() async {
   getIt.registerFactoryParam<EnableLocationCubit, EnableLocationInitialParams, dynamic>((params, param2) => EnableLocationCubit(params, getIt()));
   getIt.registerFactoryParam<NotificationSettingsCubit, NotificationSettingsInitialParams, dynamic>((params, param2) => NotificationSettingsCubit(params, getIt()));
   getIt.registerFactoryParam<SignupSuccessFullCubit, SignupSuccessFullInitialParams, dynamic>((params, param2) => SignupSuccessFullCubit(params, getIt()));
-  getIt.registerFactoryParam<TavernDashboardCubit, TavernDashboardInitialParams, dynamic>((params, param2) => TavernDashboardCubit(params, getIt()));
+  getIt.registerFactoryParam<TavernDashboardCubit, TavernDashboardInitialParams, dynamic>((params, param2) => TavernDashboardCubit(params, getIt(),getIt(),getIt()));
   getIt.registerFactoryParam<EmailVerificationCubit,EmailVerificationInitialParams, dynamic>((params, param2) => EmailVerificationCubit(params, getIt(),getIt()));
 }
 

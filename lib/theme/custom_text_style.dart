@@ -7,57 +7,57 @@ import '../core/app_export.dart';
 
 class CustomTextStyles {
   // Body text style
-  static get bodySmallMulishBluegray900 =>
-      theme.textTheme.bodySmall!.mulish.copyWith(
+  static get bodySmallMulishBluegray900 => theme.textTheme.bodySmall!.mulish.copyWith(
         color: appTheme.blueGray900,
       );
   static get bodySmall => theme.textTheme.bodySmall!.copyWith(
         color: theme.colorScheme.onErrorContainer.withOpacity(1),
       );
-  static get bodySmallwithLetterSpacing => theme.textTheme.bodySmall!.copyWith(
-      color: theme.colorScheme.onErrorContainer.withOpacity(1),
-      letterSpacing: 10);
+  static get bottomBarSelected => theme.textTheme.bodySmall!.circularStd.copyWith(
+        color: theme.colorScheme.primary,
+        fontSize: 13,
+        fontWeight: FontWeight.w500
+      );
+       static get bottomBarUnselected => theme.textTheme.bodySmall!.circularStd.copyWith(
+        color: theme.colorScheme.errorContainer,
+        fontSize: 13,
+        fontWeight: FontWeight.w500
+      );
+  static get bodySmallwithLetterSpacing => theme.textTheme.bodySmall!.copyWith(color: theme.colorScheme.onErrorContainer.withOpacity(1), letterSpacing: 10);
   static get bodySmallPrimary => theme.textTheme.bodySmall!.copyWith(
         color: theme.colorScheme.primary,
       );
-  static get bodySmallSFProBluegray40001 =>
-      theme.textTheme.bodySmall!.sFPro.copyWith(
+  static get bodySmallSFProBluegray40001 => theme.textTheme.bodySmall!.sFPro.copyWith(
         color: appTheme.blueGray40001,
       );
   // Headline text style
-  static get headlineLargeCairoOnErrorContainer =>
-      theme.textTheme.headlineLarge!.cairo.copyWith(
+  static get headlineLargeCairoOnErrorContainer => theme.textTheme.headlineLarge!.cairo.copyWith(
         color: theme.colorScheme.onErrorContainer.withOpacity(1),
         fontSize: 32.fSize,
       );
-  static get headlineLargeCairoOnPrimary =>
-      theme.textTheme.headlineLarge!.cairo.copyWith(
+  static get headlineLargeCairoOnPrimary => theme.textTheme.headlineLarge!.cairo.copyWith(
         color: theme.colorScheme.onPrimary,
         fontSize: 32.fSize,
       );
-  static get headlineLargeCairoPrimary =>
-      theme.textTheme.headlineLarge!.cairo.copyWith(
+  static get headlineLargeCairoPrimary => theme.textTheme.headlineLarge!.cairo.copyWith(
         color: theme.colorScheme.primary,
         fontSize: 32.fSize,
       );
-  static get headlineLargeGrey =>
-      theme.textTheme.headlineLarge!.cairo.copyWith(
+  static get headlineLargeGrey => theme.textTheme.headlineLarge!.cairo.copyWith(
         color: theme.colorScheme.errorContainer,
         fontSize: 32.fSize,
       );
   static get headlineSmallOnPrimary => theme.textTheme.headlineSmall!.copyWith(
         color: theme.colorScheme.onPrimary,
       );
-  static get headlineSmallPrimaryContainer =>
-      theme.textTheme.headlineSmall!.copyWith(
+  static get headlineSmallPrimaryContainer => theme.textTheme.headlineSmall!.copyWith(
         color: theme.colorScheme.primaryContainer,
       );
   // Label text style
   static get labelLargeBluegray500 => theme.textTheme.labelLarge!.copyWith(
         color: appTheme.blueGray500,
       );
-  static get labelLargeCairoGray80001 =>
-      theme.textTheme.labelLarge!.cairo.copyWith(
+  static get labelLargeCairoGray80001 => theme.textTheme.labelLarge!.cairo.copyWith(
         color: appTheme.gray80001.withOpacity(0.6),
         fontWeight: FontWeight.w600,
       );
@@ -67,8 +67,7 @@ class CustomTextStyles {
   static get labelLargeOnErrorContainer => theme.textTheme.labelLarge!.copyWith(
         color: theme.colorScheme.onErrorContainer.withOpacity(1),
       );
-  static get labelLargeOnErrorContainer_1 =>
-      theme.textTheme.labelLarge!.copyWith(
+  static get labelLargeOnErrorContainer_1 => theme.textTheme.labelLarge!.copyWith(
         color: theme.colorScheme.onErrorContainer.withOpacity(1),
       );
   static get labelLargePrimary => theme.textTheme.labelLarge!.copyWith(
@@ -79,13 +78,11 @@ class CustomTextStyles {
       );
   static get labelLarge_1 => theme.textTheme.labelLarge!;
   // Title text style
-  static get titleMediumCircularStdBluegray800 =>
-      theme.textTheme.titleMedium!.circularStd.copyWith(
+  static get titleMediumCircularStdBluegray800 => theme.textTheme.titleMedium!.circularStd.copyWith(
         color: appTheme.blueGray800,
         fontSize: 18.fSize,
       );
-  static get titleMediumCircularStdBluegray90001 =>
-      theme.textTheme.titleMedium!.circularStd.copyWith(
+  static get titleMediumCircularStdBluegray90001 => theme.textTheme.titleMedium!.circularStd.copyWith(
         color: appTheme.blueGray90001,
         fontWeight: FontWeight.w500,
       );
@@ -93,8 +90,7 @@ class CustomTextStyles {
         color: appTheme.gray60001,
         fontWeight: FontWeight.w600,
       );
-  static get titleMediumMulishPrimary =>
-      theme.textTheme.titleMedium!.mulish.copyWith(
+  static get titleMediumMulishPrimary => theme.textTheme.titleMedium!.mulish.copyWith(
         color: theme.colorScheme.primary,
         fontSize: 18.fSize,
       );
@@ -102,48 +98,39 @@ class CustomTextStyles {
         color: theme.colorScheme.primary,
         fontWeight: FontWeight.w600,
       );
-  static get titleMediumSecondaryContainer =>
-      theme.textTheme.titleMedium!.copyWith(
+  static get titleMediumSecondaryContainer => theme.textTheme.titleMedium!.copyWith(
         color: theme.colorScheme.secondaryContainer.withOpacity(1),
         fontSize: 18.fSize,
       );
-  static get titleMediumSecondaryContainerSemiBold =>
-      theme.textTheme.titleMedium!.copyWith(
+  static get titleMediumSecondaryContainerSemiBold => theme.textTheme.titleMedium!.copyWith(
         color: theme.colorScheme.secondaryContainer.withOpacity(1),
         fontWeight: FontWeight.w600,
       );
-  static get titleMediumSecondaryContainerSemiBold_1 =>
-      theme.textTheme.titleMedium!.copyWith(
+  static get titleMediumSecondaryContainerSemiBold_1 => theme.textTheme.titleMedium!.copyWith(
         color: theme.colorScheme.secondaryContainer.withOpacity(1),
         fontWeight: FontWeight.w600,
       );
-  static get titleSmallCircularStdBluegray70001 =>
-      theme.textTheme.titleSmall!.circularStd.copyWith(
+  static get titleSmallCircularStdBluegray70001 => theme.textTheme.titleSmall!.circularStd.copyWith(
         color: appTheme.blueGray70001,
         fontWeight: FontWeight.w500,
       );
-  static get titleSmallCircularStdBluegray800 =>
-      theme.textTheme.titleSmall!.circularStd.copyWith(
+  static get titleSmallCircularStdBluegray800 => theme.textTheme.titleSmall!.circularStd.copyWith(
         color: appTheme.blueGray800,
         fontWeight: FontWeight.w500,
       );
-  static get titleSmallCircularStdOnErrorContainer =>
-      theme.textTheme.titleSmall!.circularStd.copyWith(
+  static get titleSmallCircularStdOnErrorContainer => theme.textTheme.titleSmall!.circularStd.copyWith(
         color: theme.colorScheme.onErrorContainer.withOpacity(1),
         fontWeight: FontWeight.w700,
       );
-  static get titleSmallMulishBluegray700 =>
-      theme.textTheme.titleSmall!.mulish.copyWith(
+  static get titleSmallMulishBluegray700 => theme.textTheme.titleSmall!.mulish.copyWith(
         color: appTheme.blueGray700,
         fontWeight: FontWeight.w500,
       );
-  static get titleSmallMulishGray800 =>
-      theme.textTheme.titleSmall!.mulish.copyWith(
+  static get titleSmallMulishGray800 => theme.textTheme.titleSmall!.mulish.copyWith(
         color: appTheme.gray800,
         fontWeight: FontWeight.w500,
       );
-  static get titleSmallMulishRed400 =>
-      theme.textTheme.titleSmall!.mulish.copyWith(
+  static get titleSmallMulishRed400 => theme.textTheme.titleSmall!.mulish.copyWith(
         color: appTheme.red400,
         fontWeight: FontWeight.w700,
       );
@@ -154,18 +141,15 @@ class CustomTextStyles {
   static get titleSmallPrimary => theme.textTheme.titleSmall!.copyWith(
         color: theme.colorScheme.primary,
       );
-  static get titleSmallProductSansBluegray800 =>
-      theme.textTheme.titleSmall!.productSans.copyWith(
+  static get titleSmallProductSansBluegray800 => theme.textTheme.titleSmall!.productSans.copyWith(
         color: appTheme.blueGray800,
         fontWeight: FontWeight.w700,
       );
-  static get titleSmallSecondaryContainer =>
-      theme.textTheme.titleSmall!.copyWith(
+  static get titleSmallSecondaryContainer => theme.textTheme.titleSmall!.copyWith(
         color: theme.colorScheme.secondaryContainer.withOpacity(1),
         fontWeight: FontWeight.w700,
       );
-  static get titleSmallSecondaryContainer_1 =>
-      theme.textTheme.titleSmall!.copyWith(
+  static get titleSmallSecondaryContainer_1 => theme.textTheme.titleSmall!.copyWith(
         color: theme.colorScheme.secondaryContainer.withOpacity(1),
       );
 }

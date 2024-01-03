@@ -17,10 +17,11 @@ class CustomButtonStyles {
           borderRadius: BorderRadius.circular(8.h),
         ),
       );
+
   static ButtonStyle get fillYellow => ElevatedButton.styleFrom(
         backgroundColor: appTheme.yellow50,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(4.h),
+          borderRadius: BorderRadius.circular(8.h),
         ),
       );
   // text button style

@@ -58,7 +58,7 @@ class CustomRatingBar extends StatelessWidget {
           _,
         ) {
           return Icon(
-            Icons.star,
+            Icons.grade,
             color: color,
           );
         },

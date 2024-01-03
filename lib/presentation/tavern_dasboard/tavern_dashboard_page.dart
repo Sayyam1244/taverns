@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:taverns/widgets/app_bar/appbar_title.dart';
-import 'package:taverns/widgets/app_bar/appbar_title_image.dart';
-import 'package:taverns/widgets/app_bar/custom_app_bar.dart';
+import 'package:taverns/presentation/tavern_dasboard/widgets/notificaiton_board.dart';
+import 'package:taverns/presentation/tavern_dasboard/widgets/tavern_appbar.dart';
+import 'package:taverns/presentation/tavern_dasboard/widgets/tavern_profile_widget.dart';
 import 'package:taverns/widgets/custom_elevated_button.dart';
-import 'package:taverns/widgets/custom_rating_bar.dart';
 import 'package:taverns/widgets/custom_search_view.dart';
 import '../../core/app_export.dart';
 import 'tavern_dashboard_cubit.dart';
-import 'tavern_dashboard_state.dart';
 import 'widgets/eventcard_item_widget.dart';
-import 'widgets/notificationcard_item_widget.dart';
 
 class TavernDashboardPage extends StatefulWidget {
   final TavernDashboardCubit cubit;
@@ -39,7 +35,7 @@ class _TavernDashboardState extends State<TavernDashboardPage> {
       child: Scaffold(
         backgroundColor: appTheme.gray5001,
         resizeToAvoidBottomInset: false,
-        appBar: _buildAppBar(context),
+        appBar: tavernAppBar(context),
         body: SizedBox(
           width: SizeUtils.width,
           child: SingleChildScrollView(
@@ -51,364 +47,117 @@ class _TavernDashboardState extends State<TavernDashboardPage> {
               ),
               child: Column(
                 children: [
-                  _buildViewProfile(context),
+                  TavernProfileWidget(),
                   SizedBox(height: 24.v),
-                  _buildNotificationCard(context),
+                  NotificationBoardWidget(),
                   SizedBox(height: 24.v),
-                  // Padding(
-                  //   padding: EdgeInsets.only(
-                  //     left: 13.h,
-                  //     right: 16.h,
-                  //   ),
-                  //   child: CustomSearchView(
-                  //     controller: searchController,
-                  //     hintText: "Fint Event",
-                  //   ),
-                  // ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 18),
+                    child: CustomSearchView(
+                      controller: searchController,
+                      hintText: "Find Event",
+                    ),
+                  ),
                   SizedBox(height: 26.v),
-                  // Padding(
-                  //   padding: EdgeInsets.only(
-                  //     left: 13.h,
-                  //     right: 16.h,
-                  //   ),
-                  //   child: _buildUpcomingEvents(
-                  //     context,
-                  //     upcomingEventsText: "Upcoming Events",
-                  //     seeAllText: "See all",
-                  //   ),
-                  // ),
-                  // SizedBox(height: 12.v),
-                  // _buildEventCard(context),
-                  // SizedBox(height: 24.v),
-                  // _buildSafetyTips(context),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  /// Section Widget
-  PreferredSizeWidget _buildAppBar(BuildContext context) {
-    return CustomAppBar(
-      height: 59.v,
-      title: Padding(
-        padding: EdgeInsets.only(left: 16.h),
-        child: Row(
-          children: [
-            AppbarTitle(
-              text: "Tavern".toUpperCase(),
-            ),
-            AppbarTitleImage(
-              imagePath: ImageConstant.imgVectorBlue700,
-              margin: EdgeInsets.only(
-                left: 3.h,
-                top: 26.v,
-                bottom: 14.v,
-              ),
-            ),
-          ],
-        ),
-      ),
-      actions: [
-        Container(
-          height: 34.v,
-          width: 32.h,
-          margin: EdgeInsets.fromLTRB(17.h, 8.v, 17.h, 13.v),
-          child: Stack(
-            alignment: Alignment.topRight,
-            children: [
-              CustomImageView(
-                imagePath: ImageConstant.imgClockPrimary,
-                height: 30.adaptSize,
-                width: 30.adaptSize,
-                alignment: Alignment.bottomLeft,
-                margin: EdgeInsets.only(
-                  top: 4.v,
-                  right: 2.h,
-                ),
-              ),
-              Align(
-                alignment: Alignment.topRight,
-                child: Container(
-                  height: 14.adaptSize,
-                  width: 14.adaptSize,
-                  margin: EdgeInsets.only(
-                    left: 18.h,
-                    bottom: 20.v,
-                  ),
-                  decoration: BoxDecoration(
-                    color: appTheme.green300,
-                    borderRadius: BorderRadius.circular(
-                      7.h,
-                    ),
-                    border: Border.all(
-                      color: theme.colorScheme.onErrorContainer.withOpacity(1),
-                      width: 2.h,
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Upcoming Events',
+                          style: CustomTextStyles.titleMediumCircularStdBluegray800.copyWith(
+                            color: appTheme.blueGray800,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                            top: 2.v,
+                            bottom: 4.v,
+                          ),
+                          child: Text(
+                            'See All',
+                            style: CustomTextStyles.labelLargePrimary.copyWith(
+                              color: theme.colorScheme.primary,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  /// Section Widget
-  Widget _buildSeeAll(BuildContext context) {
-    return CustomElevatedButton(
-      height: 31.v,
-      width: 94.h,
-      text: "View profile",
-      buttonStyle: CustomButtonStyles.fillPrimaryTL8,
-      buttonTextStyle: CustomTextStyles.labelLargeOnErrorContainer_1,
-    );
-  }
-
-  /// Section Widget
-  Widget _buildViewProfile(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 15.h),
-      padding: EdgeInsets.symmetric(
-        horizontal: 14.h,
-        vertical: 15.v,
-      ),
-      decoration: AppDecoration.fillOnErrorContainer.copyWith(
-        borderRadius: BorderRadiusStyle.roundedBorder16,
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(height: 4.v),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  height: 40.adaptSize,
-                  width: 40.adaptSize,
-                  decoration: AppDecoration.fillDeepOrange.copyWith(
-                    borderRadius: BorderRadiusStyle.circleBorder20,
+                  SizedBox(height: 12.v),
+                  SizedBox(
+                    height: 130.v,
+                    child: ListView.separated(
+                      padding: EdgeInsets.only(left: 13.h),
+                      scrollDirection: Axis.horizontal,
+                      separatorBuilder: (
+                        context,
+                        index,
+                      ) {
+                        return SizedBox(
+                          width: 16.h,
+                        );
+                      },
+                      itemCount: 2,
+                      itemBuilder: (context, index) {
+                        return EventcardItemWidget();
+                      },
+                    ),
                   ),
-                  child: CustomImageView(
-                    imagePath: ImageConstant.imgMaskGroup,
-                    height: 40.adaptSize,
-                    width: 40.adaptSize,
-                    alignment: Alignment.center,
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: 10.h,
-                    top: 2.v,
-                    bottom: 4.v,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Tavern Name",
-                        style: CustomTextStyles.titleSmallProductSansBluegray800,
-                      ),
-                      SizedBox(height: 3.v),
-                      Text(
-                        "Business Number",
-                        style: theme.textTheme.labelMedium,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 15.v),
-          Opacity(
-            opacity: 0.07,
-            child: Divider(
-              color: appTheme.gray90060,
-              indent: 6.h,
-              endIndent: 6.h,
-            ),
-          ),
-          SizedBox(height: 15.v),
-          Padding(
-            padding: EdgeInsets.only(
-              left: 6.h,
-              right: 4.h,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(
-                    top: 8.v,
-                    bottom: 7.v,
-                  ),
-                  child: CustomRatingBar(
-                    initialRating: 0,
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: 12.h,
-                    top: 9.v,
-                    bottom: 5.v,
-                  ),
-                  child: Text(
-                    "(22235)",
-                    style: CustomTextStyles.labelLargePrimary,
-                  ),
-                ),
-                Spacer(),
-                _buildSeeAll(context),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  /// Section Widget
-  Widget _buildNotificationCard(BuildContext context) {
-    return SizedBox(
-      height: 195.v,
-      width: 373.h,
-      child: Stack(
-        alignment: Alignment.topCenter,
-        children: [
-          Align(
-            alignment: Alignment.center,
-            child: Container(
-              height: 195.v,
-              width: 373.h,
-              decoration: BoxDecoration(
-                color: theme.colorScheme.onErrorContainer.withOpacity(1),
-                borderRadius: BorderRadius.circular(
-                  16.h,
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: theme.colorScheme.secondaryContainer,
-                    spreadRadius: 2.h,
-                    blurRadius: 2.h,
-                    offset: Offset(
-                      0,
-                      0,
+                  SizedBox(height: 24.v),
+                  CustomElevatedButton(
+                    text: "Safety Tips",
+                    margin: EdgeInsets.only(
+                      left: 22.h,
+                      right: 24.h,
                     ),
                   ),
                 ],
               ),
             ),
           ),
-          Padding(
-            padding: EdgeInsets.fromLTRB(15.h, 20.v, 15.h, 151.v),
-            child: _buildUpcomingEvents(
-              context,
-              upcomingEventsText: "Notification Board",
-              seeAllText: "See All",
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: SizedBox(
-              height: 195.v,
-              child: ListView.separated(
-                padding: EdgeInsets.only(
-                  left: 15.h,
-                  top: 55.v,
-                  bottom: 20.v,
-                ),
-                scrollDirection: Axis.horizontal,
-                separatorBuilder: (
-                  context,
-                  index,
-                ) {
-                  return SizedBox(
-                    width: 17.h,
-                  );
-                },
-                itemCount: 2,
-                itemBuilder: (context, index) {
-                  return NotificationcardItemWidget();
-                },
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  /// Section Widget
-  Widget _buildEventCard(BuildContext context) {
-    return SizedBox(
-      height: 123.v,
-      child: ListView.separated(
-        padding: EdgeInsets.only(left: 13.h),
-        scrollDirection: Axis.horizontal,
-        separatorBuilder: (
-          context,
-          index,
-        ) {
-          return SizedBox(
-            width: 16.h,
-          );
-        },
-        itemCount: 2,
-        itemBuilder: (context, index) {
-          return EventcardItemWidget();
-        },
-      ),
-    );
-  }
-
-  /// Section Widget
-  Widget _buildSafetyTips(BuildContext context) {
-    return CustomElevatedButton(
-      text: "Safety Tips",
-      margin: EdgeInsets.only(
-        left: 22.h,
-        right: 24.h,
-      ),
-    );
-  }
-
-  /// Common widget
-  Widget _buildUpcomingEvents(
-    BuildContext context, {
-    required String upcomingEventsText,
-    required String seeAllText,
-  }) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          upcomingEventsText,
-          style: CustomTextStyles.titleMediumCircularStdBluegray800.copyWith(
-            color: appTheme.blueGray800,
-          ),
         ),
-        Padding(
-          padding: EdgeInsets.only(
-            top: 2.v,
-            bottom: 4.v,
-          ),
-          child: Text(
-            seeAllText,
-            style: CustomTextStyles.labelLargePrimary.copyWith(
-              color: theme.colorScheme.primary,
-            ),
-          ),
+        bottomNavigationBar: Container(
+          height: 70,
+          decoration: BoxDecoration(border: Border.all(color: theme.colorScheme.errorContainer)),
+          child: BottomNavigationBar(
+              type: BottomNavigationBarType.fixed,
+              unselectedItemColor: theme.colorScheme.errorContainer,
+              selectedLabelStyle: CustomTextStyles.bottomBarSelected,
+              unselectedLabelStyle: CustomTextStyles.bottomBarUnselected,
+              showUnselectedLabels: true,
+              showSelectedLabels: true,
+              iconSize: 22,
+              selectedItemColor: theme.colorScheme.primary,
+              items: [
+                BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: 'Home'),
+                BottomNavigationBarItem(icon: Icon(Icons.calendar_month), label: 'Calender'),
+                BottomNavigationBarItem(
+                    icon: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Icon(Icons.comment_outlined),
+                        Align(
+                          alignment: Alignment.topCenter,
+                          child: Container(
+                            margin: EdgeInsets.only(bottom: 12, left: 20),
+                            height: 10,
+                            width: 10,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: theme.colorScheme.primary,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    label: 'Message'),
+                BottomNavigationBarItem(icon: Icon(Icons.more_horiz), label: 'More'),
+              ]),
         ),
-      ],
+      ),
     );
   }
 }

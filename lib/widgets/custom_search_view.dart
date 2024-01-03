@@ -89,9 +89,7 @@ class CustomSearchView extends StatelessWidget {
           maxLines: maxLines ?? 1,
           decoration: decoration,
           validator: validator,
-          onChanged: (String value) {
-            onChanged!.call(value);
-          },
+          onChanged: onChanged,
         ),
       );
   InputDecoration get decoration => InputDecoration(
@@ -110,19 +108,7 @@ class CustomSearchView extends StatelessWidget {
             BoxConstraints(
               maxHeight: 40.v,
             ),
-        suffixIcon: suffix ??
-            Padding(
-              padding: EdgeInsets.only(
-                right: 15.h,
-              ),
-              child: IconButton(
-                onPressed: () => controller!.clear(),
-                icon: Icon(
-                  Icons.clear,
-                  color: Colors.grey.shade600,
-                ),
-              ),
-            ),
+        suffixIcon: suffix ,
         suffixIconConstraints: suffixConstraints ??
             BoxConstraints(
               maxHeight: 40.v,
