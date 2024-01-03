@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taverns/domain/repository/auth_repository.dart';
 import 'package:taverns/domain/repository/user_repository.dart';
+import 'package:taverns/presentation/notification_board/notification_board_initial_params.dart';
 import 'package:taverns/presentation/tavern_dasboard/tavern_dashboard_navigator.dart';
 import 'tavern_dashboard_initial_params.dart';
 import 'tavern_dashboard_state.dart';
@@ -16,4 +19,9 @@ class TavernDashboardCubit extends Cubit<TavernDashboardState> {
             initialParams: initialParams,
           ),
         );
+
+  void navigateToNotificaitonBoard() {
+    log('asdf');
+    navigator.openNotificationBoard(NotificationBoardInitialParams());
+  }
 }

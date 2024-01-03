@@ -1,0 +1,4 @@
+class NotificationBoardInitialParams {
+
+const NotificationBoardInitialParams();
+}

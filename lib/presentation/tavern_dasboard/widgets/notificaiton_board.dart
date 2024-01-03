@@ -1,11 +1,16 @@
+import 'dart:developer';
+
 import 'package:flutter/widgets.dart';
 import 'package:taverns/core/app_export.dart';
+import 'package:taverns/presentation/tavern_dasboard/tavern_dashboard_cubit.dart';
+import 'package:taverns/presentation/tavern_dasboard/tavern_dashboard_state.dart';
 
 import 'notificationcard_item_widget.dart';
 
 class NotificationBoardWidget extends StatelessWidget {
-  const NotificationBoardWidget({Key? key}) : super(key: key);
-
+  const NotificationBoardWidget({Key? key, required this.cubit, required this.state}) : super(key: key);
+  final TavernDashboardCubit cubit;
+  final TavernDashboardState state;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -52,10 +57,16 @@ class NotificationBoardWidget extends StatelessWidget {
                   top: 2.v,
                   bottom: 4.v,
                 ),
-                child: Text(
-                  'See All',
-                  style: CustomTextStyles.labelLargePrimary.copyWith(
-                    color: theme.colorScheme.primary,
+                child: GestureDetector(
+                  onTap: () {
+                    log('message');
+                    cubit.navigateToNotificaitonBoard();
+                  },
+                  child: Text(
+                    'See All',
+                    style: CustomTextStyles.labelLargePrimary.copyWith(
+                      color: theme.colorScheme.primary,
+                    ),
                   ),
                 ),
               ),

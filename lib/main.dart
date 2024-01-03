@@ -12,6 +12,8 @@ import 'package:taverns/presentation/forgot_password_screen/forgot_password_navi
 import 'package:taverns/presentation/login_and_signup/login_and_signup_cubit.dart';
 import 'package:taverns/presentation/login_and_signup/login_and_signup_initial_params.dart';
 import 'package:taverns/presentation/login_and_signup/login_and_signup_navigator.dart';
+import 'package:taverns/presentation/notification_board/notification_board_cubit.dart';
+import 'package:taverns/presentation/notification_board/notification_board_initial_params.dart';
 import 'package:taverns/presentation/notifications_email_screen/notification_settings_cubit.dart';
 import 'package:taverns/presentation/notifications_email_screen/notification_settings_initial_params.dart';
 import 'package:taverns/presentation/notifications_email_screen/notification_settings_navigator.dart';
@@ -82,8 +84,9 @@ void main() async {
   getIt.registerFactoryParam<EnableLocationCubit, EnableLocationInitialParams, dynamic>((params, param2) => EnableLocationCubit(params, getIt(), getIt(), getIt(), getIt()));
   getIt.registerFactoryParam<NotificationSettingsCubit, NotificationSettingsInitialParams, dynamic>((params, param2) => NotificationSettingsCubit(params, getIt(), getIt(), getIt()));
   getIt.registerFactoryParam<SignupSuccessFullCubit, SignupSuccessFullInitialParams, dynamic>((params, param2) => SignupSuccessFullCubit(params, getIt()));
-  getIt.registerFactoryParam<TavernDashboardCubit, TavernDashboardInitialParams, dynamic>((params, param2) => TavernDashboardCubit(params, getIt()));
+  getIt.registerFactoryParam<TavernDashboardCubit, TavernDashboardInitialParams, dynamic>((params, param2) => TavernDashboardCubit(params, getIt(),getIt(),getIt()));
   getIt.registerFactoryParam<EmailVerificationCubit,EmailVerificationInitialParams, dynamic>((params, param2) => EmailVerificationCubit(params, getIt(),getIt()));
+  getIt.registerFactoryParam<NotificationBoardCubit,NotificationBoardInitialParams, dynamic>((params, param2) => NotificationBoardCubit(params, getIt(),getIt(),getIt()));
 }
 
 class MyApp extends StatelessWidget {

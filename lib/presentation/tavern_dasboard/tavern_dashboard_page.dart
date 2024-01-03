@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:taverns/presentation/tavern_dasboard/tavern_dashboard_state.dart';
 import 'package:taverns/presentation/tavern_dasboard/widgets/notificaiton_board.dart';
 import 'package:taverns/presentation/tavern_dasboard/widgets/tavern_appbar.dart';
 import 'package:taverns/presentation/tavern_dasboard/widgets/tavern_profile_widget.dart';
@@ -26,6 +28,7 @@ class _TavernDashboardState extends State<TavernDashboardPage> {
 
   @override
   void initState() {
+    cubit.navigator.context = context;
     super.initState();
   }
 
@@ -36,85 +39,88 @@ class _TavernDashboardState extends State<TavernDashboardPage> {
         backgroundColor: appTheme.gray5001,
         resizeToAvoidBottomInset: false,
         appBar: tavernAppBar(context),
-        body: SizedBox(
-          width: SizeUtils.width,
-          child: SingleChildScrollView(
-            padding: EdgeInsets.only(top: 2.v),
-            child: Padding(
-              padding: EdgeInsets.only(
-                left: 2.h,
-                bottom: 5.v,
-              ),
-              child: Column(
-                children: [
-                  TavernProfileWidget(),
-                  SizedBox(height: 24.v),
-                  NotificationBoardWidget(),
-                  SizedBox(height: 24.v),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 18),
-                    child: CustomSearchView(
-                      controller: searchController,
-                      hintText: "Find Event",
+        body: BlocBuilder<TavernDashboardCubit,TavernDashboardState>(
+          bloc: cubit,
+          builder: (context, state) => SizedBox(
+            width: SizeUtils.width,
+            child: SingleChildScrollView(
+              padding: EdgeInsets.only(top: 2.v),
+              child: Padding(
+                padding: EdgeInsets.only(
+                  left: 2.h,
+                  bottom: 5.v,
+                ),
+                child: Column(
+                  children: [
+                    TavernProfileWidget(),
+                    SizedBox(height: 24.v),
+                    NotificationBoardWidget(cubit: cubit, state: state),
+                    SizedBox(height: 24.v),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 18),
+                      child: CustomSearchView(
+                        controller: searchController,
+                        hintText: "Find Event",
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 26.v),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 18, vertical: 12),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Upcoming Events',
-                          style: CustomTextStyles.titleMediumCircularStdBluegray800.copyWith(
-                            color: appTheme.blueGray800,
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                            top: 2.v,
-                            bottom: 4.v,
-                          ),
-                          child: Text(
-                            'See All',
-                            style: CustomTextStyles.labelLargePrimary.copyWith(
-                              color: theme.colorScheme.primary,
+                    SizedBox(height: 26.v),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Upcoming Events',
+                            style: CustomTextStyles.titleMediumCircularStdBluegray800.copyWith(
+                              color: appTheme.blueGray800,
                             ),
                           ),
-                        ),
-                      ],
+                          Padding(
+                            padding: EdgeInsets.only(
+                              top: 2.v,
+                              bottom: 4.v,
+                            ),
+                            child: Text(
+                              'See All',
+                              style: CustomTextStyles.labelLargePrimary.copyWith(
+                                color: theme.colorScheme.primary,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 12.v),
-                  SizedBox(
-                    height: 130.v,
-                    child: ListView.separated(
-                      padding: EdgeInsets.only(left: 13.h),
-                      scrollDirection: Axis.horizontal,
-                      separatorBuilder: (
-                        context,
-                        index,
-                      ) {
-                        return SizedBox(
-                          width: 16.h,
-                        );
-                      },
-                      itemCount: 2,
-                      itemBuilder: (context, index) {
-                        return EventcardItemWidget();
-                      },
+                    SizedBox(height: 12.v),
+                    SizedBox(
+                      height: 130.v,
+                      child: ListView.separated(
+                        padding: EdgeInsets.only(left: 13.h),
+                        scrollDirection: Axis.horizontal,
+                        separatorBuilder: (
+                          context,
+                          index,
+                        ) {
+                          return SizedBox(
+                            width: 16.h,
+                          );
+                        },
+                        itemCount: 2,
+                        itemBuilder: (context, index) {
+                          return EventcardItemWidget();
+                        },
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 24.v),
-                  CustomElevatedButton(
-                    text: "Safety Tips",
-                    margin: EdgeInsets.only(
-                      left: 22.h,
-                      right: 24.h,
+                    SizedBox(height: 24.v),
+                    CustomElevatedButton(
+                      text: "Safety Tips",
+                      margin: EdgeInsets.only(
+                        left: 22.h,
+                        right: 24.h,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
