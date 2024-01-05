@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:taverns/core/app_export.dart';
 import 'package:taverns/presentation/tavern_dasboard/tavern_dashboard_cubit.dart';
@@ -57,7 +58,7 @@ class NotificationBoardWidget extends StatelessWidget {
                   top: 2.v,
                   bottom: 4.v,
                 ),
-                child: GestureDetector(
+                child: InkWell(
                   onTap: () {
                     log('message');
                     cubit.navigateToNotificaitonBoard();
