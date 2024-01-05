@@ -24,14 +24,17 @@ class DefaultFirebaseOptions {
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
-        return android;
-      case TargetPlatform.iOS:
-        return ios;
-      case TargetPlatform.macOS:
         throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
+          'DefaultFirebaseOptions have not been configured for android - '
           'you can reconfigure this by running the FlutterFire CLI again.',
         );
+      case TargetPlatform.iOS:
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for ios - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
+      case TargetPlatform.macOS:
+        return macos;
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -49,20 +52,12 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyA9K-7zj1cvX42rIj5pNigqd54TzD_JMDI',
-    appId: '1:131804642820:android:a42a889e167e7dee177f51',
-    messagingSenderId: '131804642820',
-    projectId: 'taverns-4d3f1',
-    storageBucket: 'taverns-4d3f1.appspot.com',
-  );
-
-  static const FirebaseOptions ios = FirebaseOptions(
+  static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyBWEaI4kM8MGyhlo_IncMfdQvpboj2ffIM',
-    appId: '1:131804642820:ios:96c4335ed6bab275177f51',
+    appId: '1:131804642820:ios:3b187390b1cbffd4177f51',
     messagingSenderId: '131804642820',
     projectId: 'taverns-4d3f1',
     storageBucket: 'taverns-4d3f1.appspot.com',
-    iosBundleId: 'com.taverns.provider.app',
+    iosBundleId: 'com.taverns.provider.taverns.RunnerTests',
   );
 }

@@ -2,30 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:taverns/core/app_export.dart';
 
 class CustomTextFormField extends StatelessWidget {
-  CustomTextFormField({
-    Key? key,
-    this.alignment,
-    this.width,
-    this.controller,
-    this.focusNode,
-    this.autofocus = true,
-    this.textStyle,
-    this.obscureText = false,
-    this.textInputAction,
-    this.textInputType = TextInputType.text,
-    this.maxLines,
-    this.hintText,
-    this.hintStyle,
-    this.prefix,
-    this.prefixConstraints,
-    this.suffix,
-    this.suffixConstraints,
-    this.contentPadding,
-    this.borderDecoration,
-    this.fillColor,
-    this.filled = true,
-    this.validator,
-  }) : super(
+  CustomTextFormField(
+      {Key? key,
+      this.alignment,
+      this.width,
+      this.controller,
+      this.focusNode,
+      this.autofocus = true,
+      this.textStyle,
+      this.obscureText = false,
+      this.textInputAction,
+      this.textInputType = TextInputType.text,
+      this.maxLines,
+      this.hintText,
+      this.hintStyle,
+      this.prefix,
+      this.prefixConstraints,
+      this.suffix,
+      this.suffixConstraints,
+      this.contentPadding,
+      this.borderDecoration,
+      this.fillColor,
+      this.filled = true,
+      this.validator,
+      this.enabled})
+      : super(
           key: key,
         );
 
@@ -68,7 +69,7 @@ class CustomTextFormField extends StatelessWidget {
   final Color? fillColor;
 
   final bool? filled;
-
+  final bool? enabled;
   final FormFieldValidator<String>? validator;
 
   @override
@@ -84,6 +85,7 @@ class CustomTextFormField extends StatelessWidget {
   Widget get textFormFieldWidget => SizedBox(
         width: width ?? double.maxFinite,
         child: TextFormField(
+          enabled: enabled,
           controller: controller,
           focusNode: focusNode ?? FocusNode(),
           autofocus: autofocus!,
@@ -104,7 +106,6 @@ class CustomTextFormField extends StatelessWidget {
         hintStyle: hintStyle ?? theme.textTheme.titleSmall,
         prefixIcon: prefix,
         prefixIconConstraints: prefixConstraints,
-        
         suffixIcon: suffix,
         suffixIconConstraints: suffixConstraints,
         isDense: true,

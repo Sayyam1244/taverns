@@ -1,10 +1,19 @@
 import 'tavern_dashboard_initial_params.dart';
 
 class TavernDashboardState {
+  final int currentIndex;
+  const TavernDashboardState({required this.currentIndex});
 
-const TavernDashboardState();
+  factory TavernDashboardState.initial(
+          {required TavernDashboardInitialParams initialParams}) =>
+      TavernDashboardState(
+        currentIndex: 3,
+      );
 
-factory TavernDashboardState.initial({required TavernDashboardInitialParams initialParams}) => TavernDashboardState();
-
-TavernDashboardState copyWith() => const TavernDashboardState();
+  TavernDashboardState copyWith({
+    int? currentIndex,
+  }) =>
+      TavernDashboardState(
+        currentIndex: currentIndex ?? this.currentIndex,
+      );
 }

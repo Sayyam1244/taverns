@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:taverns/presentation/login_and_signup/login_and_signup_navigator.dart';
 import 'package:taverns/presentation/notification_board/notification_board_navigator.dart';
 import '../../main.dart';
 import '../../navigation/app_navigation.dart';
 import 'tavern_dashboard_initial_params.dart';
 import 'tavern_dashboard_page.dart';
 
-class TavernDashboardNavigator with LoginAndSignupRoute, NotificationBoardRoute{
+class TavernDashboardNavigator with NotificationBoardRoute{
    @override
   late BuildContext  context ;
 

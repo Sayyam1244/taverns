@@ -8,5 +8,6 @@ bricks:
   # Bricks can also be imported via remote git url.
   # Uncomment the following lines to import the "widget" brick from git.
   # widget:
+  #   git:
   initfiles:
             path: initfiles

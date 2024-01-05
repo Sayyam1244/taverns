@@ -14,6 +14,7 @@ import 'package:taverns/presentation/login_and_signup/login_and_signup_initial_p
 import 'package:taverns/presentation/login_and_signup/login_and_signup_navigator.dart';
 import 'package:taverns/presentation/notification_board/notification_board_cubit.dart';
 import 'package:taverns/presentation/notification_board/notification_board_initial_params.dart';
+import 'package:taverns/presentation/notification_board/notification_board_navigator.dart';
 import 'package:taverns/presentation/notifications_email_screen/notification_settings_cubit.dart';
 import 'package:taverns/presentation/notifications_email_screen/notification_settings_initial_params.dart';
 import 'package:taverns/presentation/notifications_email_screen/notification_settings_navigator.dart';
@@ -33,6 +34,7 @@ import 'package:taverns/presentation/splash/splash_page.dart';
 import 'package:taverns/presentation/tavern_dasboard/tavern_dashboard_cubit.dart';
 import 'package:taverns/presentation/tavern_dasboard/tavern_dashboard_initial_params.dart';
 import 'package:taverns/presentation/tavern_dasboard/tavern_dashboard_navigator.dart';
+import 'package:taverns/presentation/tavern_dasboard/tavern_dashboard_page.dart';
 import 'package:taverns/presentation/welcome/welcome_cubit.dart';
 import 'package:taverns/presentation/welcome/welcome_initial_params.dart';
 import 'package:taverns/presentation/welcome/welcome_navigator.dart';
@@ -60,33 +62,71 @@ void main() async {
   getIt.registerSingleton<AppNavigator>(AppNavigator());
   getIt.registerSingleton<SplashNavigator>(SplashNavigator(getIt()));
   getIt.registerSingleton<WelcomeNavigator>(WelcomeNavigator(getIt()));
-  getIt.registerSingleton<LoginAndSignupNavigator>(LoginAndSignupNavigator(getIt()));
-  getIt.registerSingleton<ForgotPasswordNavigator>(ForgotPasswordNavigator(getIt()));
-  getIt.registerSingleton<SignupSelectRoleNavigator>(SignupSelectRoleNavigator(getIt()));
-  getIt.registerSingleton<SignupCompletionNavigator>(SignupCompletionNavigator(getIt()));
-  getIt.registerSingleton<EnableLocationNavigator>(EnableLocationNavigator(getIt()));
-  getIt.registerSingleton<NotificationSettingsNavigator>(NotificationSettingsNavigator(getIt()));
-  getIt.registerSingleton<SignupSuccessFullNavigator>(SignupSuccessFullNavigator(getIt()));
-  getIt.registerSingleton<TavernDashboardNavigator>(TavernDashboardNavigator(getIt()));
-  getIt.registerSingleton<EmailVerificationNavigator>(EmailVerificationNavigator(getIt()));
+  getIt.registerSingleton<LoginAndSignupNavigator>(
+      LoginAndSignupNavigator(getIt()));
+  getIt.registerSingleton<ForgotPasswordNavigator>(
+      ForgotPasswordNavigator(getIt()));
+  getIt.registerSingleton<SignupSelectRoleNavigator>(
+      SignupSelectRoleNavigator(getIt()));
+  getIt.registerSingleton<SignupCompletionNavigator>(
+      SignupCompletionNavigator(getIt()));
+  getIt.registerSingleton<EnableLocationNavigator>(
+      EnableLocationNavigator(getIt()));
+  getIt.registerSingleton<NotificationSettingsNavigator>(
+      NotificationSettingsNavigator(getIt()));
+  getIt.registerSingleton<SignupSuccessFullNavigator>(
+      SignupSuccessFullNavigator(getIt()));
+  getIt.registerSingleton<TavernDashboardNavigator>(
+      TavernDashboardNavigator(getIt()));
+  getIt.registerSingleton<EmailVerificationNavigator>(
+      EmailVerificationNavigator(getIt()));
+  getIt.registerSingleton<NotificationBoardNavigator>(
+      NotificationBoardNavigator(getIt()));
 
-  
   getIt.registerSingleton<AuthRepository>(Auth());
   getIt.registerSingleton<UserRepository>(User());
   getIt.registerSingleton<LocationRepository>(LocationHelper());
 
-  getIt.registerFactoryParam<SplashCubit, SplashInitialParams, dynamic>((params, param2) => SplashCubit(params, getIt()));
-  getIt.registerFactoryParam<WelcomeCubit, WelcomeInitialParams, dynamic>((params, param2) => WelcomeCubit(params, getIt()));
-  getIt.registerFactoryParam<LoginAndSignupCubit, LoginAndSignupInitialParams, dynamic>((params, param2) => LoginAndSignupCubit(params, getIt(), getIt()));
-  getIt.registerFactoryParam<ForgotPasswordCubit, ForgotPasswordInitialParams, dynamic>((params, param2) => ForgotPasswordCubit(params, getIt()));
-  getIt.registerFactoryParam<SignupSelectRoleCubit, SignupSelectRoleInitialParams, dynamic>((params, param2) => SignupSelectRoleCubit(params, getIt(), getIt(), getIt()));
-  getIt.registerFactoryParam<SignupCompletionCubit, SignupCompletionInitialParams, dynamic>((params, param2) => SignupCompletionCubit(params, getIt(), getIt(), getIt()));
-  getIt.registerFactoryParam<EnableLocationCubit, EnableLocationInitialParams, dynamic>((params, param2) => EnableLocationCubit(params, getIt(), getIt(), getIt(), getIt()));
-  getIt.registerFactoryParam<NotificationSettingsCubit, NotificationSettingsInitialParams, dynamic>((params, param2) => NotificationSettingsCubit(params, getIt(), getIt(), getIt()));
-  getIt.registerFactoryParam<SignupSuccessFullCubit, SignupSuccessFullInitialParams, dynamic>((params, param2) => SignupSuccessFullCubit(params, getIt()));
-  getIt.registerFactoryParam<TavernDashboardCubit, TavernDashboardInitialParams, dynamic>((params, param2) => TavernDashboardCubit(params, getIt(),getIt(),getIt()));
-  getIt.registerFactoryParam<EmailVerificationCubit,EmailVerificationInitialParams, dynamic>((params, param2) => EmailVerificationCubit(params, getIt(),getIt()));
-  getIt.registerFactoryParam<NotificationBoardCubit,NotificationBoardInitialParams, dynamic>((params, param2) => NotificationBoardCubit(params, getIt(),getIt(),getIt()));
+  getIt.registerFactoryParam<SplashCubit, SplashInitialParams, dynamic>(
+      (params, param2) => SplashCubit(params, getIt()));
+  getIt.registerFactoryParam<WelcomeCubit, WelcomeInitialParams, dynamic>(
+      (params, param2) => WelcomeCubit(params, getIt()));
+  getIt.registerFactoryParam<LoginAndSignupCubit, LoginAndSignupInitialParams,
+          dynamic>(
+      (params, param2) => LoginAndSignupCubit(params, getIt(), getIt()));
+  getIt.registerFactoryParam<ForgotPasswordCubit, ForgotPasswordInitialParams,
+      dynamic>((params, param2) => ForgotPasswordCubit(params, getIt()));
+  getIt.registerFactoryParam<SignupSelectRoleCubit,
+          SignupSelectRoleInitialParams, dynamic>(
+      (params, param2) =>
+          SignupSelectRoleCubit(params, getIt(), getIt(), getIt()));
+  getIt.registerFactoryParam<SignupCompletionCubit,
+          SignupCompletionInitialParams, dynamic>(
+      (params, param2) =>
+          SignupCompletionCubit(params, getIt(), getIt(), getIt()));
+  getIt.registerFactoryParam<EnableLocationCubit, EnableLocationInitialParams,
+          dynamic>(
+      (params, param2) =>
+          EnableLocationCubit(params, getIt(), getIt(), getIt(), getIt()));
+  getIt.registerFactoryParam<NotificationSettingsCubit,
+          NotificationSettingsInitialParams, dynamic>(
+      (params, param2) =>
+          NotificationSettingsCubit(params, getIt(), getIt(), getIt()));
+  getIt.registerFactoryParam<
+      SignupSuccessFullCubit,
+      SignupSuccessFullInitialParams,
+      dynamic>((params, param2) => SignupSuccessFullCubit(params, getIt()));
+  getIt.registerFactoryParam<TavernDashboardCubit, TavernDashboardInitialParams,
+          dynamic>(
+      (params, param2) =>
+          TavernDashboardCubit(params, getIt(), getIt(), getIt()));
+  getIt.registerFactoryParam<EmailVerificationCubit,
+          EmailVerificationInitialParams, dynamic>(
+      (params, param2) => EmailVerificationCubit(params, getIt(), getIt()));
+  getIt.registerFactoryParam<
+      NotificationBoardCubit,
+      NotificationBoardInitialParams,
+      dynamic>((params, param2) => NotificationBoardCubit(params, getIt()));
 }
 
 class MyApp extends StatelessWidget {
@@ -95,11 +135,13 @@ class MyApp extends StatelessWidget {
     return Sizer(
       builder: (context, orientation, deviceType) {
         return MaterialApp(
-          theme: theme,
-          title: 'Taverns',
-          debugShowCheckedModeBanner: false,
-          home: SplashPage(cubit: getIt(param1: SplashInitialParams())),
-        );
+            theme: theme,
+            title: 'Taverns',
+            debugShowCheckedModeBanner: false,
+            home: TavernDashboardPage(
+                cubit: getIt(param1: TavernDashboardInitialParams()))
+            // SplashPage(cubit: getIt(param1: SplashInitialParams())),
+            );
       },
     );
   }

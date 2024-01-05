@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:taverns/presentation/tavern_dasboard/screens/more_page.dart';
+import 'package:taverns/presentation/tavern_dasboard/screens/tavern_home.dart';
 import 'package:taverns/presentation/tavern_dasboard/tavern_dashboard_state.dart';
 import 'package:taverns/presentation/tavern_dasboard/widgets/notificaiton_board.dart';
 import 'package:taverns/presentation/tavern_dasboard/widgets/tavern_appbar.dart';
@@ -24,8 +26,19 @@ class TavernDashboardPage extends StatefulWidget {
 
 class _TavernDashboardState extends State<TavernDashboardPage> {
   TavernDashboardCubit get cubit => widget.cubit;
-  TextEditingController searchController = TextEditingController();
-
+  List<Widget> screens(
+    TavernDashboardCubit cubit,
+    TavernDashboardState state,
+  ) =>
+      [
+        TavernHome(
+          cubit: cubit,
+          state: state,
+        ),
+        Text('calender'),
+        Text('message'),
+        MorePage()
+      ];
   @override
   void initState() {
     cubit.navigator.context = context;
@@ -35,133 +48,63 @@ class _TavernDashboardState extends State<TavernDashboardPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        backgroundColor: appTheme.gray5001,
-        resizeToAvoidBottomInset: false,
-        appBar: tavernAppBar(context),
-        body: BlocBuilder<TavernDashboardCubit,TavernDashboardState>(
-          bloc: cubit,
-          builder: (context, state) => SizedBox(
-            width: SizeUtils.width,
-            child: SingleChildScrollView(
-              padding: EdgeInsets.only(top: 2.v),
-              child: Padding(
-                padding: EdgeInsets.only(
-                  left: 2.h,
-                  bottom: 5.v,
-                ),
-                child: Column(
-                  children: [
-                    TavernProfileWidget(),
-                    SizedBox(height: 24.v),
-                    NotificationBoardWidget(cubit: cubit, state: state),
-                    SizedBox(height: 24.v),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 18),
-                      child: CustomSearchView(
-                        controller: searchController,
-                        hintText: "Find Event",
-                      ),
-                    ),
-                    SizedBox(height: 26.v),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 18, vertical: 12),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Upcoming Events',
-                            style: CustomTextStyles.titleMediumCircularStdBluegray800.copyWith(
-                              color: appTheme.blueGray800,
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                              top: 2.v,
-                              bottom: 4.v,
-                            ),
-                            child: Text(
-                              'See All',
-                              style: CustomTextStyles.labelLargePrimary.copyWith(
-                                color: theme.colorScheme.primary,
+      child: BlocBuilder<TavernDashboardCubit, TavernDashboardState>(
+        bloc: cubit,
+        builder: (context, state) => Scaffold(
+          backgroundColor: appTheme.gray5001,
+          resizeToAvoidBottomInset: false,
+          appBar: state.currentIndex == 0 ? tavernAppBar(context) : null,
+          body: screens(cubit, state)[state.currentIndex],
+          bottomNavigationBar:
+              BlocBuilder<TavernDashboardCubit, TavernDashboardState>(
+            bloc: cubit,
+            builder: (context, state) => Container(
+              height: 70,
+              decoration: BoxDecoration(
+                  border: Border.all(color: theme.colorScheme.errorContainer)),
+              child: BottomNavigationBar(
+                  type: BottomNavigationBarType.fixed,
+                  unselectedItemColor: theme.colorScheme.errorContainer,
+                  selectedLabelStyle: CustomTextStyles.bottomBarSelected,
+                  unselectedLabelStyle: CustomTextStyles.bottomBarUnselected,
+                  showUnselectedLabels: true,
+                  showSelectedLabels: true,
+                  iconSize: 18,
+                  onTap: (value) {
+                    cubit.update(value);
+                  },
+                  selectedItemColor: theme.colorScheme.primary,
+                  currentIndex: state.currentIndex,
+                  items: [
+                    BottomNavigationBarItem(
+                        icon: Icon(Icons.home_outlined), label: 'Home'),
+                    BottomNavigationBarItem(
+                        icon: Icon(Icons.calendar_month), label: 'Calender'),
+                    BottomNavigationBarItem(
+                        icon: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Icon(Icons.comment_outlined),
+                            Align(
+                              alignment: Alignment.topCenter,
+                              child: Container(
+                                margin: EdgeInsets.only(bottom: 12, left: 20),
+                                height: 10,
+                                width: 10,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: theme.colorScheme.primary,
+                                ),
                               ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 12.v),
-                    SizedBox(
-                      height: 130.v,
-                      child: ListView.separated(
-                        padding: EdgeInsets.only(left: 13.h),
-                        scrollDirection: Axis.horizontal,
-                        separatorBuilder: (
-                          context,
-                          index,
-                        ) {
-                          return SizedBox(
-                            width: 16.h,
-                          );
-                        },
-                        itemCount: 2,
-                        itemBuilder: (context, index) {
-                          return EventcardItemWidget();
-                        },
-                      ),
-                    ),
-                    SizedBox(height: 24.v),
-                    CustomElevatedButton(
-                      text: "Safety Tips",
-                      margin: EdgeInsets.only(
-                        left: 22.h,
-                        right: 24.h,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+                            )
+                          ],
+                        ),
+                        label: 'Message'),
+                    BottomNavigationBarItem(
+                        icon: Icon(Icons.more_horiz), label: 'More'),
+                  ]),
             ),
           ),
-        ),
-        bottomNavigationBar: Container(
-          height: 70,
-          decoration: BoxDecoration(border: Border.all(color: theme.colorScheme.errorContainer)),
-          child: BottomNavigationBar(
-              type: BottomNavigationBarType.fixed,
-              unselectedItemColor: theme.colorScheme.errorContainer,
-              selectedLabelStyle: CustomTextStyles.bottomBarSelected,
-              unselectedLabelStyle: CustomTextStyles.bottomBarUnselected,
-              showUnselectedLabels: true,
-              showSelectedLabels: true,
-              iconSize: 22,
-              selectedItemColor: theme.colorScheme.primary,
-              items: [
-                BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: 'Home'),
-                BottomNavigationBarItem(icon: Icon(Icons.calendar_month), label: 'Calender'),
-                BottomNavigationBarItem(
-                    icon: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        Icon(Icons.comment_outlined),
-                        Align(
-                          alignment: Alignment.topCenter,
-                          child: Container(
-                            margin: EdgeInsets.only(bottom: 12, left: 20),
-                            height: 10,
-                            width: 10,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: theme.colorScheme.primary,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                    label: 'Message'),
-                BottomNavigationBarItem(icon: Icon(Icons.more_horiz), label: 'More'),
-              ]),
         ),
       ),
     );
