@@ -63,7 +63,7 @@ class TavernProfileWidget extends StatelessWidget {
           Divider(
             color: appTheme.gray90060.withOpacity(0.1),
             indent: 6.h,
-            thickness: 2,
+            thickness: 1,
             endIndent: 6.h,
           ),
           SizedBox(height: 15.v),

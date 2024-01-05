@@ -1,20 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:taverns/presentation/tavern_dasboard/tavern_dashboard_navigator.dart';
 import '../../main.dart';
 import '../../navigation/app_navigation.dart';
 import 'notification_board_initial_params.dart';
 import 'notification_board_page.dart';
 
-class NotificationBoardNavigator {}
+class NotificationBoardNavigator{
+  @override
+  late  BuildContext  context;
 
-mixin NotificationBoardRoute {
-openNotificationBoard(NotificationBoardInitialParams initialParams) {
-navigator.push(
-context,
-NotificationBoardPage(cubit: getIt(param1: initialParams)),
-);
+  @override
+  final AppNavigator  navigator ;
+
+  NotificationBoardNavigator(this.navigator);
 }
 
-AppNavigator get navigator;
+mixin NotificationBoardRoute {
+  openNotificationBoard(NotificationBoardInitialParams initialParams) {
+    navigator.push(
+      context,
+      NotificationBoardPage(cubit: getIt(param1: initialParams)),
+    );
+  }
 
-BuildContext get context;
+  AppNavigator get navigator;
+
+  BuildContext get context;
 }

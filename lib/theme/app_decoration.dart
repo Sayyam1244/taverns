@@ -99,8 +99,9 @@ class BorderRadiusStyle {
   static BorderRadius get roundedBorder16 => BorderRadius.circular(
         16.h,
       );
-  static BorderRadius get roundedBorder40 => BorderRadius.circular(
-        40.h,
+  static BorderRadius get roundedBorder40B => BorderRadius.only(
+        bottomLeft: Radius.circular(40),
+        bottomRight: Radius.circular(40),
       );
   static BorderRadius get roundedBorder8 => BorderRadius.circular(
         8.h,

@@ -13,7 +13,8 @@ class TavernDashboardCubit extends Cubit<TavernDashboardState> {
   final TavernDashboardNavigator navigator;
   final AuthRepository _auth;
   final UserRepository _user;
-  TavernDashboardCubit(this.initialParams, this.navigator, this._auth, this._user)
+  TavernDashboardCubit(
+      this.initialParams, this.navigator, this._auth, this._user)
       : super(
           TavernDashboardState.initial(
             initialParams: initialParams,
@@ -21,7 +22,11 @@ class TavernDashboardCubit extends Cubit<TavernDashboardState> {
         );
 
   void navigateToNotificaitonBoard() {
-    log('asdf');
     navigator.openNotificationBoard(NotificationBoardInitialParams());
+    print('asdf');
+  }
+
+  update(int i) {
+    emit(state.copyWith(currentIndex: i));
   }
 }
