@@ -83,7 +83,7 @@ void main() async {
   getIt.registerFactoryParam<SplashCubit, SplashInitialParams, dynamic>((params, param2) => SplashCubit(params, getIt()));
   getIt.registerFactoryParam<WelcomeCubit, WelcomeInitialParams, dynamic>((params, param2) => WelcomeCubit(params, getIt()));
   getIt.registerFactoryParam<LoginAndSignupCubit, LoginAndSignupInitialParams, dynamic>((params, param2) => LoginAndSignupCubit(params, getIt(), getIt()));
-  getIt.registerFactoryParam<ForgotPasswordCubit, ForgotPasswordInitialParams, dynamic>((params, param2) => ForgotPasswordCubit(params, getIt()));
+  getIt.registerFactoryParam<ForgotPasswordCubit, ForgotPasswordInitialParams, dynamic>((params, param2) => ForgotPasswordCubit(params, getIt(), getIt()));
   getIt.registerFactoryParam<SignupSelectRoleCubit, SignupSelectRoleInitialParams, dynamic>((params, param2) => SignupSelectRoleCubit(params, getIt(), getIt(), getIt()));
   getIt.registerFactoryParam<SignupCompletionCubit, SignupCompletionInitialParams, dynamic>((params, param2) => SignupCompletionCubit(params, getIt(), getIt(), getIt()));
   getIt.registerFactoryParam<EnableLocationCubit, EnableLocationInitialParams, dynamic>((params, param2) => EnableLocationCubit(params, getIt(), getIt(), getIt(), getIt()));
@@ -101,9 +101,18 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Sizer(
       builder: (context, orientation, deviceType) {
-        return MaterialApp(theme: theme, title: 'Taverns', debugShowCheckedModeBanner: false, home: TavernDashboardPage(cubit: getIt(param1: TavernDashboardInitialParams()))
-            // SplashPage(cubit: getIt(param1: SplashInitialParams())),
-            );
+        return MaterialApp(
+          theme: theme,
+          title: 'Taverns',
+          debugShowCheckedModeBanner: false,
+          home:
+              // TavernDashboardPage(
+              //   cubit: getIt(
+              //     param1: TavernDashboardInitialParams(),
+              //   ),
+              // )
+              SplashPage(cubit: getIt(param1: SplashInitialParams())),
+        );
       },
     );
   }

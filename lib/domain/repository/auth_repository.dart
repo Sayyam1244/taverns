@@ -15,5 +15,7 @@ abstract class AuthRepository {
 
   Future emailverificationStatusStream();
 
+  Future emailtoResetPassword({required String email});
+
   // Future<Either<GeneralError, User>>  signWithApple();
 }

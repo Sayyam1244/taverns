@@ -15,45 +15,43 @@ class LoginAndSignupCubit extends Cubit<LoginAndSignupState> {
   final LoginAndSignupInitialParams initialParams;
   final LoginAndSignupNavigator navigator;
   final AuthRepository _auth;
-  LoginAndSignupCubit(this.initialParams, this.navigator, this._auth)
-      : super(LoginAndSignupState.initial(initialParams: initialParams));
+  LoginAndSignupCubit(this.initialParams, this.navigator, this._auth) : super(LoginAndSignupState.initial(initialParams: initialParams));
 
   void changeTermsAccepted(bool v) {
     emit(state.copyWith(termsAccepted: v));
   }
-  navigateToForgotScreen(){
+
+  navigateToForgotScreen() {
     navigator.openForgotPassword(ForgotPasswordInitialParams());
   }
-  navigateToSelectRoleScreen(){
+
+  navigateToSelectRoleScreen() {
     navigator.openSignupSelectRole(SignupSelectRoleInitialParams());
   }
 
-  
   void signInWithEmail(String email, String password, context) async {
     await _auth.signInWithEmail(email, password).then(
           (value) => value.fold(
-            (l) => FlushbarDialogue().showErrorFlushbar(
-                context: context, title: l.title, body: l.message),
+            (l) => FlushbarDialogue().showErrorFlushbar(context: context, title: l.title, body: l.message),
             (r) async {
               if (r.emailVerified) {
                 await _auth.checkIfUserProfileOnboardingCompleted(r).then(
                       (value) => value.fold(
-                        (l) => FlushbarDialogue().showErrorFlushbar(
-                            context: context, title: l.title, body: l.message),
+                        (l) => FlushbarDialogue().showErrorFlushbar(context: context, title: l.title, body: l.message),
                         (r) {
                           log(r.toString());
                           if (r) {
                             log(_auth.currentUser().toString());
                             navigator.openTavernDashboard(TavernDashboardInitialParams());
                           } else {
-                            navigator.openSignupSelectRole (SignupSelectRoleInitialParams());
+                            navigator.openSignupSelectRole(SignupSelectRoleInitialParams());
                           }
                         },
                       ),
                     );
               } else {
                 _auth.currentUser().sendEmailVerification();
-                navigator   .openEmailVerification(EmailVerificationInitialParams());
+                navigator.openEmailVerification(EmailVerificationInitialParams());
               }
             },
           ),
@@ -62,13 +60,15 @@ class LoginAndSignupCubit extends Cubit<LoginAndSignupState> {
 
   void signUpwithEmail(String email, String password, context) {
     _auth.signUpWithEmail(email, password).then((value) {
-      return value.fold(
-        (l) => FlushbarDialogue().showErrorFlushbar(context: context, title: l.title, body: l.message),
-        (r)async {
-                _auth.currentUser().sendEmailVerification();
+      return value.fold((l) => FlushbarDialogue().showErrorFlushbar(context: context, title: l.title, body: l.message), (r) async {
+        _auth.currentUser().sendEmailVerification();
 
-          navigator.openEmailVerification(EmailVerificationInitialParams());
-        });
+        navigator.openEmailVerification(EmailVerificationInitialParams());
+      });
     });
+  }
+
+  void toggleVisibility() {
+    emit(state.copyWith(loginPassvisible: !state.loginPassvisible));
   }
 }

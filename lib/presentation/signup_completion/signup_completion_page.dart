@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taverns/core/app_export.dart';
+import 'package:taverns/core/utils/file_picker.dart';
+import '../../core/utils/flushbar.dart';
 import '../../widgets/custom_elevated_button.dart';
 import '../../widgets/custom_text_form_field.dart';
 import 'signup_completion_cubit.dart';
@@ -34,6 +38,7 @@ class _SignupCompletionState extends State<SignupCompletionPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController businessHoursController = TextEditingController();
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  File? file;
 
   @override
   Widget build(BuildContext context) {
@@ -71,36 +76,59 @@ class _SignupCompletionState extends State<SignupCompletionPage> {
                   SizedBox(height: 30.v),
                   Align(
                     alignment: Alignment.center,
-                    child: Container(
-                      height: 120.v,
-                      width: 120.v,
-                      child: Stack(
-                        children: [
-                          Container(
-                            height: 120.v,
-                            width: 120.v,
-                            decoration: BoxDecoration(
-                                color: appTheme.gray50,
+                    child: GestureDetector(
+                      onTap: () async {
+                        file = await CustomFilePicker().getImageFromGallery();
+                        setState(() {});
+                      },
+                      child: Container(
+                        height: 120.v,
+                        width: 120.v,
+                        child: Stack(
+                          children: [
+                            Container(
+                              height: 120.v,
+                              width: 120.v,
+                              clipBehavior: Clip.hardEdge,
+                              decoration: BoxDecoration(
                                 shape: BoxShape.circle,
+                                image: file != null
+                                    ? DecorationImage(
+                                        image: FileImage(
+                                          file!,
+                                        ),
+                                        fit: BoxFit.cover,
+                                      )
+                                    : null,
                                 border: Border.all(
-                                    color: theme.colorScheme.primary,
-                                    width: 2)),
-                          ),
-                          Align(
+                                  color: theme.colorScheme.primary,
+                                  width: 2,
+                                ),
+                              ),
+                            ),
+                            Align(
                               alignment: Alignment.bottomRight,
                               child: Container(
-                                  margin:
-                                      EdgeInsets.only(bottom: 5.v, right: 5.v),
-                                  padding: EdgeInsets.all(8),
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: theme.colorScheme.primary),
-                                  child: Icon(
-                                    Icons.edit,
-                                    size: 16,
+                                margin: EdgeInsets.only(bottom: 5.v, right: 5.v),
+                                padding: EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: theme.colorScheme.primary,
+                                  border: Border.all(
                                     color: theme.colorScheme.background,
-                                  )))
-                        ],
+                                    width: 5,
+                                    strokeAlign: BorderSide.strokeAlignOutside,
+                                  ),
+                                ),
+                                child: Icon(
+                                  Icons.add,
+                                  size: 16,
+                                  color: theme.colorScheme.background,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -234,23 +262,30 @@ class _SignupCompletionState extends State<SignupCompletionPage> {
             ),
           ),
         ),
-        bottomNavigationBar: Padding(
-          padding: EdgeInsets.only(left: 24.h, right: 24.h, bottom: 20.v),
-          child: CustomElevatedButton(
-            text: "Next",
-            onPressed: () {
-              if (_formKey.currentState!.validate() == true) {
-                cubit.saveUserData(
-                  context,
-                  usernameController.text,
-                  businessNameController.text,
-                  businessNumberController.text,
-                  businessAddressController.text,
-                  emailController.text,
-                  businessHoursController.text,
-                );
-              }
-            },
+        bottomNavigationBar: BlocBuilder<SignupCompletionCubit, SignupCompletionState>(
+          bloc: cubit,
+          builder: (context, state) => Padding(
+            padding: EdgeInsets.only(left: 24.h, right: 24.h, bottom: 20.v),
+            child: CustomElevatedButton(
+              isLoading: state.isloading,
+              text: "Next",
+              onPressed: () {
+                if (_formKey.currentState!.validate() == true && file != null) {
+                  cubit.saveUserData(
+                    context,
+                    usernameController.text,
+                    businessNameController.text,
+                    businessNumberController.text,
+                    businessAddressController.text,
+                    emailController.text,
+                    businessHoursController.text,
+                    file!,
+                  );
+                } else if (file == null) {
+                  FlushbarDialogue().showErrorFlushbar(context: context, title: 'Error', body: 'Profile photo required');
+                }
+              },
+            ),
           ),
         ),
       ),

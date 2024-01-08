@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:taverns/core/app_export.dart';
+import 'package:taverns/presentation/tavern_dasboard/tavern_dashboard_cubit.dart';
+import 'package:taverns/presentation/tavern_dasboard/tavern_dashboard_state.dart';
 import 'package:taverns/widgets/custom_elevated_button.dart';
 import 'package:taverns/widgets/custom_rating_bar.dart';
 
 class TavernProfileWidget extends StatelessWidget {
-  const TavernProfileWidget({Key? key}) : super(key: key);
-
+  const TavernProfileWidget({Key? key, required this.cubit, required this.state}) : super(key: key);
+  final TavernDashboardCubit cubit;
+  final TavernDashboardState state;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -28,12 +30,18 @@ class TavernProfileWidget extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CustomImageView(
-                  fit: BoxFit.cover,
-                  imagePath: ImageConstant.imgMaskGroup,
+                Container(
                   height: 40.adaptSize,
                   width: 40.adaptSize,
                   alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    image: state.user.profilePicture != null ? DecorationImage(image: NetworkImage(state.user.profilePicture!)) : null,
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: theme.colorScheme.primary,
+                      width: 1,
+                    ),
+                  ),
                 ),
                 Padding(
                   padding: EdgeInsets.only(
@@ -45,12 +53,12 @@ class TavernProfileWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Tavern Name",
+                        state.user.userName!,
                         style: CustomTextStyles.titleSmallProductSansBluegray800,
                       ),
                       SizedBox(height: 3.v),
                       Text(
-                        "Business Number",
+                        state.user.businessNumber!,
                         style: theme.textTheme.labelMedium,
                       ),
                     ],

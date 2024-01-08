@@ -11,7 +11,7 @@ import 'notification_settings_state.dart';
 class NotificationSettingsCubit extends Cubit<NotificationSettingsState> {
   final NotificationSettingsInitialParams initialParams;
   final NotificationSettingsNavigator navigator;
-    final UserRepository _user;
+  final UserRepository _user;
   final AuthRepository _auth;
   NotificationSettingsCubit(this.initialParams, this.navigator, this._user, this._auth) : super(NotificationSettingsState.initial(initialParams: initialParams));
 
@@ -27,18 +27,15 @@ class NotificationSettingsCubit extends Cubit<NotificationSettingsState> {
     emit(state.copyWith(timeSlots: !state.timeSlots));
   }
 
-   
   saveNotificationSettings(context) async {
     UserModel userModel = UserModel(
-       likeReview: state.likeReviews,
-       eventsNearMe: state.eventsNearMe,
-       timeSlotsRequests: state.timeSlots,
-       );
-    _user.createFirestoreUser(_auth.currentUser().uid, userModel).then((value) {
+      likeReview: state.likeReviews,
+      eventsNearMe: state.eventsNearMe,
+      timeSlotsRequests: state.timeSlots,
+    );
+    _user.updateFirestoreUser(_auth.currentUser().uid, userModel).then((value) {
       return value.fold(
-          (l) => FlushbarDialogue().showErrorFlushbar(
-              context: context, title: l.title, body: l.message),
-          (r) => navigator.openSignupSuccessFull(SignupSuccessFullInitialParams()));
+          (l) => FlushbarDialogue().showErrorFlushbar(context: context, title: l.title, body: l.message), (r) => navigator.openSignupSuccessFull(SignupSuccessFullInitialParams()));
     });
   }
 }

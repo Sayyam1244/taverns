@@ -4,14 +4,9 @@ import 'package:taverns/presentation/tavern_dasboard/screens/calender.dart';
 import 'package:taverns/presentation/tavern_dasboard/screens/more_page.dart';
 import 'package:taverns/presentation/tavern_dasboard/screens/tavern_home.dart';
 import 'package:taverns/presentation/tavern_dasboard/tavern_dashboard_state.dart';
-import 'package:taverns/presentation/tavern_dasboard/widgets/notificaiton_board.dart';
 import 'package:taverns/presentation/tavern_dasboard/widgets/tavern_appbar.dart';
-import 'package:taverns/presentation/tavern_dasboard/widgets/tavern_profile_widget.dart';
-import 'package:taverns/widgets/custom_elevated_button.dart';
-import 'package:taverns/widgets/custom_search_view.dart';
 import '../../core/app_export.dart';
 import 'tavern_dashboard_cubit.dart';
-import 'widgets/eventcard_item_widget.dart';
 
 class TavernDashboardPage extends StatefulWidget {
   final TavernDashboardCubit cubit;

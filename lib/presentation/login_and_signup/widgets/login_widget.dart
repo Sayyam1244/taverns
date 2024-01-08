@@ -5,12 +5,7 @@ import 'package:taverns/presentation/login_and_signup/login_and_signup_state.dar
 import 'package:taverns/widgets/custom_text_form_field.dart';
 
 class LoginWidget extends StatelessWidget {
-  LoginWidget(
-      {Key? key,
-      required this.email,
-      required this.password,
-      required this.loginformKey, required this.state, required this.cubit})
-      : super(key: key);
+  LoginWidget({Key? key, required this.email, required this.password, required this.loginformKey, required this.state, required this.cubit}) : super(key: key);
   final TextEditingController email;
   final TextEditingController password;
   final GlobalKey<FormState> loginformKey;
@@ -65,15 +60,20 @@ class LoginWidget extends StatelessWidget {
               ),
               suffix: Container(
                   margin: EdgeInsets.fromLTRB(30.h, 16.v, 16.h, 16.v),
-                  child: Icon(
-                    Icons.visibility_off_outlined,
-                    color: PrimaryColors().gray600,
-                    size: 20.adaptSize,
+                  child: GestureDetector(
+                    onTap: () {
+                      cubit.toggleVisibility();
+                    },
+                    child: Icon(
+                      state.loginPassvisible ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+                      color: PrimaryColors().gray600,
+                      size: 20.adaptSize,
+                    ),
                   )),
               suffixConstraints: BoxConstraints(
                 maxHeight: 56.v,
               ),
-              obscureText: true,
+              obscureText: state.loginPassvisible,
               contentPadding: EdgeInsets.symmetric(vertical: 14.v),
               validator: (value) {
                 if (value == '' || value == null) {

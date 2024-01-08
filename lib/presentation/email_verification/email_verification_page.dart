@@ -42,7 +42,7 @@ class _EmailVerificationState extends State<EmailVerificationPage> {
           width: double.maxFinite,
           padding: EdgeInsets.only(
             left: 18.h,
-            top: 75.v,
+            top: 30.v,
             right: 18.h,
           ),
           child: Column(
@@ -55,18 +55,18 @@ class _EmailVerificationState extends State<EmailVerificationPage> {
               //   alignment: Alignment.center,
               // ),
               SizedBox(height: 43.v),
-               Text(
-                 "Email Sent!",
-                 style: theme.textTheme.headlineSmall,
-               ),
-                SizedBox(height: 7.v),
-                Text(
-                  "An email has been to verify your email, kindly check your email.",
-                  style: theme.textTheme.bodyLarge!.copyWith(
-                    height: 1.50,
-                  ),
+              Text(
+                "Email Sent!",
+                style: theme.textTheme.headlineLarge,
+              ),
+              SizedBox(height: 7.v),
+              Text(
+                "An email has been to verify your email, kindly check your email.",
+                style: theme.textTheme.bodyLarge!.copyWith(
+                  height: 1.50,
                 ),
-              
+              ),
+
               SizedBox(height: 5.v),
             ],
           ),

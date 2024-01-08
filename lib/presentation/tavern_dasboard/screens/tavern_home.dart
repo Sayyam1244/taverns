@@ -33,7 +33,7 @@ class TavernHome extends StatelessWidget {
           ),
           child: Column(
             children: [
-              TavernProfileWidget(),
+              TavernProfileWidget(cubit: cubit, state: state),
               SizedBox(height: 24.v),
               NotificationBoardWidget(cubit: cubit, state: state),
               SizedBox(height: 24.v),
@@ -53,8 +53,7 @@ class TavernHome extends StatelessWidget {
                   children: [
                     Text(
                       'Upcoming Events',
-                      style: CustomTextStyles.titleMediumCircularStdBluegray800
-                          .copyWith(
+                      style: CustomTextStyles.titleMediumCircularStdBluegray800.copyWith(
                         color: appTheme.blueGray800,
                       ),
                     ),

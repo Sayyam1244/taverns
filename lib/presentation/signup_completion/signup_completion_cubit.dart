@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taverns/domain/model/user_model.dart';
@@ -14,12 +16,9 @@ class SignupCompletionCubit extends Cubit<SignupCompletionState> {
   final SignupCompletionNavigator navigator;
   final UserRepository _user;
   final AuthRepository _auth;
-  SignupCompletionCubit(
-      this.initialParams, this.navigator, this._user, this._auth)
-      : super(SignupCompletionState.initial(initialParams: initialParams));
+  SignupCompletionCubit(this.initialParams, this.navigator, this._user, this._auth) : super(SignupCompletionState.initial(initialParams: initialParams));
 
-  saveUserData(context, username, businessName, businessNumber, businessAddress,
-      contactEmail, businessHour) async {
+  saveUserData(context, username, businessName, businessNumber, businessAddress, contactEmail, businessHour, File file) async {
     UserModel userModel = UserModel(
         userName: username,
         businessName: businessName,
@@ -31,13 +30,15 @@ class SignupCompletionCubit extends Cubit<SignupCompletionState> {
         profileOnboardingCompleted: true,
         likeReview: true,
         eventsNearMe: true,
-        timeSlotsRequests: true
-        );
-    _user.createFirestoreUser(_auth.currentUser().uid, userModel).then((value) {
-      return value.fold(
-          (l) => FlushbarDialogue().showErrorFlushbar(
-              context: context, title: l.title, body: l.message),
-          (r) => navigator.openEnableLocation(EnableLocationInitialParams()));
+        timeSlotsRequests: true);
+    emit(state.copyWith(isloading: true));
+    await _user.createFirestoreUser(_auth.currentUser().uid, userModel, picture: file).then((value) {
+      return value.fold((l) {
+        emit(state.copyWith(isloading: false));
+
+        return FlushbarDialogue().showErrorFlushbar(context: context, title: l.title, body: l.message);
+      }, (r) => navigator.openEnableLocation(EnableLocationInitialParams()));
     });
+    emit(state.copyWith(isloading: false));
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taverns/core/app_export.dart';
@@ -21,19 +23,18 @@ class ForgotPasswordPage extends StatefulWidget {
 
 class _ForgotPasswordState extends State<ForgotPasswordPage> {
   ForgotPasswordCubit get cubit => widget.cubit;
-  TextEditingController passwordController = TextEditingController();
+  TextEditingController email = TextEditingController();
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   void initState() {
     super.initState();
-    cubit.navigator.context= context;
+    cubit.navigator.context = context;
   }
 
   @override
   Widget build(BuildContext context) {
-    return 
-    SafeArea(
+    return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         body: Form(
@@ -44,11 +45,12 @@ class _ForgotPasswordState extends State<ForgotPasswordPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: EdgeInsets.only(left: 24,top: 20,bottom: 20),
-                  child: CustomPopButton(ontap: () {
-
-                    cubit.navigateBack();
-                  },),
+                  padding: EdgeInsets.only(left: 24, top: 20, bottom: 20),
+                  child: CustomPopButton(
+                    ontap: () {
+                      cubit.navigateBack();
+                    },
+                  ),
                 ),
                 Padding(
                   padding: EdgeInsets.only(left: 24.h),
@@ -62,7 +64,7 @@ class _ForgotPasswordState extends State<ForgotPasswordPage> {
                   width: 240.h,
                   margin: EdgeInsets.only(left: 24.h),
                   child: Text(
-                    "Enter Email\rto reset your password.",
+                    "Enter Email to reset your password.",
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: theme.textTheme.bodyLarge!.copyWith(
@@ -74,7 +76,7 @@ class _ForgotPasswordState extends State<ForgotPasswordPage> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 24.h),
                   child: CustomTextFormField(
-                    controller: passwordController,
+                    controller: email,
                     hintText: "Email address",
                     textInputAction: TextInputAction.done,
                     textInputType: TextInputType.emailAddress,
@@ -90,10 +92,21 @@ class _ForgotPasswordState extends State<ForgotPasswordPage> {
                     prefixConstraints: BoxConstraints(
                       maxHeight: 56.v,
                     ),
+                    validator: (value) {
+                      log("asdf" + value.toString());
+                      if (value == '' || value == null) {
+                        return 'Email required';
+                      }
+                    },
                   ),
                 ),
                 SizedBox(height: 27.v),
                 CustomElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState?.validate() ?? false) {
+                      cubit.sendPasswordResetEmail(context, email.text.trim());
+                    }
+                  },
                   text: "Continue",
                   margin: EdgeInsets.symmetric(horizontal: 24.h),
                   alignment: Alignment.center,

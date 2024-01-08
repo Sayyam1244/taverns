@@ -15,28 +15,18 @@ class EnableLocationCubit extends Cubit<EnableLocationState> {
   final UserRepository _user;
   final AuthRepository _auth;
   final LocationRepository _location;
-  EnableLocationCubit(this.initialParams, this.navigator, this._user,
-      this._auth, this._location)
-      : super(EnableLocationState.initial(initialParams: initialParams));
-
+  EnableLocationCubit(this.initialParams, this.navigator, this._user, this._auth, this._location) : super(EnableLocationState.initial(initialParams: initialParams));
 
   saveUserLocation(context) async {
     _location.getCurrentlocation().then((value) {
-      return value.fold(
-          (l) => FlushbarDialogue().showErrorFlushbar(
-              context: context, title: l.title, body: l.message), (r) {
+      return value.fold((l) => FlushbarDialogue().showErrorFlushbar(context: context, title: l.title, body: l.message), (r) {
         UserModel userModel = UserModel(
           lat: r.latitude.toString(),
           long: r.longitude.toString(),
         );
-        _user
-            .createFirestoreUser(_auth.currentUser().uid, userModel)
-            .then((value) {
-          return value.fold(
-              (l) => FlushbarDialogue().showErrorFlushbar(
-                  context: context, title: l.title, body: l.message),
-              (r) => navigator.openNotificationSettings(
-                  NotificationSettingsInitialParams()));
+        _user.updateFirestoreUser(_auth.currentUser().uid, userModel).then((value) {
+          return value.fold((l) => FlushbarDialogue().showErrorFlushbar(context: context, title: l.title, body: l.message),
+              (r) => navigator.openNotificationSettings(NotificationSettingsInitialParams()));
         });
       });
     });

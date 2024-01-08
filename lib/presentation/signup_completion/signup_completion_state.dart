@@ -1,10 +1,14 @@
 import 'signup_completion_initial_params.dart';
 
 class SignupCompletionState {
+  final bool isloading;
+  const SignupCompletionState({required this.isloading});
 
-const SignupCompletionState();
+  factory SignupCompletionState.initial({required SignupCompletionInitialParams initialParams}) => SignupCompletionState(
+        isloading: false,
+      );
 
-factory SignupCompletionState.initial({required SignupCompletionInitialParams initialParams}) => SignupCompletionState();
-
-SignupCompletionState copyWith() => const SignupCompletionState();
+  SignupCompletionState copyWith({bool? isloading}) => SignupCompletionState(
+        isloading: isloading ?? this.isloading,
+      );
 }

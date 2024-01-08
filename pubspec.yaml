@@ -23,6 +23,9 @@ dependencies:
   toggle_switch: ^2.1.0
   table_calendar: ^3.0.9
   animated_custom_dropdown: ^3.0.0
+  image_picker: ^1.0.6
+  file_picker: ^6.1.1
+  firebase_storage: ^11.6.0
 dev_dependencies: 
   flutter_test: 
     sdk: flutter
