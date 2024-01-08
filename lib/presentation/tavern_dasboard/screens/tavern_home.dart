@@ -83,6 +83,8 @@ class TavernHome extends StatelessWidget {
                   stream: cubit.events.getEvents(),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
+                      List<EventModel> data = [];
+                      snapshot.data?.fold((l) => null, (r) => data = r);
                       return ListView.separated(
                         padding: EdgeInsets.only(left: 13.h),
                         scrollDirection: Axis.horizontal,
@@ -93,9 +95,11 @@ class TavernHome extends StatelessWidget {
                             SizedBox(
                           width: 16.h,
                         ),
-                        itemCount: snapshot.data?.length() ?? 0,
+                        itemCount: data.length,
                         itemBuilder: (context, index) {
-                          return EventcardItemWidget();
+                          return EventcardItemWidget(
+                            event: data[index],
+                          );
                         },
                       );
                     }
@@ -112,7 +116,13 @@ class TavernHome extends StatelessWidget {
                       },
                       itemCount: 2,
                       itemBuilder: (context, index) {
-                        return EventcardItemWidget();
+                        return Container(
+                          padding: EdgeInsets.all(15.h),
+                          decoration: AppDecoration.outlineBlueGray.copyWith(
+                            borderRadius: BorderRadiusStyle.roundedBorder8,
+                          ),
+                          width: MediaQuery.sizeOf(context).width * 0.8,
+                        );
                       },
                     );
                   },
