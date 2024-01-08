@@ -5,6 +5,7 @@ import 'package:taverns/presentation/tavern_dasboard/screens/more_page.dart';
 import 'package:taverns/presentation/tavern_dasboard/screens/tavern_home.dart';
 import 'package:taverns/presentation/tavern_dasboard/tavern_dashboard_state.dart';
 import 'package:taverns/presentation/tavern_dasboard/widgets/tavern_appbar.dart';
+import 'package:taverns/widgets/custome_loading_widget.dart';
 import '../../core/app_export.dart';
 import 'tavern_dashboard_cubit.dart';
 
@@ -47,13 +48,18 @@ class _TavernDashboardState extends State<TavernDashboardPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: BlocBuilder<TavernDashboardCubit, TavernDashboardState>(
-        buildWhen: (previous, current) => previous.currentIndex != current.currentIndex,
+        buildWhen: (previous, current) {
+          if (previous.currentIndex != current.currentIndex || previous.isloading != current.isloading) {
+            return true;
+          }
+          return false;
+        },
         bloc: cubit,
         builder: (context, state) => Scaffold(
           backgroundColor: appTheme.gray5001,
           resizeToAvoidBottomInset: false,
           appBar: state.currentIndex == 0 ? tavernAppBar(context) : null,
-          body: screens(cubit, state)[state.currentIndex],
+          body: state.isloading ? CustomLoadingWidget() : screens(cubit, state)[state.currentIndex],
           bottomNavigationBar: BlocBuilder<TavernDashboardCubit, TavernDashboardState>(
             buildWhen: (previous, current) => previous.currentIndex != current.currentIndex,
             bloc: cubit,

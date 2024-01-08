@@ -31,13 +31,13 @@ class TavernDashboardCubit extends Cubit<TavernDashboardState> {
     emit(state.copyWith(currentIndex: i));
   }
 
-  getUserData(context) {
+  getUserData(context) async {
     _user.getUser(_auth.currentUser().uid).then((value) {
       return value.fold(
         (l) => FlushbarDialogue().showErrorFlushbar(context: context, title: l.title, body: l.message),
         (r) {
           log("name " + r.businessName.toString());
-          emit(state.copyWith(user: r));
+          emit(state.copyWith(user: r, isloading: false));
         },
       );
     });

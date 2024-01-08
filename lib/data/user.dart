@@ -22,6 +22,7 @@ class User implements UserRepository {
             userModel.profilePicture = downloadUrl;
           }
           //
+          userModel.docId = uid;
           await FirebaseFirestore.instance.collection('Users').doc(uid).set(
               userModel.toMapForUpload(),
               SetOptions(

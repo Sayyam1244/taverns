@@ -8,7 +8,11 @@ class TavernDashboardState {
   final bool isloading;
   const TavernDashboardState({required this.currentIndex, required this.user, required this.isloading});
 
-  factory TavernDashboardState.initial({required TavernDashboardInitialParams initialParams}) => TavernDashboardState(currentIndex: 1, user: UserModel(), isloading: true);
+  factory TavernDashboardState.initial({required TavernDashboardInitialParams initialParams}) => TavernDashboardState(
+        currentIndex: 0,
+        user: UserModel(),
+        isloading: true,
+      );
 
   TavernDashboardState copyWith({
     int? currentIndex,

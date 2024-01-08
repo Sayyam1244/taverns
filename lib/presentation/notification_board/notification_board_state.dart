@@ -1,10 +1,7 @@
-import 'package:taverns/domain/model/user_model.dart';
-
 import 'notification_board_initial_params.dart';
 
 class NotificationBoardState {
   final int index;
-  final UserModel user;
   final String? eventName;
   final DateTime eventDatetime;
   final String? eventType;
@@ -19,7 +16,6 @@ class NotificationBoardState {
 
   const NotificationBoardState({
     required this.index,
-    required this.user,
     required this.eventDatetime,
     this.eventName,
     this.eventType,
@@ -34,11 +30,10 @@ class NotificationBoardState {
   });
 
   factory NotificationBoardState.initial({required NotificationBoardInitialParams initialParams}) =>
-      NotificationBoardState(index: 0, user: UserModel(), eventDatetime: DateTime.now(), isPostUploading: false);
+      NotificationBoardState(index: 0, eventDatetime: DateTime.now(), isPostUploading: false);
 
   NotificationBoardState copyWith({
     int? index,
-    UserModel? user,
     String? eventName,
     DateTime? eventDatetime,
     String? eventType,
@@ -53,7 +48,6 @@ class NotificationBoardState {
   }) {
     return NotificationBoardState(
       index: index ?? this.index,
-      user: user ?? this.user,
       eventName: eventName ?? this.eventName,
       eventDatetime: eventDatetime ?? this.eventDatetime,
       eventType: eventType ?? this.eventType,
