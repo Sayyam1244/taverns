@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:taverns/core/app_export.dart';
+import 'package:taverns/domain/model/event_model.dart';
+import 'package:taverns/domain/model/general_model.dart';
+import 'package:taverns/domain/model/user_model.dart';
 
 import '../../../widgets/custom_elevated_button.dart';
 import '../../../widgets/custom_search_view.dart';
@@ -75,20 +79,42 @@ class TavernHome extends StatelessWidget {
               SizedBox(height: 12.v),
               SizedBox(
                 height: 130.v,
-                child: ListView.separated(
-                  padding: EdgeInsets.only(left: 13.h),
-                  scrollDirection: Axis.horizontal,
-                  separatorBuilder: (
-                    context,
-                    index,
-                  ) {
-                    return SizedBox(
-                      width: 16.h,
+                child: StreamBuilder<Either<GeneralError, List<EventModel>>>(
+                  stream: cubit.events.getEvents(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return ListView.separated(
+                        padding: EdgeInsets.only(left: 13.h),
+                        scrollDirection: Axis.horizontal,
+                        separatorBuilder: (
+                          context,
+                          index,
+                        ) =>
+                            SizedBox(
+                          width: 16.h,
+                        ),
+                        itemCount: snapshot.data?.length() ?? 0,
+                        itemBuilder: (context, index) {
+                          return EventcardItemWidget();
+                        },
+                      );
+                    }
+                    return ListView.separated(
+                      padding: EdgeInsets.only(left: 13.h),
+                      scrollDirection: Axis.horizontal,
+                      separatorBuilder: (
+                        context,
+                        index,
+                      ) {
+                        return SizedBox(
+                          width: 16.h,
+                        );
+                      },
+                      itemCount: 2,
+                      itemBuilder: (context, index) {
+                        return EventcardItemWidget();
+                      },
                     );
-                  },
-                  itemCount: 2,
-                  itemBuilder: (context, index) {
-                    return EventcardItemWidget();
                   },
                 ),
               ),

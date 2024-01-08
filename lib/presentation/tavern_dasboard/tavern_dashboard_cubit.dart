@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taverns/domain/repository/auth_repository.dart';
+import 'package:taverns/domain/repository/events_repository.dart';
 import 'package:taverns/domain/repository/user_repository.dart';
 import 'package:taverns/presentation/notification_board/notification_board_initial_params.dart';
 import 'package:taverns/presentation/tavern_dasboard/tavern_dashboard_navigator.dart';
@@ -14,7 +15,8 @@ class TavernDashboardCubit extends Cubit<TavernDashboardState> {
   final TavernDashboardNavigator navigator;
   final AuthRepository _auth;
   final UserRepository _user;
-  TavernDashboardCubit(this.initialParams, this.navigator, this._auth, this._user)
+  final EventRepository events;
+  TavernDashboardCubit(this.initialParams, this.navigator, this._auth, this._user, this.events)
       : super(
           TavernDashboardState.initial(
             initialParams: initialParams,

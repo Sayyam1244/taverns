@@ -19,4 +19,17 @@ class EventHelper implements EventRepository {
       return left(GeneralError('Error', 'Error happened, Please try again later'));
     }
   }
+
+  @override
+  Stream<Either<GeneralError, List<EventModel>>> getEvents() async* {
+    try {
+      await for (QuerySnapshot<Map<String, dynamic>> docs in FirebaseFirestore.instance.collection('Events').snapshots()) {
+        List<EventModel> events = docs.docs.map((e) => EventModel.fromMap(e)).toList();
+        yield Right(events);
+      }
+    } catch (e) {
+      log('getEvents=========>' + e.toString());
+      yield left(GeneralError('Error', 'Error happened, Please try again later'));
+    }
+  }
 }

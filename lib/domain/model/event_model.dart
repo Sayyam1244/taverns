@@ -60,9 +60,10 @@ class EventModel extends CommonModel {
     };
   }
 
-  factory EventModel.fromMap(Map<String, dynamic> data, String documentId) {
+  factory EventModel.fromMap(QueryDocumentSnapshot<Map<String, dynamic>> snapshot) {
+    final data = snapshot.data();
     return EventModel(
-      docId: documentId,
+      docId: data['docId'] ?? '',
       createdDate: data['creationDate']?.toDate(),
       modifiedDate: data['modifiedDate']?.toDate(),
       businessName: data['businessName'] ?? '',
@@ -70,7 +71,7 @@ class EventModel extends CommonModel {
       userId: data['userId'] ?? '',
       businessAddress: data['businessAddress'] ?? '',
       eventName: data['eventName'] ?? '',
-      eventDatetime: DateTime.parse(data['eventDatetime']),
+      eventDatetime: data['eventDatetime']?.toDate(),
       eventType: data['eventType'] ?? '',
       gameType: data['gameType'] ?? '',
       gameSystem: data['gameSystem'] ?? '',
