@@ -9,7 +9,7 @@ dependencies:
   cached_network_image: ^3.2.1
   flutter_svg: ^1.1.6
   flutter_rating_bar: ^4.0.0
-  intl: ^0.18.0
+  intl: ^0.18.1
   flutter_bloc: ^8.1.3
   get_it: ^7.6.4
   firebase_core: ^2.24.2
@@ -21,6 +21,8 @@ dependencies:
   geolocator: ^10.1.0
   another_flushbar: ^1.12.30
   toggle_switch: ^2.1.0
+  table_calendar: ^3.0.9
+  animated_custom_dropdown: ^3.0.0
 dev_dependencies: 
   flutter_test: 
     sdk: flutter

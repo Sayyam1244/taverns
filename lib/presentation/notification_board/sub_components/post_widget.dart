@@ -1,13 +1,16 @@
-import 'package:flutter/material.dart';
-import 'package:taverns/widgets/custom_text_form_field.dart';
+import 'dart:developer';
 
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:taverns/widgets/custom_text_form_field.dart';
 import '../../../core/app_export.dart';
+import '../../../widgets/custom_dropdown.dart';
 import '../../../widgets/custom_elevated_button.dart';
+import '../../../widgets/custom_icon_with_dual_text_button.dart';
 import '../notification_board_cubit.dart';
-import '../notification_board_page.dart';
 import '../notification_board_state.dart';
 
-class PostWidget extends StatelessWidget {
+class PostWidget extends StatefulWidget {
   const PostWidget({
     Key? key,
     required this.cubit,
@@ -15,6 +18,26 @@ class PostWidget extends StatelessWidget {
   }) : super(key: key);
   final NotificationBoardCubit cubit;
   final NotificationBoardState state;
+
+  @override
+  State<PostWidget> createState() => _PostWidgetState();
+}
+
+class _PostWidgetState extends State<PostWidget> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  validator(String? v) {
+    if (v == null || v.trim().isEmpty) {
+      return 'Required';
+    } else {
+      return null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -30,167 +53,241 @@ class PostWidget extends StatelessWidget {
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            child: Column(
-              children: [
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Text('Post a Notification',
-                      style: CustomTextStyles.titleMedium16),
-                ),
-                SizedBox(height: 20.v),
-                CustomTextFormField(
-                  hintText: 'Business Name',
-                  prefix: Container(
-                    margin: EdgeInsets.fromLTRB(16.h, 16.v, 12.h, 16.v),
-                    child: CustomImageView(
-                      imagePath: ImageConstant.user,
-                      height: 24.adaptSize,
-                      width: 24.adaptSize,
+            child: Form(
+              key: formKey,
+              child: Column(
+                children: [
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text('Post a Notification', style: CustomTextStyles.titleMedium16),
+                  ),
+                  SizedBox(height: 20.v),
+                  CustomTextFormField(
+                    controller: TextEditingController(text: widget.cubit.initialParams.userModel.businessName.toString()),
+                    enabled: false,
+                    hintText: 'Business Name',
+                    prefix: Container(
+                      margin: EdgeInsets.fromLTRB(16.h, 16.v, 12.h, 16.v),
+                      child: CustomImageView(
+                        imagePath: ImageConstant.user,
+                        height: 24.adaptSize,
+                        width: 24.adaptSize,
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(height: 10.v),
-                CustomTextFormField(
-                  hintText: 'Business Number',
-                  prefix: Container(
-                    margin: EdgeInsets.fromLTRB(16.h, 16.v, 12.h, 16.v),
-                    child: CustomImageView(
-                      imagePath: ImageConstant.user,
-                      height: 24.adaptSize,
-                      width: 24.adaptSize,
+                  SizedBox(height: 10.v),
+                  CustomTextFormField(
+                    hintText: 'Business Number',
+                    controller: TextEditingController(text: widget.cubit.initialParams.userModel.businessNumber.toString()),
+                    enabled: false,
+                    prefix: Container(
+                      margin: EdgeInsets.fromLTRB(16.h, 16.v, 12.h, 16.v),
+                      child: CustomImageView(
+                        imagePath: ImageConstant.user,
+                        height: 24.adaptSize,
+                        width: 24.adaptSize,
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(height: 10.v),
-                CustomTextFormField(
-                  hintText: 'Business Address',
-                  prefix: Container(
-                    margin: EdgeInsets.fromLTRB(16.h, 16.v, 12.h, 16.v),
-                    child: CustomImageView(
-                      imagePath: ImageConstant.user,
-                      height: 24.adaptSize,
-                      width: 24.adaptSize,
+                  SizedBox(height: 10.v),
+                  CustomTextFormField(
+                    hintText: 'Business Address',
+                    controller: TextEditingController(text: widget.cubit.initialParams.userModel.businessAddress.toString()),
+                    enabled: false,
+                    prefix: Container(
+                      margin: EdgeInsets.fromLTRB(16.h, 16.v, 12.h, 16.v),
+                      child: CustomImageView(
+                        imagePath: ImageConstant.user,
+                        height: 24.adaptSize,
+                        width: 24.adaptSize,
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(height: 10.v),
-                Row(
-                  children: [
-                    Expanded(
+                  SizedBox(height: 10.v),
+                  CustomTextFormField(
+                    hintText: 'Event Name',
+                    validator: (v) {
+                      return validator(v);
+                    },
+                    onChanged: (v) {
+                      widget.cubit.updatePostData(eventName: v);
+                    },
+                    prefix: Container(
+                      margin: EdgeInsets.fromLTRB(16.h, 16.v, 12.h, 16.v),
+                      child: CustomImageView(
+                        imagePath: ImageConstant.user,
+                        height: 24.adaptSize,
+                        width: 24.adaptSize,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10.v),
+                  Row(
+                    children: [
+                      Expanded(
                         child: CustomIconDualTextButton(
-                            title: 'Event date',
-                            value: '01/12/2023',
-                            icon: Icons.calendar_month)),
-                    SizedBox(width: 10.v),
-                    Expanded(
+                          title: 'Event date',
+                          value: DateFormat('dd/MM/yyyy').format(widget.state.eventDatetime),
+                          icon: Icons.calendar_month,
+                          ontap: () {
+                            widget.cubit.updateDate(context);
+                          },
+                        ),
+                      ),
+                      SizedBox(width: 10.v),
+                      Expanded(
                         child: CustomIconDualTextButton(
-                            title: 'Event time',
-                            value: '2:00PM',
-                            icon: Icons.timelapse)),
-                  ],
-                ),
-                SizedBox(height: 10.v),
-                Row(
-                  children: [
-                    Expanded(
-                        child: CustomDropdownWidget(
-                      hinttext: 'Event Type',
-                      list: [
-                        'Gasdd',
-                        'Gasdd1',
-                        'Gasdd2',
-                        'Gasdd4',
-                        'Gasdd23',
-                      ],
-                    )),
-                    SizedBox(width: 10.v),
-                    Expanded(
-                        child: CustomDropdownWidget(
-                      hinttext: 'Game Type',
-                      list: [
-                        'Gasdd',
-                        'Gasdd1',
-                        'Gasdd2',
-                        'Gasdd4',
-                        'Gasdd23',
-                      ],
-                    )),
-                  ],
-                ),
-                SizedBox(height: 10.v),
-                Row(
-                  children: [
-                    Expanded(
-                        child: CustomDropdownWidget(
-                      hinttext: 'Game System',
-                      list: [
-                        'Gasdd',
-                        'Gasdd1',
-                        'Gasdd2',
-                        'Gasdd4',
-                        'Gasdd23',
-                      ],
-                    )),
-                    SizedBox(width: 10.v),
-                    Expanded(
-                        child: CustomDropdownWidget(
-                      hinttext: 'Free',
-                      list: [
-                        'Gasdd',
-                        'Gasdd1',
-                        'Gasdd2',
-                        'Gasdd4',
-                        'Gasdd23',
-                      ],
-                    )),
-                  ],
-                ),
-                SizedBox(height: 10.v),
-                CustomDropdownWidget(
-                  hinttext: 'Number of GMs required',
-                  list: [
-                    'Gasdd',
-                    'Gasdd1',
-                    'Gasdd2',
-                    'Gasdd4',
-                    'Gasdd23',
-                  ],
-                ),
-                SizedBox(height: 10.v),
-                CustomDropdownWidget(
-                  hinttext: 'Number of tables',
-                  list: [
-                    'Gasdd',
-                    'Gasdd1',
-                    'Gasdd2',
-                    'Gasdd4',
-                    'Gasdd23',
-                  ],
-                ),
-                SizedBox(height: 10.v),
-                CustomDropdownWidget(
-                  hinttext: 'Number of players',
-                  list: [
-                    'Gasdd',
-                    'Gasdd1',
-                    'Gasdd2',
-                    'Gasdd4',
-                    'Gasdd23',
-                  ],
-                ),
-                SizedBox(height: 10.v),
-                CustomTextFormField(
-                  maxLines: 5,
-                  contentPadding: EdgeInsets.all(12),
-                )
-              ],
+                          title: 'Event time',
+                          value: DateFormat('h:mm a').format(widget.state.eventDatetime),
+                          icon: Icons.timelapse,
+                          ontap: () {
+                            widget.cubit.updateTime(context);
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10.v),
+                  Row(
+                    children: [
+                      Expanded(
+                          child: CustomDropdownWidget(
+                        validator: (v) {
+                          return validator(v);
+                        },
+                        onChanged: (v) {
+                          widget.cubit.updatePostData(eventType: v);
+                        },
+                        hinttext: 'Event Type',
+                        list: [
+                          'In Person',
+                          'Online',
+                        ],
+                      )),
+                      SizedBox(width: 10.v),
+                      Expanded(
+                          child: CustomDropdownWidget(
+                        validator: (v) {
+                          return validator(v);
+                        },
+                        onChanged: (v) {
+                          widget.cubit.updatePostData(gameType: v);
+                        },
+                        hinttext: 'Game Type',
+                        list: [
+                          'TTRPG',
+                          'Board Games',
+                          'Card Games',
+                        ],
+                      )),
+                    ],
+                  ),
+                  SizedBox(height: 10.v),
+                  Row(
+                    children: [
+                      Expanded(
+                          child: CustomDropdownWidget(
+                        validator: (v) {
+                          return validator(v);
+                        },
+                        hinttext: 'Game System',
+                        onChanged: (v) {
+                          widget.cubit.updatePostData(gameSystem: v);
+                        },
+                        list: [
+                          'PF2E',
+                          'DND5E',
+                          'Other',
+                        ],
+                      )),
+                      SizedBox(width: 10.v),
+                      Expanded(
+                          child: CustomDropdownWidget(
+                        validator: (v) {
+                          return validator(v);
+                        },
+                        onChanged: (v) {
+                          widget.cubit.updatePostData(isFree: v == 'Free' ? true : false);
+                        },
+                        hinttext: 'Select',
+                        list: [
+                          'Free',
+                          'Paid',
+                        ],
+                      )),
+                    ],
+                  ),
+                  SizedBox(height: 10.v),
+                  CustomDropdownWidget(
+                    validator: (v) {
+                      return validator(v);
+                    },
+                    onChanged: (v) {
+                      widget.cubit.updatePostData(gmsRequired: int.parse(v.toString()));
+                    },
+                    hinttext: 'Number of GMs required',
+                    list: [
+                      '1',
+                      '2',
+                      '3',
+                      '4',
+                    ],
+                  ),
+                  SizedBox(height: 10.v),
+                  CustomDropdownWidget(
+                    validator: (v) {
+                      return validator(v);
+                    },
+                    onChanged: (v) {
+                      widget.cubit.updatePostData(tables: int.parse(v.toString()));
+                    },
+                    hinttext: 'Number of tables',
+                    list: [
+                      '1',
+                      '2',
+                      '3',
+                      '4',
+                    ],
+                  ),
+                  SizedBox(height: 10.v),
+                  CustomDropdownWidget(
+                    validator: (v) {
+                      return validator(v);
+                    },
+                    onChanged: (v) {
+                      widget.cubit.updatePostData(playerRequired: int.parse(v.toString()));
+                    },
+                    hinttext: 'Number of players',
+                    list: [
+                      '1',
+                      '2',
+                      '3',
+                      '4',
+                      '5',
+                      '6',
+                      '7',
+                      '8',
+                    ],
+                  ),
+                  SizedBox(height: 10.v),
+                ],
+              ),
             ),
           ),
         ),
         Padding(
-          padding: EdgeInsets.symmetric(
-              horizontal: SizeUtils.width * .05, vertical: 20),
-          child: CustomElevatedButton(text: 'Post'),
+          padding: EdgeInsets.symmetric(horizontal: SizeUtils.width * .05, vertical: 20),
+          child: CustomElevatedButton(
+            text: 'Post',
+            isLoading: widget.state.isPostUploading,
+            onPressed: () {
+              if (formKey.currentState?.validate() ?? false) {
+                widget.cubit.postEvent(context);
+              } else {
+                log('missing');
+              }
+            },
+          ),
         )
       ],
     );

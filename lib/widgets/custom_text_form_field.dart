@@ -25,6 +25,7 @@ class CustomTextFormField extends StatelessWidget {
       this.fillColor,
       this.filled = true,
       this.validator,
+      this.onChanged,
       this.enabled})
       : super(
           key: key,
@@ -63,7 +64,7 @@ class CustomTextFormField extends StatelessWidget {
   final BoxConstraints? suffixConstraints;
 
   final EdgeInsets? contentPadding;
-
+  final Function(String)? onChanged;
   final InputBorder? borderDecoration;
 
   final Color? fillColor;
@@ -85,14 +86,12 @@ class CustomTextFormField extends StatelessWidget {
   Widget get textFormFieldWidget => SizedBox(
         width: width ?? double.maxFinite,
         child: TextFormField(
+          onChanged: onChanged,
           enabled: enabled,
           controller: controller,
           focusNode: focusNode ?? FocusNode(),
           autofocus: autofocus!,
-          style: textStyle ??
-              theme.textTheme.titleMedium!.copyWith(
-                  color: theme.colorScheme.onPrimary,
-                  fontWeight: FontWeight.w600),
+          style: textStyle ?? theme.textTheme.titleMedium!.copyWith(color: theme.colorScheme.onPrimary, fontWeight: FontWeight.w600),
           obscureText: obscureText!,
           textInputAction: textInputAction ?? TextInputAction.done,
           keyboardType: textInputType,
@@ -122,10 +121,7 @@ class CustomTextFormField extends StatelessWidget {
               borderRadius: BorderRadius.circular(16.h),
               borderSide: BorderSide.none,
             ),
-        enabledBorder: borderDecoration ??
-            OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16.h),
-                borderSide: BorderSide.none),
+        enabledBorder: borderDecoration ?? OutlineInputBorder(borderRadius: BorderRadius.circular(16.h), borderSide: BorderSide.none),
         focusedBorder: borderDecoration ??
             OutlineInputBorder(
               borderRadius: BorderRadius.circular(16.h),

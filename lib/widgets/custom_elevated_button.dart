@@ -13,7 +13,7 @@ class CustomElevatedButton extends BaseButton {
     ButtonStyle? buttonStyle,
     Alignment? alignment,
     TextStyle? buttonTextStyle,
-    bool? isDisabled,
+    bool? isLoading,
     double? height,
     double? width,
     required String text,
@@ -21,7 +21,7 @@ class CustomElevatedButton extends BaseButton {
           text: text,
           onPressed: onPressed,
           buttonStyle: buttonStyle,
-          isDisabled: isDisabled,
+          isLoading: isLoading,
           buttonTextStyle: buttonTextStyle,
           height: height,
           width: width,
@@ -51,20 +51,30 @@ class CustomElevatedButton extends BaseButton {
         margin: margin,
         decoration: decoration,
         child: ElevatedButton(
-          style: buttonStyle,
-          onPressed: isDisabled ?? false ? null : onPressed ?? () {},
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              leftIcon ?? const SizedBox.shrink(),
-              Text(
-                text,
-                style: buttonTextStyle ?? theme.textTheme.titleMedium,
-              ),
-              rightIcon ?? const SizedBox.shrink(),
-            ],
-          ),
-        ),
+            style: buttonStyle,
+            onPressed: isLoading ?? false ? null : onPressed ?? () {},
+            child: isLoading ?? false
+                ? Container(
+                    height: 40,
+                    width: 40,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: CircularProgressIndicator(
+                        color: theme.colorScheme.primary,
+                      ),
+                    ),
+                  )
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      leftIcon ?? const SizedBox.shrink(),
+                      Text(
+                        text,
+                        style: buttonTextStyle ?? theme.textTheme.titleMedium,
+                      ),
+                      rightIcon ?? const SizedBox.shrink(),
+                    ],
+                  )),
       );
 }

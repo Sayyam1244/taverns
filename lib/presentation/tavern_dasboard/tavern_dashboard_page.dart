@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:taverns/presentation/tavern_dasboard/screens/calender.dart';
 import 'package:taverns/presentation/tavern_dasboard/screens/more_page.dart';
 import 'package:taverns/presentation/tavern_dasboard/screens/tavern_home.dart';
 import 'package:taverns/presentation/tavern_dasboard/tavern_dashboard_state.dart';
@@ -35,13 +36,15 @@ class _TavernDashboardState extends State<TavernDashboardPage> {
           cubit: cubit,
           state: state,
         ),
-        Text('calender'),
+        CalenderScreen(),
         Text('message'),
         MorePage()
       ];
+
   @override
   void initState() {
     cubit.navigator.context = context;
+    cubit.getUserData(context);
     super.initState();
   }
 
@@ -49,19 +52,19 @@ class _TavernDashboardState extends State<TavernDashboardPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: BlocBuilder<TavernDashboardCubit, TavernDashboardState>(
+        buildWhen: (previous, current) => previous.currentIndex != current.currentIndex,
         bloc: cubit,
         builder: (context, state) => Scaffold(
           backgroundColor: appTheme.gray5001,
           resizeToAvoidBottomInset: false,
           appBar: state.currentIndex == 0 ? tavernAppBar(context) : null,
           body: screens(cubit, state)[state.currentIndex],
-          bottomNavigationBar:
-              BlocBuilder<TavernDashboardCubit, TavernDashboardState>(
+          bottomNavigationBar: BlocBuilder<TavernDashboardCubit, TavernDashboardState>(
+            buildWhen: (previous, current) => previous.currentIndex != current.currentIndex,
             bloc: cubit,
             builder: (context, state) => Container(
               height: 70,
-              decoration: BoxDecoration(
-                  border: Border.all(color: theme.colorScheme.errorContainer)),
+              decoration: BoxDecoration(border: Border.all(color: theme.colorScheme.errorContainer)),
               child: BottomNavigationBar(
                   type: BottomNavigationBarType.fixed,
                   unselectedItemColor: theme.colorScheme.errorContainer,
@@ -76,10 +79,8 @@ class _TavernDashboardState extends State<TavernDashboardPage> {
                   selectedItemColor: theme.colorScheme.primary,
                   currentIndex: state.currentIndex,
                   items: [
-                    BottomNavigationBarItem(
-                        icon: Icon(Icons.home_outlined), label: 'Home'),
-                    BottomNavigationBarItem(
-                        icon: Icon(Icons.calendar_month), label: 'Calender'),
+                    BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: 'Home'),
+                    BottomNavigationBarItem(icon: Icon(Icons.calendar_month), label: 'Calender'),
                     BottomNavigationBarItem(
                         icon: Stack(
                           alignment: Alignment.center,
@@ -100,8 +101,7 @@ class _TavernDashboardState extends State<TavernDashboardPage> {
                           ],
                         ),
                         label: 'Message'),
-                    BottomNavigationBarItem(
-                        icon: Icon(Icons.more_horiz), label: 'More'),
+                    BottomNavigationBarItem(icon: Icon(Icons.more_horiz), label: 'More'),
                   ]),
             ),
           ),

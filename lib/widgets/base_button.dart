@@ -8,7 +8,7 @@ class BaseButton extends StatelessWidget {
     this.onPressed,
     this.buttonStyle,
     this.buttonTextStyle,
-    this.isDisabled,
+    this.isLoading,
     this.height,
     this.width,
     this.margin,
@@ -25,7 +25,7 @@ class BaseButton extends StatelessWidget {
 
   final TextStyle? buttonTextStyle;
 
-  final bool? isDisabled;
+  final bool? isLoading;
 
   final double? height;
 
