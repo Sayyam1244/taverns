@@ -44,4 +44,8 @@ class TavernDashboardCubit extends Cubit<TavernDashboardState> {
       );
     });
   }
+
+  void updateDates(DateTime selectedDay, DateTime focusedDay) {
+    emit(state.copyWith(selectedDay: selectedDay, focusedDay: focusedDay));
+  }
 }

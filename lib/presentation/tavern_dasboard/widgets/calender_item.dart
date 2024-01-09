@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:taverns/core/app_export.dart';
-import 'package:taverns/domain/model/event_model.dart';
+import '../../../domain/model/event_model.dart';
+import '../../../widgets/custom_icon_button.dart';
 
-// ignore: must_be_immutable
-class EventcardItemWidget extends StatelessWidget {
-  const EventcardItemWidget({Key? key, required this.event})
+class CalenderItem extends StatelessWidget {
+  const CalenderItem({Key? key, required this.event})
       : super(
           key: key,
         );
@@ -13,7 +13,8 @@ class EventcardItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 15.h),
+      padding: EdgeInsets.symmetric(horizontal: 15.h, vertical: 10.v),
+      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
       decoration: AppDecoration.outlineBlueGray.copyWith(
         borderRadius: BorderRadiusStyle.roundedBorder8,
       ),
@@ -22,13 +23,14 @@ class EventcardItemWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Container(
-            height: 60.adaptSize,
-            width: 60.adaptSize,
-            decoration: BoxDecoration(
-                border: Border.all(color: appTheme.blueGray100, width: 1),
-                shape: BoxShape.circle,
-                image: event.user!.profilePicture != null ? DecorationImage(image: NetworkImage(event.user?.profilePicture ?? ''), fit: BoxFit.cover) : null),
+          CustomIconButton(
+            height: 40.adaptSize,
+            width: 40.adaptSize,
+            padding: EdgeInsets.all(10.h),
+            decoration: IconButtonStyleHelper.outlineGrayF,
+            child: CustomImageView(
+              imagePath: ImageConstant.imgCard,
+            ),
           ),
           Padding(
             padding: EdgeInsets.only(
@@ -39,9 +41,14 @@ class EventcardItemWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  event.eventName,
-                  style: CustomTextStyles.titleMediumCircularStdBluegray90001,
+                Container(
+                  width: MediaQuery.sizeOf(context).width * 0.6,
+                  child: Text(
+                    event.eventName,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: CustomTextStyles.titleMediumCircularStdBluegray90001,
+                  ),
                 ),
                 SizedBox(height: 6.v),
                 Text(

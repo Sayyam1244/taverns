@@ -102,16 +102,17 @@ class MyApp extends StatelessWidget {
     return Sizer(
       builder: (context, orientation, deviceType) {
         return MaterialApp(
-            theme: theme,
-            title: 'Taverns',
-            debugShowCheckedModeBanner: false,
-            home: TavernDashboardPage(
-              cubit: getIt(
-                param1: TavernDashboardInitialParams(),
-              ),
-            )
-            // SplashPage(cubit: getIt(param1: SplashInitialParams())),
-            );
+          theme: theme,
+          title: 'Taverns',
+          debugShowCheckedModeBanner: false,
+          home:
+              // TavernDashboardPage(
+              //   cubit: getIt(
+              //     param1: TavernDashboardInitialParams(),
+              //   ),
+              // )
+              SplashPage(cubit: getIt(param1: SplashInitialParams())),
+        );
       },
     );
   }

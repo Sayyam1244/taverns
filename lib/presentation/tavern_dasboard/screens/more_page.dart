@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:taverns/core/app_export.dart';
+import 'package:taverns/presentation/tavern_dasboard/tavern_dashboard_cubit.dart';
+import 'package:taverns/presentation/tavern_dasboard/tavern_dashboard_state.dart';
 
 import '../widgets/tavern_profile_topbar.dart';
 
 // ignore_for_file: must_be_immutable
 class MorePage extends StatelessWidget {
-  const MorePage({Key? key})
+  const MorePage({Key? key, required this.cubit, required this.state})
       : super(
           key: key,
         );
-
+  final TavernDashboardCubit cubit;
+  final TavernDashboardState state;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -17,7 +20,7 @@ class MorePage extends StatelessWidget {
       decoration: AppDecoration.fillOnErrorContainer,
       child: Column(
         children: [
-          TavernProfileTopbar(),
+          TavernProfileTopbar(cubit: cubit, state: state),
           Expanded(
             child: Container(
               margin: EdgeInsets.only(top: 15.v),

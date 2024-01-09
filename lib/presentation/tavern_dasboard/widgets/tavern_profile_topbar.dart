@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/app_export.dart';
+import '../tavern_dashboard_cubit.dart';
+import '../tavern_dashboard_state.dart';
 
 class TavernProfileTopbar extends StatelessWidget {
   const TavernProfileTopbar({
     Key? key,
+    required this.cubit,
+    required this.state,
   }) : super(key: key);
-
+  final TavernDashboardCubit cubit;
+  final TavernDashboardState state;
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.maxFinite,
-      padding: EdgeInsets.all(30.h),
+      padding: EdgeInsets.all(20.h),
       decoration: AppDecoration.outlineSecondaryContainer.copyWith(
         borderRadius: BorderRadiusStyle.roundedBorder40B,
       ),
@@ -21,14 +26,14 @@ class TavernProfileTopbar extends StatelessWidget {
           Container(
             height: 43.adaptSize,
             width: 43.adaptSize,
-            decoration: AppDecoration.fillDeepOrange.copyWith(
-              borderRadius: BorderRadiusStyle.circleBorder20,
-            ),
-            child: CustomImageView(
-              imagePath: ImageConstant.imgMaskGroup,
-              height: 43.adaptSize,
-              width: 43.adaptSize,
-              alignment: Alignment.center,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              image: state.user.profilePicture != null ? DecorationImage(image: NetworkImage(state.user.profilePicture!)) : null,
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: theme.colorScheme.primary,
+                width: 1,
+              ),
             ),
           ),
           Padding(
@@ -41,12 +46,12 @@ class TavernProfileTopbar extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Tavern Name",
+                  state.user.userName ?? '',
                   style: CustomTextStyles.titleSmallProductSansBluegray800,
                 ),
                 SizedBox(height: 6.v),
                 Text(
-                  "Business Number",
+                  state.user.businessNumber ?? '',
                   style: theme.textTheme.labelMedium,
                 ),
               ],
