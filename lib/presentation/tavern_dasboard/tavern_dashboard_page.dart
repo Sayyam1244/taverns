@@ -32,7 +32,7 @@ class _TavernDashboardState extends State<TavernDashboardPage> {
           cubit: cubit,
           state: state,
         ),
-        CalenderScreen(),
+        CalenderScreen(cubit: cubit, state: state),
         Text('message'),
         MorePage()
       ];

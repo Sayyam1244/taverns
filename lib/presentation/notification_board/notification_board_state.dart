@@ -13,24 +13,24 @@ class NotificationBoardState {
   final int? tables;
   final String? note;
   final bool? isPostUploading;
-
-  const NotificationBoardState({
-    required this.index,
-    required this.eventDatetime,
-    this.eventName,
-    this.eventType,
-    this.gameType,
-    this.gameSystem,
-    this.isFree,
-    this.gmsRequired,
-    this.tables,
-    this.playerRequired,
-    this.note,
-    this.isPostUploading,
-  });
+  final bool isCurrentGMButtonSelected;
+  const NotificationBoardState(
+      {required this.index,
+      required this.eventDatetime,
+      this.eventName,
+      this.eventType,
+      this.gameType,
+      this.gameSystem,
+      this.isFree,
+      this.gmsRequired,
+      this.tables,
+      this.playerRequired,
+      this.note,
+      this.isPostUploading,
+      required this.isCurrentGMButtonSelected});
 
   factory NotificationBoardState.initial({required NotificationBoardInitialParams initialParams}) =>
-      NotificationBoardState(index: 0, eventDatetime: DateTime.now(), isPostUploading: false);
+      NotificationBoardState(index: 0, eventDatetime: DateTime.now(), isPostUploading: false, isCurrentGMButtonSelected: true);
 
   NotificationBoardState copyWith({
     int? index,
@@ -45,6 +45,7 @@ class NotificationBoardState {
     int? tables,
     String? note,
     bool? isPostUploading,
+    bool? isCurrentGMButtonSelected,
   }) {
     return NotificationBoardState(
       index: index ?? this.index,
@@ -59,6 +60,7 @@ class NotificationBoardState {
       tables: tables ?? this.tables,
       note: note ?? this.note,
       isPostUploading: isPostUploading ?? this.isPostUploading,
+      isCurrentGMButtonSelected: isCurrentGMButtonSelected ?? this.isCurrentGMButtonSelected,
     );
   }
 }

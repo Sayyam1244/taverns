@@ -4,6 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fpdart/src/either.dart';
 import 'package:taverns/domain/model/event_model.dart';
 import 'package:taverns/domain/model/general_model.dart';
+import 'package:taverns/domain/model/request_model.dart';
+import 'package:taverns/domain/model/user_model.dart';
 import 'package:taverns/domain/repository/events_repository.dart';
 
 class EventHelper implements EventRepository {
@@ -21,11 +23,44 @@ class EventHelper implements EventRepository {
   }
 
   @override
-  Stream<Either<GeneralError, List<EventModel>>> getEvents() async* {
+  Stream<Either<GeneralError, List<EventModel>>> getEvents({required bool getUser, String? userId, required int limit}) async* {
     try {
-      await for (QuerySnapshot<Map<String, dynamic>> docs in FirebaseFirestore.instance.collection('Events').snapshots()) {
-        List<EventModel> events = docs.docs.map((e) => EventModel.fromMap(e)).toList();
+      await for (QuerySnapshot<Map<String, dynamic>> eventsDocs in userId != null
+          ? FirebaseFirestore.instance
+              .collection('Events')
+              .where("eventDatetime", isGreaterThanOrEqualTo: DateTime.now())
+              .where("userId", isEqualTo: userId)
+              .limit(limit)
+              .snapshots()
+          : FirebaseFirestore.instance.collection('Events').where("eventDatetime", isGreaterThanOrEqualTo: DateTime.now()).limit(limit).snapshots()) {
+        List<EventModel> events = [];
+        for (QueryDocumentSnapshot<Map<String, dynamic>> eventDoc in eventsDocs.docs) {
+          EventModel event = EventModel.fromMap(eventDoc);
+          if (getUser) {
+            DocumentSnapshot<Map<String, dynamic>> userDoc = await FirebaseFirestore.instance.collection('Users').doc(event.userId).get();
+            if (userDoc.exists) {
+              event.injectUser(UserModel.fromMap(userDoc));
+            }
+          }
+          events.add(event);
+        }
+
         yield Right(events);
+      }
+    } catch (e) {
+      log('getEvents=========>' + e.toString());
+      yield left(GeneralError('Error', 'Error happened, Please try again later'));
+    }
+  }
+
+  @override
+  Stream<Either<GeneralError, List<RequestModel>>> getRequests({String? eventId}) async* {
+    try {
+      await for (QuerySnapshot<Map<String, dynamic>> requestDocs
+          in FirebaseFirestore.instance.collection('Requests').where("eventId", isEqualTo: eventId).where("isApproved", isEqualTo: null).snapshots()) {
+        List<RequestModel> requests = requestDocs.docs.map((e) => RequestModel.fromMap(e)).toList();
+
+        yield Right(requests);
       }
     } catch (e) {
       log('getEvents=========>' + e.toString());

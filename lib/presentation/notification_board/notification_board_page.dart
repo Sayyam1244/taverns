@@ -53,8 +53,14 @@ class _NotificationBoardState extends State<NotificationBoardPage> {
         title: Text('Notification Board', style: CustomTextStyles.titlelarge),
       ),
       body: BlocBuilder<NotificationBoardCubit, NotificationBoardState>(
+        buildWhen: (previous, current) {
+          if (previous.isPostUploading != current.isPostUploading || previous.eventDatetime != current.eventDatetime || previous.index != current.index) {
+            return true;
+          }
+          return false;
+        },
         bloc: cubit,
-        builder: (context, state) => ListView(
+        builder: (context, state) => Column(
           children: [
             SizedBox(height: 20),
             Center(
@@ -75,7 +81,7 @@ class _NotificationBoardState extends State<NotificationBoardPage> {
                 },
               ),
             ),
-            tabs(cubit, state)[state.index]
+            Expanded(child: tabs(cubit, state)[state.index])
           ],
         ),
       ),

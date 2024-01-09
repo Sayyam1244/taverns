@@ -13,10 +13,10 @@ import 'tavern_dashboard_state.dart';
 class TavernDashboardCubit extends Cubit<TavernDashboardState> {
   final TavernDashboardInitialParams initialParams;
   final TavernDashboardNavigator navigator;
-  final AuthRepository _auth;
+  final AuthRepository auth;
   final UserRepository _user;
   final EventRepository events;
-  TavernDashboardCubit(this.initialParams, this.navigator, this._auth, this._user, this.events)
+  TavernDashboardCubit(this.initialParams, this.navigator, this.auth, this._user, this.events)
       : super(
           TavernDashboardState.initial(
             initialParams: initialParams,
@@ -34,7 +34,7 @@ class TavernDashboardCubit extends Cubit<TavernDashboardState> {
   }
 
   getUserData(context) async {
-    _user.getUser(_auth.currentUser().uid).then((value) {
+    _user.getUser(auth.currentUser().uid).then((value) {
       return value.fold(
         (l) => FlushbarDialogue().showErrorFlushbar(context: context, title: l.title, body: l.message),
         (r) {

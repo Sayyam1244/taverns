@@ -16,14 +16,10 @@ class RequestWidget extends StatelessWidget {
   final NotificationBoardState state;
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return ListView(
       children: [
         SizedBox(height: 10),
         ...[
-          1,
-          1,
-          1,
-          1,
           1,
         ].map((e) => ManageItem()).toList()
       ],

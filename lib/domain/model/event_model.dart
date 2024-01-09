@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:taverns/domain/model/user_model.dart';
 
 import 'common_model.dart';
 
@@ -17,6 +18,7 @@ class EventModel extends CommonModel {
   int playerRequired;
   int tables;
   String note;
+  UserModel? user;
 
   EventModel({
     String? docId,
@@ -36,6 +38,7 @@ class EventModel extends CommonModel {
     required this.playerRequired,
     required this.tables,
     required this.note,
+    this.user,
   }) : super(docId: docId, createdDate: createdDate, modifiedDate: modifiedDate);
 
   Map<String, dynamic> toMapForUpload() {
@@ -81,5 +84,8 @@ class EventModel extends CommonModel {
       tables: data['tables'] ?? 0,
       note: data['note'] ?? '',
     );
+  }
+  injectUser(UserModel userModel) {
+    user = userModel;
   }
 }

@@ -15,21 +15,22 @@ class EventcardItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(15.h),
+      padding: EdgeInsets.symmetric(horizontal: 15.h),
       decoration: AppDecoration.outlineBlueGray.copyWith(
         borderRadius: BorderRadiusStyle.roundedBorder8,
       ),
       width: MediaQuery.sizeOf(context).width * 0.8,
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          CustomIconButton(
+          Container(
             height: 60.adaptSize,
             width: 60.adaptSize,
-            padding: EdgeInsets.all(11.h),
-            child: CustomImageView(
-              imagePath: ImageConstant.imgThumbsUp,
-            ),
+            decoration: BoxDecoration(
+                border: Border.all(color: appTheme.blueGray100, width: 1),
+                shape: BoxShape.circle,
+                image: event.user!.profilePicture != null ? DecorationImage(image: NetworkImage(event.user?.profilePicture ?? ''), fit: BoxFit.cover) : null),
           ),
           Padding(
             padding: EdgeInsets.only(
@@ -38,6 +39,7 @@ class EventcardItemWidget extends StatelessWidget {
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                   event.eventName,
@@ -49,25 +51,25 @@ class EventcardItemWidget extends StatelessWidget {
                   style: CustomTextStyles.bodySmallSFProBluegray40001,
                 ),
                 SizedBox(height: 8.v),
-                Row(
-                  children: [
-                    CustomElevatedButton(
-                      height: 31.v,
-                      width: 94.h,
-                      text: "Approve",
-                      buttonStyle: CustomButtonStyles.fillPrimaryTL8,
-                      buttonTextStyle: CustomTextStyles.labelLargeOnErrorContainer_1,
-                    ),
-                    SizedBox(width: 10.h),
-                    CustomElevatedButton(
-                      height: 31.v,
-                      width: 60.h,
-                      text: "Deny",
-                      buttonStyle: CustomButtonStyles.fillYellow,
-                      buttonTextStyle: CustomTextStyles.labelLargePrimary,
-                    )
-                  ],
-                )
+                // Row(
+                //   children: [
+                //     CustomElevatedButton(
+                //       height: 31.v,
+                //       width: 94.h,
+                //       text: "Approve",
+                //       buttonStyle: CustomButtonStyles.fillPrimaryTL8,
+                //       buttonTextStyle: CustomTextStyles.labelLargeOnErrorContainer_1,
+                //     ),
+                //     SizedBox(width: 10.h),
+                //     CustomElevatedButton(
+                //       height: 31.v,
+                //       width: 60.h,
+                //       text: "Deny",
+                //       buttonStyle: CustomButtonStyles.fillYellow,
+                //       buttonTextStyle: CustomTextStyles.labelLargePrimary,
+                //     )
+                //   ],
+                // )
               ],
             ),
           ),

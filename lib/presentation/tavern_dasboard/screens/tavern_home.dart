@@ -78,9 +78,9 @@ class TavernHome extends StatelessWidget {
               ),
               SizedBox(height: 12.v),
               SizedBox(
-                height: 130.v,
+                height: 90.v,
                 child: StreamBuilder<Either<GeneralError, List<EventModel>>>(
-                  stream: cubit.events.getEvents(),
+                  stream: cubit.events.getEvents(getUser: true, limit: 5, userId: cubit.auth.currentUser().uid),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       List<EventModel> data = [];
@@ -109,11 +109,10 @@ class TavernHome extends StatelessWidget {
                       separatorBuilder: (
                         context,
                         index,
-                      ) {
-                        return SizedBox(
-                          width: 16.h,
-                        );
-                      },
+                      ) =>
+                          SizedBox(
+                        width: 16.h,
+                      ),
                       itemCount: 2,
                       itemBuilder: (context, index) {
                         return Container(
