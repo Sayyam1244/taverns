@@ -28,7 +28,11 @@ class TavernProfileTopbar extends StatelessWidget {
             width: 43.adaptSize,
             alignment: Alignment.center,
             decoration: BoxDecoration(
-              image: state.user.profilePicture != null ? DecorationImage(image: NetworkImage(state.user.profilePicture!)) : null,
+              image: state.user.profilePicture != null
+                  ? DecorationImage(
+                      image: NetworkImage(state.user.profilePicture!),
+                      fit: BoxFit.cover)
+                  : null,
               shape: BoxShape.circle,
               border: Border.all(
                 color: theme.colorScheme.primary,

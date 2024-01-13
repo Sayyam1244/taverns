@@ -6,7 +6,9 @@ import 'package:taverns/widgets/custom_elevated_button.dart';
 import 'package:taverns/widgets/custom_rating_bar.dart';
 
 class TavernProfileWidget extends StatelessWidget {
-  const TavernProfileWidget({Key? key, required this.cubit, required this.state}) : super(key: key);
+  const TavernProfileWidget(
+      {Key? key, required this.cubit, required this.state})
+      : super(key: key);
   final TavernDashboardCubit cubit;
   final TavernDashboardState state;
   @override
@@ -35,7 +37,11 @@ class TavernProfileWidget extends StatelessWidget {
                   width: 40.adaptSize,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    image: state.user.profilePicture != null ? DecorationImage(image: NetworkImage(state.user.profilePicture!)) : null,
+                    image: state.user.profilePicture != null
+                        ? DecorationImage(
+                            image: NetworkImage(state.user.profilePicture!),
+                            fit: BoxFit.cover)
+                        : null,
                     shape: BoxShape.circle,
                     border: Border.all(
                       color: theme.colorScheme.primary,
@@ -53,12 +59,13 @@ class TavernProfileWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        state.user.userName!,
-                        style: CustomTextStyles.titleSmallProductSansBluegray800,
+                        state.user.userName ?? '',
+                        style:
+                            CustomTextStyles.titleSmallProductSansBluegray800,
                       ),
                       SizedBox(height: 3.v),
                       Text(
-                        state.user.businessNumber!,
+                        state.user.businessNumber ?? '',
                         style: theme.textTheme.labelMedium,
                       ),
                     ],
@@ -70,9 +77,7 @@ class TavernProfileWidget extends StatelessWidget {
           SizedBox(height: 15.v),
           Divider(
             color: appTheme.gray90060.withOpacity(0.1),
-            indent: 6.h,
             thickness: 1,
-            endIndent: 6.h,
           ),
           SizedBox(height: 15.v),
           Padding(
@@ -106,11 +111,15 @@ class TavernProfileWidget extends StatelessWidget {
                 ),
                 Spacer(),
                 CustomElevatedButton(
+                  onPressed: () {
+                    cubit.navigateToTavernProfileDetail();
+                  },
                   height: 31.v,
                   width: 94.h,
                   text: "View profile",
                   buttonStyle: CustomButtonStyles.fillPrimaryTL8,
-                  buttonTextStyle: CustomTextStyles.labelLargeOnErrorContainer_1,
+                  buttonTextStyle:
+                      CustomTextStyles.labelLargeOnErrorContainer_1,
                 )
               ],
             ),

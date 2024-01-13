@@ -9,7 +9,9 @@ import 'package:taverns/presentation/tavern_dasboard/tavern_dashboard_state.dart
 import 'notificationcard_item_widget.dart';
 
 class NotificationBoardWidget extends StatelessWidget {
-  const NotificationBoardWidget({Key? key, required this.cubit, required this.state}) : super(key: key);
+  const NotificationBoardWidget(
+      {Key? key, required this.cubit, required this.state})
+      : super(key: key);
   final TavernDashboardCubit cubit;
   final TavernDashboardState state;
   @override
@@ -42,10 +44,16 @@ class NotificationBoardWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Notification Board',
-                  style: CustomTextStyles.titleMediumCircularStdBluegray800.copyWith(
-                    color: appTheme.blueGray800,
+                GestureDetector(
+                  onTap: () {
+                    cubit.navigateToNotificaitonBoard();
+                  },
+                  child: Text(
+                    'Notification Board',
+                    style: CustomTextStyles.titleMediumCircularStdBluegray800
+                        .copyWith(
+                      color: appTheme.blueGray800,
+                    ),
                   ),
                 ),
                 Padding(
@@ -55,7 +63,6 @@ class NotificationBoardWidget extends StatelessWidget {
                   ),
                   child: GestureDetector(
                     onTap: () {
-                      log('message');
                       cubit.navigateToNotificaitonBoard();
                     },
                     child: Text(

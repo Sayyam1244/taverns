@@ -40,8 +40,7 @@ class ImageConstant {
   static String imgVectorPrimary = '$imagePath/img_vector_primary.svg';
 
   // sign_up_select_role images
-  static String selectRole =
-      '$imagePath/img_undraw_playing_cards_cywn.svg';
+  static String selectRole = '$imagePath/img_undraw_playing_cards_cywn.svg';
 
   // Signup images
   static String imgLocationPrimary = '$imagePath/img_location_primary.svg';
@@ -89,11 +88,12 @@ class ImageConstant {
   static String imgNavCalendar = '$imagePath/img_nav_calendar.svg';
 
   static String imgNavMessage = '$imagePath/img_nav_message.svg';
+  static String editIcon = '$imagePath/edit.svg';
+  static String searchIcon = '$imagePath/search.svg';
 
   static String imgNavMoreSecondarycontainer =
       '$imagePath/img_nav_more_secondarycontainer.svg';
 
   static String imageNotFound = 'assets/images/image_not_found.png';
   static String enableLocation = 'assets/images/enable_location.png';
-
 }

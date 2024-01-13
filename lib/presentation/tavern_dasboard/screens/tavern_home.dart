@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:taverns/core/app_export.dart';
@@ -22,7 +24,6 @@ class TavernHome extends StatelessWidget {
 
   final TavernDashboardCubit cubit;
   final TavernDashboardState state;
-  TextEditingController searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -43,9 +44,14 @@ class TavernHome extends StatelessWidget {
               SizedBox(height: 24.v),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 18),
-                child: CustomSearchView(
-                  controller: searchController,
-                  hintText: "Find Event",
+                child: GestureDetector(
+                  onTap: () {
+                    cubit.navigateTosearchEvent();
+                  },
+                  child: CustomSearchView(
+                    enabled: false,
+                    hintText: "Find Event",
+                  ),
                 ),
               ),
               SizedBox(height: 26.v),
@@ -57,7 +63,8 @@ class TavernHome extends StatelessWidget {
                   children: [
                     Text(
                       'Upcoming Events',
-                      style: CustomTextStyles.titleMediumCircularStdBluegray800.copyWith(
+                      style: CustomTextStyles.titleMediumCircularStdBluegray800
+                          .copyWith(
                         color: appTheme.blueGray800,
                       ),
                     ),
@@ -80,28 +87,48 @@ class TavernHome extends StatelessWidget {
               SizedBox(
                 height: 90.v,
                 child: StreamBuilder<Either<GeneralError, List<EventModel>>>(
-                  stream: cubit.events.getEvents(getUser: true, limit: 5, userId: cubit.auth.currentUser().uid),
+                  stream: cubit.events.getEvents(
+                      getUser: true,
+                      limit: 5,
+                      userId: cubit.auth.currentUser().uid),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       List<EventModel> data = [];
                       snapshot.data?.fold((l) => null, (r) => data = r);
-                      return ListView.separated(
-                        padding: EdgeInsets.only(left: 13.h),
-                        scrollDirection: Axis.horizontal,
-                        separatorBuilder: (
-                          context,
-                          index,
-                        ) =>
-                            SizedBox(
-                          width: 16.h,
-                        ),
-                        itemCount: data.length,
-                        itemBuilder: (context, index) {
-                          return EventcardItemWidget(
-                            event: data[index],
-                          );
-                        },
-                      );
+                      if (data.isNotEmpty) {
+                        return ListView.separated(
+                          padding: EdgeInsets.only(left: 13.h),
+                          scrollDirection: Axis.horizontal,
+                          separatorBuilder: (
+                            context,
+                            index,
+                          ) =>
+                              SizedBox(
+                            width: 16.h,
+                          ),
+                          itemCount: data.length,
+                          itemBuilder: (context, index) {
+                            return EventcardItemWidget(
+                              event: data[index],
+                            );
+                          },
+                        );
+                      } else {
+                        return Container(
+                          padding: EdgeInsets.all(15.h),
+                          decoration: AppDecoration.outlineBlueGray.copyWith(
+                            borderRadius: BorderRadiusStyle.roundedBorder8,
+                          ),
+                          width: MediaQuery.sizeOf(context).width * 0.8,
+                          child: Center(
+                            child: Text(
+                              'No Event Found!\nTry creating one in Notification Board',
+                              style: CustomTextStyles.titleSmallMulishGray800,
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        );
+                      }
                     }
                     return ListView.separated(
                       padding: EdgeInsets.only(left: 13.h),

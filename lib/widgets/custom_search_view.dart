@@ -2,29 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:taverns/core/app_export.dart';
 
 class CustomSearchView extends StatelessWidget {
-  CustomSearchView({
-    Key? key,
-    this.alignment,
-    this.width,
-    this.controller,
-    this.focusNode,
-    this.autofocus = true,
-    this.textStyle,
-    this.textInputType = TextInputType.text,
-    this.maxLines,
-    this.hintText,
-    this.hintStyle,
-    this.prefix,
-    this.prefixConstraints,
-    this.suffix,
-    this.suffixConstraints,
-    this.contentPadding,
-    this.borderDecoration,
-    this.fillColor,
-    this.filled = true,
-    this.validator,
-    this.onChanged,
-  }) : super(
+  CustomSearchView(
+      {Key? key,
+      this.alignment,
+      this.width,
+      this.controller,
+      this.focusNode,
+      this.autofocus = true,
+      this.textStyle,
+      this.textInputType = TextInputType.text,
+      this.maxLines,
+      this.hintText,
+      this.hintStyle,
+      this.prefix,
+      this.prefixConstraints,
+      this.suffix,
+      this.suffixConstraints,
+      this.contentPadding,
+      this.borderDecoration,
+      this.fillColor,
+      this.filled = true,
+      this.validator,
+      this.onChanged,
+      this.ontap,
+      this.enabled})
+      : super(
           key: key,
         );
 
@@ -63,7 +65,8 @@ class CustomSearchView extends StatelessWidget {
   final Color? fillColor;
 
   final bool? filled;
-
+  final VoidCallback? ontap;
+  final bool? enabled;
   final FormFieldValidator<String>? validator;
 
   final Function(String)? onChanged;
@@ -81,6 +84,8 @@ class CustomSearchView extends StatelessWidget {
   Widget get searchViewWidget => SizedBox(
         width: width ?? double.maxFinite,
         child: TextFormField(
+          onTap: ontap,
+          enabled: enabled,
           controller: controller,
           focusNode: focusNode ?? FocusNode(),
           autofocus: autofocus!,
@@ -108,7 +113,7 @@ class CustomSearchView extends StatelessWidget {
             BoxConstraints(
               maxHeight: 40.v,
             ),
-        suffixIcon: suffix ,
+        suffixIcon: suffix,
         suffixIconConstraints: suffixConstraints ??
             BoxConstraints(
               maxHeight: 40.v,

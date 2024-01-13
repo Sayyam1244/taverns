@@ -36,7 +36,8 @@ class ManageItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       // height: 250,
-      margin: EdgeInsets.symmetric(horizontal: SizeUtils.width * .05, vertical: 10.v),
+      margin: EdgeInsets.symmetric(
+          horizontal: SizeUtils.width * .05, vertical: 10.v),
       decoration: BoxDecoration(
         color: theme.colorScheme.background,
         borderRadius: BorderRadius.circular(
@@ -49,7 +50,8 @@ class ManageItem extends StatelessWidget {
           children: [
             Align(
               alignment: Alignment.topLeft,
-              child: Text('GM001 Request', style: CustomTextStyles.titleMedium16),
+              child:
+                  Text('GM001 Request', style: CustomTextStyles.titleMedium16),
             ),
             SizedBox(height: 12.v),
             InkWell(
@@ -70,7 +72,8 @@ class ManageItem extends StatelessWidget {
                         SizedBox(height: 6.v),
                         Text(
                           'PERSON',
-                          style: CustomTextStyles.titleSmallProductSansBluegray800,
+                          style:
+                              CustomTextStyles.titleSmallProductSansBluegray800,
                         ),
                         SizedBox(height: 20.v),
                         Text(
@@ -80,7 +83,8 @@ class ManageItem extends StatelessWidget {
                         SizedBox(height: 6.v),
                         Text(
                           'PF2E',
-                          style: CustomTextStyles.titleSmallProductSansBluegray800,
+                          style:
+                              CustomTextStyles.titleSmallProductSansBluegray800,
                         ),
                       ],
                     ),
@@ -97,7 +101,8 @@ class ManageItem extends StatelessWidget {
                         SizedBox(height: 6.v),
                         Text(
                           'PERSON',
-                          style: CustomTextStyles.titleSmallProductSansBluegray800,
+                          style:
+                              CustomTextStyles.titleSmallProductSansBluegray800,
                         ),
                         SizedBox(height: 20.v),
                         Text(
@@ -107,7 +112,8 @@ class ManageItem extends StatelessWidget {
                         SizedBox(height: 6.v),
                         Text(
                           'PF2E',
-                          style: CustomTextStyles.titleSmallProductSansBluegray800,
+                          style:
+                              CustomTextStyles.titleSmallProductSansBluegray800,
                         ),
                       ],
                     ),
@@ -120,12 +126,20 @@ class ManageItem extends StatelessWidget {
               children: [
                 Expanded(
                   child: CustomElevatedButton(
-                      buttonStyle: CustomButtonStyles.fillYellow, buttonTextStyle: CustomTextStyles.titleSmallCircularStdBluegray70001, height: 45.v, text: 'Approve'),
+                      buttonStyle: CustomButtonStyles.fillYellow,
+                      buttonTextStyle:
+                          CustomTextStyles.titleSmallCircularStdBluegray70001,
+                      height: 45.v,
+                      text: 'Approve'),
                 ),
                 SizedBox(width: 12.h),
                 Expanded(
                   child: CustomElevatedButton(
-                      buttonStyle: CustomButtonStyles.fillPrimaryTL8, buttonTextStyle: CustomTextStyles.titleSmallOnErrorContainer, height: 45.v, text: 'Deny'),
+                      buttonStyle: CustomButtonStyles.fillPrimaryTL8,
+                      buttonTextStyle:
+                          CustomTextStyles.titleSmallOnErrorContainer,
+                      height: 45.v,
+                      text: 'Deny'),
                 ),
               ],
             )
@@ -169,7 +183,7 @@ class ManageItem extends StatelessWidget {
                     children: [
                       Text(
                         '''Requesting the time slot specified so I may run a table of adventurers through xyz. Please let me know if that is okay. Since this is a public event The following rules will be in effect:\n-No horror\n-No sexually explicit or vulgar content\n-No PVP unless agreed upon before the session startsRequesting the time slot specified so I may run a table of adventurers through xyz. Please let me know if that is okay. Since this is a public event The following rules will be in effect:\n-No horror\n-No sexually explicit or vulgar content\n-No PVP unless agreed upon before the session starts''',
-                        style: CustomTextStyles.titleMedium16,
+                        style: CustomTextStyles.titleMediumGray60001,
                       )
                     ],
                   ),

@@ -23,7 +23,9 @@ class NotificationBoardPage extends StatefulWidget {
 
 class _NotificationBoardState extends State<NotificationBoardPage> {
   NotificationBoardCubit get cubit => widget.cubit;
-  List<Widget> tabs(NotificationBoardCubit cubit, NotificationBoardState state) => [
+  List<Widget> tabs(
+          NotificationBoardCubit cubit, NotificationBoardState state) =>
+      [
         PostWidget(
           cubit: cubit,
           state: state,
@@ -50,11 +52,14 @@ class _NotificationBoardState extends State<NotificationBoardPage> {
         toolbarHeight: 70.v,
         backgroundColor: theme.colorScheme.background,
         elevation: 0,
-        title: Text('Notification Board', style: CustomTextStyles.titlelarge),
+        title:
+            Text('Notification Board', style: CustomTextStyles.titleMedium16),
       ),
       body: BlocBuilder<NotificationBoardCubit, NotificationBoardState>(
         buildWhen: (previous, current) {
-          if (previous.isPostUploading != current.isPostUploading || previous.eventDatetime != current.eventDatetime || previous.index != current.index) {
+          if (previous.isPostUploading != current.isPostUploading ||
+              previous.eventDatetime != current.eventDatetime ||
+              previous.index != current.index) {
             return true;
           }
           return false;

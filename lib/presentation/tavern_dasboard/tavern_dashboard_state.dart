@@ -8,9 +8,16 @@ class TavernDashboardState {
   final bool isloading;
   DateTime focusedDay;
   DateTime selectedDay;
-  TavernDashboardState({required this.currentIndex, required this.user, required this.isloading, required this.focusedDay, required this.selectedDay});
+  TavernDashboardState(
+      {required this.currentIndex,
+      required this.user,
+      required this.isloading,
+      required this.focusedDay,
+      required this.selectedDay});
 
-  factory TavernDashboardState.initial({required TavernDashboardInitialParams initialParams}) => TavernDashboardState(
+  factory TavernDashboardState.initial(
+          {required TavernDashboardInitialParams initialParams}) =>
+      TavernDashboardState(
         currentIndex: 0,
         user: UserModel(),
         isloading: true,

@@ -29,7 +29,12 @@ class MorePage extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  MoreItem(title: 'Dashboard', ontap: () {}),
+                  MoreItem(
+                      title: 'Notification Board',
+                      ontap: () {
+                        cubit.navigateToNotificaitonBoard();
+                      }),
+                  MoreItem(title: 'Database', ontap: () {}),
                   MoreItem(title: 'QOL (Quality of Life)', ontap: () {}),
                   MoreItem(title: 'How-To', ontap: () {}),
                   MoreItem(title: 'Support', ontap: () {}),

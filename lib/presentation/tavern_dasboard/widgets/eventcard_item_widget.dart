@@ -28,7 +28,11 @@ class EventcardItemWidget extends StatelessWidget {
             decoration: BoxDecoration(
                 border: Border.all(color: appTheme.blueGray100, width: 1),
                 shape: BoxShape.circle,
-                image: event.user!.profilePicture != null ? DecorationImage(image: NetworkImage(event.user?.profilePicture ?? ''), fit: BoxFit.cover) : null),
+                image: event.user!.profilePicture != null
+                    ? DecorationImage(
+                        image: NetworkImage(event.user?.profilePicture ?? ''),
+                        fit: BoxFit.cover)
+                    : null),
           ),
           Padding(
             padding: EdgeInsets.only(
@@ -39,13 +43,18 @@ class EventcardItemWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  event.eventName,
-                  style: CustomTextStyles.titleMediumCircularStdBluegray90001,
+                Container(
+                  width: MediaQuery.sizeOf(context).width * 0.5,
+                  child: Text(
+                    event.eventName,
+                    maxLines: 2,
+                    style: CustomTextStyles.titleMediumCircularStdBluegray90001,
+                  ),
                 ),
                 SizedBox(height: 6.v),
                 Text(
-                  DateFormat('hh:mm:a - dd/MM/yyyy').format(event.eventDatetime),
+                  DateFormat('hh:mm:a - dd/MM/yyyy')
+                      .format(event.eventDatetime),
                   style: CustomTextStyles.bodySmallSFProBluegray40001,
                 ),
                 SizedBox(height: 8.v),

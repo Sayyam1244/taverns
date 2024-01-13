@@ -2,7 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:taverns/core/app_export.dart';
 
 class CustomIconDualTextButton extends StatelessWidget {
-  const CustomIconDualTextButton({Key? key, required this.title, required this.value, required this.icon, required this.ontap}) : super(key: key);
+  const CustomIconDualTextButton(
+      {Key? key,
+      required this.title,
+      required this.value,
+      required this.icon,
+      required this.ontap})
+      : super(key: key);
   final String title;
   final String value;
   final IconData icon;
@@ -32,7 +38,7 @@ class CustomIconDualTextButton extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(height: 2.h),
+                  SizedBox(height: 8.v),
                   Text(
                     title,
                     style: CustomTextStyles.bodySmallSFProBluegray40001,

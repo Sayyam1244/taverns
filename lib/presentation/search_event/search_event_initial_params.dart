@@ -1,0 +1,4 @@
+class SearchEventInitialParams {
+
+const SearchEventInitialParams();
+}

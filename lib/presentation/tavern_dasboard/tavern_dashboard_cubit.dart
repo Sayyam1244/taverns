@@ -4,8 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taverns/domain/repository/auth_repository.dart';
 import 'package:taverns/domain/repository/events_repository.dart';
 import 'package:taverns/domain/repository/user_repository.dart';
+import 'package:taverns/presentation/chat/chat_initial_params.dart';
 import 'package:taverns/presentation/notification_board/notification_board_initial_params.dart';
+import 'package:taverns/presentation/search_event/search_event_initial_params.dart';
+import 'package:taverns/presentation/search_user/search_user_initial_params.dart';
 import 'package:taverns/presentation/tavern_dasboard/tavern_dashboard_navigator.dart';
+import 'package:taverns/presentation/tavern_profile/tavern_profile_initial_params.dart';
 import '../../core/utils/flushbar.dart';
 import 'tavern_dashboard_initial_params.dart';
 import 'tavern_dashboard_state.dart';
@@ -16,7 +20,8 @@ class TavernDashboardCubit extends Cubit<TavernDashboardState> {
   final AuthRepository auth;
   final UserRepository _user;
   final EventRepository events;
-  TavernDashboardCubit(this.initialParams, this.navigator, this.auth, this._user, this.events)
+  TavernDashboardCubit(
+      this.initialParams, this.navigator, this.auth, this._user, this.events)
       : super(
           TavernDashboardState.initial(
             initialParams: initialParams,
@@ -26,7 +31,8 @@ class TavernDashboardCubit extends Cubit<TavernDashboardState> {
   void navigateToNotificaitonBoard() {
     log("name " + state.user.businessName.toString());
 
-    navigator.openNotificationBoard(NotificationBoardInitialParams(userModel: state.user));
+    navigator.openNotificationBoard(
+        NotificationBoardInitialParams(userModel: state.user));
   }
 
   update(int i) {
@@ -36,7 +42,8 @@ class TavernDashboardCubit extends Cubit<TavernDashboardState> {
   getUserData(context) async {
     _user.getUser(auth.currentUser().uid).then((value) {
       return value.fold(
-        (l) => FlushbarDialogue().showErrorFlushbar(context: context, title: l.title, body: l.message),
+        (l) => FlushbarDialogue().showErrorFlushbar(
+            context: context, title: l.title, body: l.message),
         (r) {
           log("name " + r.businessName.toString());
           emit(state.copyWith(user: r, isloading: false));
@@ -47,5 +54,21 @@ class TavernDashboardCubit extends Cubit<TavernDashboardState> {
 
   void updateDates(DateTime selectedDay, DateTime focusedDay) {
     emit(state.copyWith(selectedDay: selectedDay, focusedDay: focusedDay));
+  }
+
+  void navigateToTavernProfileDetail() {
+    navigator.openTavernProfile(TavernProfileInitialParams('asdf'));
+  }
+
+  void navigateTosearchEvent() {
+    navigator.openSearchEvent(SearchEventInitialParams());
+  }
+
+  void navigateToChatScreen({required String otherUserId}) {
+    navigator.openChat(ChatInitialParams(chatRoomId: 'asd'));
+  }
+
+  void navigateToUserSearch() {
+    navigator.openSearchUser(SearchUserInitialParams());
   }
 }
