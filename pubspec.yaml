@@ -17,7 +17,7 @@ dependencies:
   cloud_firestore: ^4.13.6
   sqflite: ^2.3.0
   fpdart: ^1.1.0
-  google_maps_flutter: ^2.5.0
+  google_maps_flutter: ^2.5.3
   geolocator: ^10.1.0
   another_flushbar: ^1.12.30
   toggle_switch: ^2.1.0

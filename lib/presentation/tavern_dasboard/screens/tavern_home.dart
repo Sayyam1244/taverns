@@ -63,8 +63,7 @@ class TavernHome extends StatelessWidget {
                   children: [
                     Text(
                       'Upcoming Events',
-                      style: CustomTextStyles.titleMediumCircularStdBluegray800
-                          .copyWith(
+                      style: CustomTextStyles.titleMediumCircularStdBluegray800.copyWith(
                         color: appTheme.blueGray800,
                       ),
                     ),
@@ -87,10 +86,7 @@ class TavernHome extends StatelessWidget {
               SizedBox(
                 height: 90.v,
                 child: StreamBuilder<Either<GeneralError, List<EventModel>>>(
-                  stream: cubit.events.getEvents(
-                      getUser: true,
-                      limit: 5,
-                      userId: cubit.auth.currentUser().uid),
+                  stream: cubit.events.getEvents(getUser: true, limit: 5, userId: cubit.auth.currentUser().uid),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       List<EventModel> data = [];

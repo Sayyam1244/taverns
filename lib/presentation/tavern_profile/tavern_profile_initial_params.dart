@@ -1,4 +1,5 @@
 class TavernProfileInitialParams {
   final String docId;
-  const TavernProfileInitialParams(this.docId);
+  final bool isTavernOwner;
+  const TavernProfileInitialParams(this.docId, this.isTavernOwner);
 }

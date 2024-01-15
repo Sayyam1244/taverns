@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taverns/core/app_export.dart';
 import 'package:taverns/widgets/app_bar/appbar_subtitle_one.dart';
-import 'package:taverns/widgets/custom_switch.dart';
 import 'package:taverns/widgets/custom_toggle_switch_with_text.dart';
-import '../../widgets/app_bar/appbar_leading_image.dart';
-import '../../widgets/app_bar/appbar_subtitle_two.dart';
 import '../../widgets/app_bar/custom_app_bar.dart';
 import '../../widgets/custom_elevated_button.dart';
 import 'notification_settings_cubit.dart';
@@ -42,7 +39,6 @@ class _NotificationSettingsState extends State<NotificationSettingsPage> {
           // leading: AppbarLeadingImage(imagePath: ImageConstant.imgArrowLeft, margin: EdgeInsets.only(top: 20, bottom: 20), onTap: () {}),
           centerTitle: true,
           title: AppbarSubtitleOne(text: "Notifications Board"),
-         
         ),
         body: Stack(
           alignment: Alignment.topCenter,
@@ -97,7 +93,7 @@ class _NotificationSettingsState extends State<NotificationSettingsPage> {
             ),
           ],
         ),
-         bottomNavigationBar: Padding(
+        bottomNavigationBar: Padding(
           padding: EdgeInsets.only(left: 24.h, right: 24.h, bottom: 20.v),
           child: CustomElevatedButton(
             text: "Next",

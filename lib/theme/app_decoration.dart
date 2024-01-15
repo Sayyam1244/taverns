@@ -52,6 +52,13 @@ class AppDecoration {
           ),
         ],
       );
+  static BoxDecoration get mapSearchDecoration => BoxDecoration(
+          gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
+        Colors.white,
+        appTheme.white.withOpacity(1),
+        appTheme.white.withOpacity(0.6),
+        appTheme.white.withOpacity(0.03),
+      ]));
   static BoxDecoration get outlinePrimary => BoxDecoration(
         color: theme.colorScheme.onErrorContainer.withOpacity(1),
         border: Border.all(

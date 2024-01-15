@@ -5,6 +5,7 @@ import 'package:taverns/presentation/notification_board/sub_components/manage_wi
 import 'package:taverns/presentation/notification_board/sub_components/request_widget.dart';
 import 'package:taverns/theme/theme_helper.dart';
 import 'package:toggle_switch/toggle_switch.dart';
+import '../../widgets/app_bar/appbar_subtitle_one.dart';
 import 'notification_board_cubit.dart';
 import 'notification_board_state.dart';
 import 'sub_components/post_widget.dart';
@@ -23,9 +24,7 @@ class NotificationBoardPage extends StatefulWidget {
 
 class _NotificationBoardState extends State<NotificationBoardPage> {
   NotificationBoardCubit get cubit => widget.cubit;
-  List<Widget> tabs(
-          NotificationBoardCubit cubit, NotificationBoardState state) =>
-      [
+  List<Widget> tabs(NotificationBoardCubit cubit, NotificationBoardState state) => [
         PostWidget(
           cubit: cubit,
           state: state,
@@ -52,14 +51,11 @@ class _NotificationBoardState extends State<NotificationBoardPage> {
         toolbarHeight: 70.v,
         backgroundColor: theme.colorScheme.background,
         elevation: 0,
-        title:
-            Text('Notification Board', style: CustomTextStyles.titleMedium16),
+        title: AppbarSubtitleOne(text: "Notifications Board"),
       ),
       body: BlocBuilder<NotificationBoardCubit, NotificationBoardState>(
         buildWhen: (previous, current) {
-          if (previous.isPostUploading != current.isPostUploading ||
-              previous.eventDatetime != current.eventDatetime ||
-              previous.index != current.index) {
+          if (previous.isPostUploading != current.isPostUploading || previous.eventDatetime != current.eventDatetime || previous.index != current.index) {
             return true;
           }
           return false;

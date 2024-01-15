@@ -2,8 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'common_model.dart';
 
-
-
 class UserModel extends CommonModel {
   String? userName;
   String? email;
@@ -20,6 +18,7 @@ class UserModel extends CommonModel {
   bool? eventsNearMe;
   bool? timeSlotsRequests;
   String? profilePicture;
+  String? marketPlaceLink;
 
   UserModel({
     String? docId,
@@ -40,29 +39,30 @@ class UserModel extends CommonModel {
     this.eventsNearMe,
     this.timeSlotsRequests,
     this.profilePicture,
-  }) : super(
-            docId: docId, createdDate: createdDate, modifiedDate: modifiedDate);
+    this.marketPlaceLink,
+  }) : super(docId: docId, createdDate: createdDate, modifiedDate: modifiedDate);
 
   Map<String, dynamic> toMapForUpload() {
     return {
-     if(userName != null) 'userName': userName,
-     if(email != null) 'email': email,
-     if(profileOnboardingCompleted != null) 'profileOnboardingCompleted': profileOnboardingCompleted,
-     if(docId != null) 'docId': docId,
-     if(createdDate != null) 'creationDate': createdDate,
-     if(modifiedDate != null) 'modifiedDate': modifiedDate,
-     if(businessName != null) 'businessName': businessName,
-     if(businessNumber != null) 'businessNumber': businessNumber,
-     if(businessAddress != null) 'businessAddress': businessAddress,
-     if(contactEmail != null) 'contactEmail': contactEmail,
-     if(businessHours != null) 'businessHours': businessHours,
-     if(accountType != null) 'accountType': accountType,
-     if(lat != null) 'lat': lat,
-     if(long != null) 'long': long,
-     if(likeReview != null) 'likeReview': likeReview,
-    if(eventsNearMe != null)  'eventsNearMe': eventsNearMe,
-    if(timeSlotsRequests != null)  'timeSlotsRequests': timeSlotsRequests,
-    if(profilePicture != null)  'profilePicture': profilePicture,
+      if (userName != null) 'userName': userName,
+      if (email != null) 'email': email,
+      if (profileOnboardingCompleted != null) 'profileOnboardingCompleted': profileOnboardingCompleted,
+      if (docId != null) 'docId': docId,
+      if (createdDate != null) 'creationDate': createdDate,
+      if (modifiedDate != null) 'modifiedDate': modifiedDate,
+      if (businessName != null) 'businessName': businessName,
+      if (businessNumber != null) 'businessNumber': businessNumber,
+      if (businessAddress != null) 'businessAddress': businessAddress,
+      if (contactEmail != null) 'contactEmail': contactEmail,
+      if (businessHours != null) 'businessHours': businessHours,
+      if (accountType != null) 'accountType': accountType,
+      if (lat != null) 'lat': lat,
+      if (long != null) 'long': long,
+      if (likeReview != null) 'likeReview': likeReview,
+      if (eventsNearMe != null) 'eventsNearMe': eventsNearMe,
+      if (timeSlotsRequests != null) 'timeSlotsRequests': timeSlotsRequests,
+      if (profilePicture != null) 'profilePicture': profilePicture,
+      if (marketPlaceLink != null) 'marketPlaceLink': marketPlaceLink,
     };
   }
 
@@ -87,6 +87,7 @@ class UserModel extends CommonModel {
       eventsNearMe: data?['eventsNearMe'] ?? false,
       timeSlotsRequests: data?['timeSlotsRequests'] ?? false,
       profilePicture: data?['profilePicture'] ?? '',
+      marketPlaceLink: data?['marketPlaceLink'] ?? '',
     );
   }
 }

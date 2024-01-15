@@ -6,8 +6,11 @@ class AppNavigator {
   }
 
   pushAndReplace(BuildContext context, Widget page) {
-    Navigator.pushAndRemoveUntil(context,
-        MaterialPageRoute(builder: (context) => page), (route) => false);
+    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => page), (route) => false);
+  }
+
+  pushAndRemoveCurrentOnly(BuildContext context, Widget page) {
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => page));
   }
 
   navigateBack(BuildContext context) {
