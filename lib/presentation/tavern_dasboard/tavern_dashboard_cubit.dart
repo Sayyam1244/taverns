@@ -5,6 +5,7 @@ import 'package:taverns/domain/repository/auth_repository.dart';
 import 'package:taverns/domain/repository/events_repository.dart';
 import 'package:taverns/domain/repository/user_repository.dart';
 import 'package:taverns/presentation/chat/chat_initial_params.dart';
+import 'package:taverns/presentation/event_detail/event_detail_initial_params.dart';
 import 'package:taverns/presentation/notification_board/notification_board_initial_params.dart';
 import 'package:taverns/presentation/search_event/search_event_initial_params.dart';
 import 'package:taverns/presentation/search_user/search_user_initial_params.dart';
@@ -67,5 +68,9 @@ class TavernDashboardCubit extends Cubit<TavernDashboardState> {
 
   void navigateToUserSearch() {
     navigator.openSearchUser(SearchUserInitialParams());
+  }
+
+  void navigateToEventDetailScreen(String? docId) {
+    navigator.openEventDetail(EventDetailInitialParams(docId!));
   }
 }

@@ -270,6 +270,15 @@ class _PostWidgetState extends State<PostWidget> {
                     ],
                   ),
                   SizedBox(height: 10.v),
+                  CustomTextFormField(
+                    maxLines: 5,
+                    maxLength: 500,
+                    contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    hintText: 'Note',
+                    onChanged: (v) {
+                      widget.cubit.updatePostData(note: v);
+                    },
+                  ),
                 ],
               ),
             ),

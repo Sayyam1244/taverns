@@ -19,6 +19,9 @@ import 'package:taverns/presentation/enable_location/enable_location_cubit.dart'
 import 'package:taverns/presentation/enable_location/enable_location_initial_params.dart';
 import 'package:taverns/presentation/enable_location/enable_location_navigator.dart';
 import 'package:taverns/presentation/enable_location/enable_location_page.dart';
+import 'package:taverns/presentation/event_detail/event_detail_cubit.dart';
+import 'package:taverns/presentation/event_detail/event_detail_initial_params.dart';
+import 'package:taverns/presentation/event_detail/event_detail_navigator.dart';
 import 'package:taverns/presentation/forgot_password_screen/forgot_password_cubit.dart';
 import 'package:taverns/presentation/forgot_password_screen/forgot_password_initial_params.dart';
 import 'package:taverns/presentation/forgot_password_screen/forgot_password_navigator.dart';
@@ -122,6 +125,7 @@ void main() async {
   getIt.registerFactoryParam<SearchUserCubit, SearchUserInitialParams, dynamic>((params, param2) => SearchUserCubit(params));
   getIt.registerFactoryParam<EditProfileCubit, EditProfileInitialParams, dynamic>((params, param2) => EditProfileCubit(params, getIt(), getIt()));
   getIt.registerFactoryParam<EditLocationOnMapCubit, EditLocationOnMapInitialParams, dynamic>((params, param2) => EditLocationOnMapCubit(params, getIt(), getIt()));
+  getIt.registerFactoryParam<EventDetailCubit, EventDetailInitialParams, dynamic>((params, param2) => EventDetailCubit(params, getIt(), getIt()));
 }
 
 class MyApp extends StatelessWidget {

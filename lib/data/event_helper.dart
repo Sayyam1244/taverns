@@ -23,15 +23,17 @@ class EventHelper implements EventRepository {
   }
 
   @override
-  Stream<Either<GeneralError, List<EventModel>>> getEvents({required bool getUser, String? userId, required int limit}) async* {
+  Stream<Either<GeneralError, List<EventModel>>> getEvents({required bool getUser, String? userId, bool? fromTodayDate, required int limit}) async* {
     try {
       await for (QuerySnapshot<Map<String, dynamic>> eventsDocs in userId != null
-          ? FirebaseFirestore.instance
-              .collection('Events')
-              .where("eventDatetime", isGreaterThanOrEqualTo: DateTime.now())
-              .where("userId", isEqualTo: userId)
-              .limit(limit)
-              .snapshots()
+          ? (fromTodayDate != null || fromTodayDate == true)
+              ? FirebaseFirestore.instance
+                  .collection('Events')
+                  .where("eventDatetime", isGreaterThanOrEqualTo: DateTime.now())
+                  .where("userId", isEqualTo: userId)
+                  .limit(limit)
+                  .snapshots()
+              : FirebaseFirestore.instance.collection('Events').where("userId", isEqualTo: userId).limit(limit).snapshots()
           : FirebaseFirestore.instance.collection('Events').where("eventDatetime", isGreaterThanOrEqualTo: DateTime.now()).limit(limit).snapshots()) {
         List<EventModel> events = [];
         for (QueryDocumentSnapshot<Map<String, dynamic>> eventDoc in eventsDocs.docs) {
@@ -65,6 +67,22 @@ class EventHelper implements EventRepository {
     } catch (e) {
       log('getEvents=========>' + e.toString());
       yield left(GeneralError('Error', 'Error happened, Please try again later'));
+    }
+  }
+
+  @override
+  Future<Either<GeneralError, EventModel>> getEvent({String? eventId, required bool getUser}) async {
+    try {
+      DocumentSnapshot<Map<String, dynamic>> doc = await FirebaseFirestore.instance.collection('Events').doc(eventId!).get();
+      EventModel event = EventModel.fromMap(doc);
+      if (getUser) {
+        DocumentSnapshot<Map<String, dynamic>> userDoc = await FirebaseFirestore.instance.collection('Users').doc(event.userId).get();
+
+        event.injectUser(UserModel.fromMap(userDoc));
+      }
+      return right(event);
+    } catch (e) {
+      return left(GeneralError('Error', 'Error happened, Please try again later'));
     }
   }
 }

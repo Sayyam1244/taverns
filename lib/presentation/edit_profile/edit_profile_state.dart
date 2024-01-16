@@ -1,10 +1,12 @@
 import 'edit_profile_initial_params.dart';
 
 class EditProfileState {
+  final bool isloading;
+  const EditProfileState({required this.isloading});
 
-const EditProfileState();
+  factory EditProfileState.initial({required EditProfileInitialParams initialParams}) => EditProfileState(isloading: false);
 
-factory EditProfileState.initial({required EditProfileInitialParams initialParams}) => EditProfileState();
-
-EditProfileState copyWith() => const EditProfileState();
+  EditProfileState copyWith({bool? isloading}) => EditProfileState(
+        isloading: isloading ?? this.isloading,
+      );
 }

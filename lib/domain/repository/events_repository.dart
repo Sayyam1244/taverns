@@ -5,6 +5,7 @@ import 'package:taverns/domain/model/request_model.dart';
 
 abstract class EventRepository {
   Future<Either<GeneralError, bool>> postEvent({required EventModel event});
-  Stream<Either<GeneralError, List<EventModel>>> getEvents({required bool getUser, String? userId, required int limit});
+  Stream<Either<GeneralError, List<EventModel>>> getEvents({required bool getUser, String? userId, bool? fromTodayDate, required int limit});
   Stream<Either<GeneralError, List<RequestModel>>> getRequests({String? eventId});
+  Future<Either<GeneralError, EventModel>> getEvent({String? eventId, required bool getUser});
 }

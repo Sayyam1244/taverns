@@ -63,8 +63,8 @@ class EventModel extends CommonModel {
     };
   }
 
-  factory EventModel.fromMap(QueryDocumentSnapshot<Map<String, dynamic>> snapshot) {
-    final data = snapshot.data();
+  factory EventModel.fromMap(DocumentSnapshot<Map<String, dynamic>> snapshot) {
+    final data = snapshot.data()!;
     return EventModel(
       docId: data['docId'] ?? '',
       createdDate: data['creationDate']?.toDate(),

@@ -26,6 +26,7 @@ class CustomTextFormField extends StatelessWidget {
       this.filled = true,
       this.validator,
       this.onChanged,
+      this.maxLength,
       this.enabled})
       : super(
           key: key,
@@ -68,7 +69,7 @@ class CustomTextFormField extends StatelessWidget {
   final InputBorder? borderDecoration;
 
   final Color? fillColor;
-
+  final int? maxLength;
   final bool? filled;
   final bool? enabled;
   final FormFieldValidator<String>? validator;
@@ -86,6 +87,7 @@ class CustomTextFormField extends StatelessWidget {
   Widget get textFormFieldWidget => SizedBox(
         width: width ?? double.maxFinite,
         child: TextFormField(
+          maxLength: maxLength,
           onChanged: onChanged,
           enabled: enabled,
           controller: controller,

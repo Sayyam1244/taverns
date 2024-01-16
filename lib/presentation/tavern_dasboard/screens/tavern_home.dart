@@ -86,7 +86,7 @@ class TavernHome extends StatelessWidget {
               SizedBox(
                 height: 90.v,
                 child: StreamBuilder<Either<GeneralError, List<EventModel>>>(
-                  stream: cubit.events.getEvents(getUser: true, limit: 5, userId: cubit.auth.currentUser().uid),
+                  stream: cubit.events.getEvents(getUser: true, limit: 5, fromTodayDate: true, userId: cubit.auth.currentUser().uid),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       List<EventModel> data = [];
@@ -106,6 +106,7 @@ class TavernHome extends StatelessWidget {
                           itemBuilder: (context, index) {
                             return EventcardItemWidget(
                               event: data[index],
+                              cubit: cubit,
                             );
                           },
                         );

@@ -194,7 +194,7 @@ class _TavernProfileState extends State<TavernProfilePage> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.symmetric(horizontal: 16),
+                    margin: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                     padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                     decoration: AppDecoration.fillOnErrorContainer.copyWith(
                       borderRadius: BorderRadiusStyle.roundedBorder16,
