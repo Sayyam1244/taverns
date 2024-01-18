@@ -5,7 +5,6 @@ import 'package:fpdart/fpdart.dart';
 import 'package:taverns/core/app_export.dart';
 import 'package:taverns/domain/model/event_model.dart';
 import 'package:taverns/domain/model/general_model.dart';
-import 'package:taverns/domain/model/user_model.dart';
 
 import '../../../widgets/custom_elevated_button.dart';
 import '../../../widgets/custom_search_view.dart';
@@ -15,8 +14,8 @@ import '../widgets/eventcard_item_widget.dart';
 import '../widgets/notificaiton_board.dart';
 import '../widgets/tavern_profile_widget.dart';
 
-class TavernHome extends StatelessWidget {
-  TavernHome({
+class Home extends StatelessWidget {
+  Home({
     Key? key,
     required this.cubit,
     required this.state,

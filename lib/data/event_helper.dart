@@ -5,6 +5,7 @@ import 'package:fpdart/src/either.dart';
 import 'package:taverns/domain/model/event_model.dart';
 import 'package:taverns/domain/model/general_model.dart';
 import 'package:taverns/domain/model/request_model.dart';
+import 'package:taverns/domain/model/review_model.dart';
 import 'package:taverns/domain/model/user_model.dart';
 import 'package:taverns/domain/repository/events_repository.dart';
 
@@ -81,6 +82,45 @@ class EventHelper implements EventRepository {
         event.injectUser(UserModel.fromMap(userDoc));
       }
       return right(event);
+    } catch (e) {
+      return left(GeneralError('Error', 'Error happened, Please try again later'));
+    }
+  }
+
+  @override
+  Future<Either<GeneralError, bool>> submitReviewToEvent({required ReviewModel reviewModel}) async {
+    try {
+      DocumentReference<Map<String, dynamic>> docRef = FirebaseFirestore.instance.collection('Reviews').doc();
+      reviewModel.docId = docRef.id;
+      await docRef.set(reviewModel.toMapForUpload());
+      return right(true);
+    } catch (e) {
+      return left(GeneralError('Error', 'Error happened, Please try again later'));
+    }
+  }
+
+  @override
+  Future<Either<GeneralError, bool>> checkIsReviewPosted({required String eventId, required String userId}) async {
+    try {
+      QuerySnapshot<Map<String, dynamic>> doc =
+          await FirebaseFirestore.instance.collection('Reviews').where('eventId', isEqualTo: eventId).where('userId', isEqualTo: userId).get();
+      if (doc.docs.isEmpty) {
+        return right(false);
+      } else {
+        return right(true);
+      }
+    } catch (e) {
+      return right(true);
+    }
+  }
+
+  @override
+  Future<Either<GeneralError, List<ReviewModel>>> getUserReviews({required String userId}) async {
+    try {
+      QuerySnapshot<Map<String, dynamic>> docs = await FirebaseFirestore.instance.collection('Reviews').where('userId', isEqualTo: userId).get();
+      List<ReviewModel> reviews = docs.docs.map((e) => ReviewModel.fromMap(e)).toList();
+      log(reviews.length.toString());
+      return right(reviews);
     } catch (e) {
       return left(GeneralError('Error', 'Error happened, Please try again later'));
     }

@@ -24,7 +24,10 @@ class EventDetailPage extends StatefulWidget {
 
 class _EventDetailState extends State<EventDetailPage> {
   EventDetailCubit get cubit => widget.cubit;
-  double rating = 0;
+  double rating = 1;
+  TextEditingController reviewController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   @override
   void initState() {
     cubit.getEvent(context);
@@ -107,34 +110,51 @@ class _EventDetailState extends State<EventDetailPage> {
                         ),
                         Divider(),
                         SizedBox(height: 20),
-                        CustomTextFormField(
-                          contentPadding: EdgeInsets.all(16),
-                          hintText: 'Write a review',
-                          maxLength: 200,
-                          maxLines: 5,
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              'Rating   ',
-                              style: CustomTextStyles.bodySmallMulishBluegray900,
-                            ),
-                            CustomRatingBar(
-                              itemSize: 20.h,
-                              initialRating: rating,
-                              color: theme.colorScheme.primary,
-                              onRatingUpdate: (v) {
-                                setState(() {
-                                  rating = v;
-                                });
-                              },
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 20.v),
-                        CustomElevatedButton(
-                          text: 'Submit',
-                        )
+                        if (!state.reviewSubmitted)
+                          Column(
+                            children: [
+                              Form(
+                                key: _formKey,
+                                child: CustomTextFormField(
+                                  controller: reviewController,
+                                  contentPadding: EdgeInsets.all(16),
+                                  hintText: 'Write a review',
+                                  maxLength: 200,
+                                  maxLines: 5,
+                                  validator: (value) {
+                                    if (value == '' || value == null) {
+                                      return 'Field is empty';
+                                    }
+                                  },
+                                ),
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                    'Rating   ',
+                                    style: CustomTextStyles.bodySmallMulishBluegray900,
+                                  ),
+                                  CustomRatingBar(
+                                    itemSize: 20.h,
+                                    initialRating: rating,
+                                    color: theme.colorScheme.primary,
+                                    onRatingUpdate: (v) {
+                                      rating = v;
+                                    },
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 20.v),
+                              CustomElevatedButton(
+                                onPressed: () {
+                                  if (_formKey.currentState!.validate()) {
+                                    cubit.submitReview(text: reviewController.text.trim(), rating: rating.toInt(), context: context);
+                                  }
+                                },
+                                text: 'Submit',
+                              )
+                            ],
+                          )
                       ],
                     ),
                   )

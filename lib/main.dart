@@ -34,6 +34,8 @@ import 'package:taverns/presentation/notification_board/notification_board_navig
 import 'package:taverns/presentation/notifications_email_screen/notification_settings_cubit.dart';
 import 'package:taverns/presentation/notifications_email_screen/notification_settings_initial_params.dart';
 import 'package:taverns/presentation/notifications_email_screen/notification_settings_navigator.dart';
+import 'package:taverns/presentation/reviews/reviews_cubit.dart';
+import 'package:taverns/presentation/reviews/reviews_initial_params.dart';
 import 'package:taverns/presentation/search_event/search_event_cubit.dart';
 import 'package:taverns/presentation/search_event/search_event_initial_params.dart';
 import 'package:taverns/presentation/search_user/search_user_cubit.dart';
@@ -126,6 +128,7 @@ void main() async {
   getIt.registerFactoryParam<EditProfileCubit, EditProfileInitialParams, dynamic>((params, param2) => EditProfileCubit(params, getIt(), getIt()));
   getIt.registerFactoryParam<EditLocationOnMapCubit, EditLocationOnMapInitialParams, dynamic>((params, param2) => EditLocationOnMapCubit(params, getIt(), getIt()));
   getIt.registerFactoryParam<EventDetailCubit, EventDetailInitialParams, dynamic>((params, param2) => EventDetailCubit(params, getIt(), getIt()));
+  getIt.registerFactoryParam<ReviewsCubit, ReviewsInitialParams, dynamic>((params, param2) => ReviewsCubit(params, getIt()));
 }
 
 class MyApp extends StatelessWidget {

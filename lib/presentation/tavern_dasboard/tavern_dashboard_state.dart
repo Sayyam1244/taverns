@@ -8,21 +8,25 @@ class TavernDashboardState {
   final bool isloading;
   DateTime focusedDay;
   DateTime selectedDay;
+  final int stars;
+  final int reviewCount;
   TavernDashboardState(
       {required this.currentIndex,
       required this.user,
       required this.isloading,
+      required this.stars,
+      required this.reviewCount,
       required this.focusedDay,
       required this.selectedDay});
 
-  factory TavernDashboardState.initial(
-          {required TavernDashboardInitialParams initialParams}) =>
-      TavernDashboardState(
+  factory TavernDashboardState.initial({required TavernDashboardInitialParams initialParams}) => TavernDashboardState(
         currentIndex: 0,
         user: UserModel(),
         isloading: true,
         selectedDay: DateTime.now(),
         focusedDay: DateTime.now(),
+        reviewCount: 0,
+        stars: 0,
       );
 
   TavernDashboardState copyWith({
@@ -31,6 +35,8 @@ class TavernDashboardState {
     bool? isloading,
     DateTime? selectedDay,
     DateTime? focusedDay,
+    int? stars,
+    int? reviewCount,
   }) =>
       TavernDashboardState(
         currentIndex: currentIndex ?? this.currentIndex,
@@ -38,5 +44,7 @@ class TavernDashboardState {
         isloading: isloading ?? this.isloading,
         focusedDay: focusedDay ?? this.focusedDay,
         selectedDay: selectedDay ?? this.selectedDay,
+        reviewCount: reviewCount ?? this.reviewCount,
+        stars: stars ?? this.stars,
       );
 }

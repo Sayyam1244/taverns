@@ -6,9 +6,7 @@ import 'package:taverns/widgets/custom_elevated_button.dart';
 import 'package:taverns/widgets/custom_rating_bar.dart';
 
 class TavernProfileWidget extends StatelessWidget {
-  const TavernProfileWidget(
-      {Key? key, required this.cubit, required this.state})
-      : super(key: key);
+  const TavernProfileWidget({Key? key, required this.cubit, required this.state}) : super(key: key);
   final TavernDashboardCubit cubit;
   final TavernDashboardState state;
   @override
@@ -37,11 +35,7 @@ class TavernProfileWidget extends StatelessWidget {
                   width: 40.adaptSize,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    image: state.user.profilePicture != null
-                        ? DecorationImage(
-                            image: NetworkImage(state.user.profilePicture!),
-                            fit: BoxFit.cover)
-                        : null,
+                    image: state.user.profilePicture != null ? DecorationImage(image: NetworkImage(state.user.profilePicture!), fit: BoxFit.cover) : null,
                     shape: BoxShape.circle,
                     border: Border.all(
                       color: theme.colorScheme.primary,
@@ -60,8 +54,7 @@ class TavernProfileWidget extends StatelessWidget {
                     children: [
                       Text(
                         state.user.userName ?? '',
-                        style:
-                            CustomTextStyles.titleSmallProductSansBluegray800,
+                        style: CustomTextStyles.titleSmallProductSansBluegray800,
                       ),
                       SizedBox(height: 3.v),
                       Text(
@@ -88,26 +81,37 @@ class TavernProfileWidget extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Padding(
-                  padding: EdgeInsets.only(
-                    top: 8.v,
-                    bottom: 7.v,
-                  ),
-                  child: CustomRatingBar(
-                    initialRating: 5,
-                    color: theme.colorScheme.primary,
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: 12.h,
-                    top: 9.v,
-                    bottom: 5.v,
-                  ),
-                  child: Text(
-                    "(22235)",
-                    style: CustomTextStyles.labelLargePrimary,
-                  ),
+                Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(
+                        top: 8.v,
+                        bottom: 7.v,
+                      ),
+                      child: CustomRatingBar(
+                        ignoreGestures: true,
+                        initialRating: state.stars.toDouble(),
+                        color: theme.colorScheme.primary,
+                        // onRatingUpdate: (v) {},
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        cubit.navigateToReviews();
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                          left: 12.h,
+                          top: 9.v,
+                          bottom: 5.v,
+                        ),
+                        child: Text(
+                          "(${state.reviewCount})",
+                          style: CustomTextStyles.labelLargePrimary,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 Spacer(),
                 CustomElevatedButton(
@@ -118,8 +122,7 @@ class TavernProfileWidget extends StatelessWidget {
                   width: 94.h,
                   text: "View profile",
                   buttonStyle: CustomButtonStyles.fillPrimaryTL8,
-                  buttonTextStyle:
-                      CustomTextStyles.labelLargeOnErrorContainer_1,
+                  buttonTextStyle: CustomTextStyles.labelLargeOnErrorContainer_1,
                 )
               ],
             ),

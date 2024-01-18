@@ -7,6 +7,7 @@ import 'package:taverns/domain/repository/user_repository.dart';
 import 'package:taverns/presentation/chat/chat_initial_params.dart';
 import 'package:taverns/presentation/event_detail/event_detail_initial_params.dart';
 import 'package:taverns/presentation/notification_board/notification_board_initial_params.dart';
+import 'package:taverns/presentation/reviews/reviews_initial_params.dart';
 import 'package:taverns/presentation/search_event/search_event_initial_params.dart';
 import 'package:taverns/presentation/search_user/search_user_initial_params.dart';
 import 'package:taverns/presentation/tavern_dasboard/tavern_dashboard_navigator.dart';
@@ -42,8 +43,8 @@ class TavernDashboardCubit extends Cubit<TavernDashboardState> {
     _user.getUser(auth.currentUser().uid).then((value) {
       return value.fold(
         (l) => FlushbarDialogue().showErrorFlushbar(context: context, title: l.title, body: l.message),
-        (r) {
-          log("name " + r.businessName.toString());
+        (r) async {
+          await getReviewsData();
           emit(state.copyWith(user: r, isloading: false));
         },
       );
@@ -72,5 +73,27 @@ class TavernDashboardCubit extends Cubit<TavernDashboardState> {
 
   void navigateToEventDetailScreen(String? docId) {
     navigator.openEventDetail(EventDetailInitialParams(docId!));
+  }
+
+  void navigateToReviews() {
+    navigator.openReviews(ReviewsInitialParams(auth.currentUser().uid));
+  }
+
+  Future<void> getReviewsData() async {
+    await events.getUserReviews(userId: auth.currentUser().uid).then((value) {
+      return value.fold(
+        (l) => null,
+        (r) {
+          List<int> n = r.map((e) => e.stars ?? 0).toList();
+          int sum = 0;
+          n.forEach((element) {
+            sum = sum + (element ?? 0);
+          });
+
+          emit(state.copyWith(reviewCount: r.length, stars: sum));
+          log("count" + r.length.toString());
+        },
+      );
+    });
   }
 }
