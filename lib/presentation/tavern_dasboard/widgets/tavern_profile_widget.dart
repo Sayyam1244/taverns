@@ -6,12 +6,15 @@ import 'package:taverns/widgets/custom_elevated_button.dart';
 import 'package:taverns/widgets/custom_rating_bar.dart';
 
 class TavernProfileWidget extends StatelessWidget {
-  const TavernProfileWidget({Key? key, required this.cubit, required this.state}) : super(key: key);
+  const TavernProfileWidget(
+      {Key? key, required this.cubit, required this.state})
+      : super(key: key);
   final TavernDashboardCubit cubit;
   final TavernDashboardState state;
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: double.infinity,
       margin: EdgeInsets.symmetric(horizontal: 15.h),
       padding: EdgeInsets.symmetric(
         horizontal: 14.h,
@@ -25,108 +28,143 @@ class TavernProfileWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SizedBox(height: 4.v),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  height: 40.adaptSize,
-                  width: 40.adaptSize,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    image: state.user.profilePicture != null ? DecorationImage(image: NetworkImage(state.user.profilePicture!), fit: BoxFit.cover) : null,
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: theme.colorScheme.primary,
-                      width: 1,
-                    ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+                height: 40.adaptSize,
+                width: 40.adaptSize,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  image: state.user.profilePicture != null
+                      ? DecorationImage(
+                          image: NetworkImage(state.user.profilePicture!),
+                          fit: BoxFit.cover)
+                      : null,
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: theme.colorScheme.primary,
+                    width: 1,
                   ),
                 ),
+              ),
+              state.user.accountType == 'Tavern'
+                  ? Padding(
+                      padding: EdgeInsets.only(
+                        left: 10.h,
+                        top: 2.v,
+                        bottom: 4.v,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            state.user.userName ?? '',
+                            style: CustomTextStyles
+                                .titleSmallProductSansBluegray800,
+                          ),
+                          SizedBox(height: 3.v),
+                          Text(
+                            state.user.businessNumber ?? '',
+                            style: theme.textTheme.labelMedium,
+                          ),
+                        ],
+                      ))
+                  : Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 10.h),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              state.user.userName ?? '',
+                              style: CustomTextStyles
+                                  .titleSmallProductSansBluegray800,
+                            ),
+                            CustomElevatedButton(
+                              onPressed: () {
+                                cubit.navigateToTavernProfileDetail();
+                              },
+                              height: 31.v,
+                              width: 94.h,
+                              text: "View profile",
+                              buttonStyle: CustomButtonStyles.fillPrimaryTL8,
+                              buttonTextStyle:
+                                  CustomTextStyles.labelLargeOnErrorContainer_1,
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+            ],
+          ),
+          SizedBox(height: 15.v),
+          if (state.user.accountType == 'Tavern')
+            Column(
+              children: [
+                Divider(
+                  color: appTheme.gray90060.withOpacity(0.1),
+                  thickness: 1,
+                ),
+                SizedBox(height: 15.v),
                 Padding(
                   padding: EdgeInsets.only(
-                    left: 10.h,
-                    top: 2.v,
-                    bottom: 4.v,
+                    left: 6.h,
+                    right: 4.h,
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        state.user.userName ?? '',
-                        style: CustomTextStyles.titleSmallProductSansBluegray800,
+                      Row(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(
+                              top: 8.v,
+                              bottom: 7.v,
+                            ),
+                            child: CustomRatingBar(
+                              ignoreGestures: true,
+                              initialRating: state.stars.toDouble(),
+                              color: theme.colorScheme.primary,
+                              // onRatingUpdate: (v) {},
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              cubit.navigateToReviews();
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                left: 12.h,
+                                top: 9.v,
+                                bottom: 5.v,
+                              ),
+                              child: Text(
+                                "(${state.reviewCount})",
+                                style: CustomTextStyles.labelLargePrimary,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                      SizedBox(height: 3.v),
-                      Text(
-                        state.user.businessNumber ?? '',
-                        style: theme.textTheme.labelMedium,
-                      ),
+                      Spacer(),
+                      CustomElevatedButton(
+                        onPressed: () {
+                          cubit.navigateToTavernProfileDetail();
+                        },
+                        height: 31.v,
+                        width: 94.h,
+                        text: "View profile",
+                        buttonStyle: CustomButtonStyles.fillPrimaryTL8,
+                        buttonTextStyle:
+                            CustomTextStyles.labelLargeOnErrorContainer_1,
+                      )
                     ],
                   ),
                 ),
               ],
-            ),
-          ),
-          SizedBox(height: 15.v),
-          Divider(
-            color: appTheme.gray90060.withOpacity(0.1),
-            thickness: 1,
-          ),
-          SizedBox(height: 15.v),
-          Padding(
-            padding: EdgeInsets.only(
-              left: 6.h,
-              right: 4.h,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Row(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(
-                        top: 8.v,
-                        bottom: 7.v,
-                      ),
-                      child: CustomRatingBar(
-                        ignoreGestures: true,
-                        initialRating: state.stars.toDouble(),
-                        color: theme.colorScheme.primary,
-                        // onRatingUpdate: (v) {},
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        cubit.navigateToReviews();
-                      },
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                          left: 12.h,
-                          top: 9.v,
-                          bottom: 5.v,
-                        ),
-                        child: Text(
-                          "(${state.reviewCount})",
-                          style: CustomTextStyles.labelLargePrimary,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Spacer(),
-                CustomElevatedButton(
-                  onPressed: () {
-                    cubit.navigateToTavernProfileDetail();
-                  },
-                  height: 31.v,
-                  width: 94.h,
-                  text: "View profile",
-                  buttonStyle: CustomButtonStyles.fillPrimaryTL8,
-                  buttonTextStyle: CustomTextStyles.labelLargeOnErrorContainer_1,
-                )
-              ],
-            ),
-          ),
+            )
         ],
       ),
     );

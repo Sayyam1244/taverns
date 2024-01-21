@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:taverns/core/app_export.dart';
@@ -62,7 +60,8 @@ class Home extends StatelessWidget {
                   children: [
                     Text(
                       'Upcoming Events',
-                      style: CustomTextStyles.titleMediumCircularStdBluegray800.copyWith(
+                      style: CustomTextStyles.titleMediumCircularStdBluegray800
+                          .copyWith(
                         color: appTheme.blueGray800,
                       ),
                     ),
@@ -83,9 +82,13 @@ class Home extends StatelessWidget {
               ),
               SizedBox(height: 12.v),
               SizedBox(
-                height: 90.v,
+                height: state.user.accountType != 'Tavern' ? 120.v : 90.v,
                 child: StreamBuilder<Either<GeneralError, List<EventModel>>>(
-                  stream: cubit.events.getEvents(getUser: true, limit: 5, fromTodayDate: true, userId: cubit.auth.currentUser().uid),
+                  stream: cubit.events.getEvents(
+                    getUser: true,
+                    limit: 5,
+                    fromTodayDate: true,
+                  ),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       List<EventModel> data = [];
@@ -106,6 +109,7 @@ class Home extends StatelessWidget {
                             return EventcardItemWidget(
                               event: data[index],
                               cubit: cubit,
+                              requestToJoin: state.user.accountType != 'Tavern',
                             );
                           },
                         );

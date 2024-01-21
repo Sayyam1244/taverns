@@ -33,14 +33,21 @@ class _EditProfileState extends State<EditProfilePage> {
   TextEditingController hoursController = TextEditingController();
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   File? file;
+  String? validator(String? value) {
+    if (value!.isEmpty) {
+      return "Field's empty";
+    }
+  }
 
   @override
   void initState() {
     super.initState();
     cubit.navigator.context = context;
     businessNameController.text = cubit.initialParams.userModel.businessName!;
-    businessNumberController.text = cubit.initialParams.userModel.businessNumber!;
-    businessAddressController.text = cubit.initialParams.userModel.businessAddress!;
+    businessNumberController.text =
+        cubit.initialParams.userModel.businessNumber!;
+    businessAddressController.text =
+        cubit.initialParams.userModel.businessAddress!;
     marketPlaceController.text = cubit.initialParams.userModel.marketPlaceLink!;
     hoursController.text = cubit.initialParams.userModel.businessHours!;
   }
@@ -111,7 +118,8 @@ class _EditProfileState extends State<EditProfilePage> {
                                             file!,
                                           ) as ImageProvider<Object>
                                         : NetworkImage(
-                                            cubit.initialParams.userModel.profilePicture!,
+                                            cubit.initialParams.userModel
+                                                .profilePicture!,
                                           ),
                                     fit: BoxFit.cover,
                                   ),
@@ -124,7 +132,8 @@ class _EditProfileState extends State<EditProfilePage> {
                               Align(
                                 alignment: Alignment.bottomRight,
                                 child: Container(
-                                  margin: EdgeInsets.only(bottom: 5.v, right: 5.v),
+                                  margin:
+                                      EdgeInsets.only(bottom: 5.v, right: 5.v),
                                   padding: EdgeInsets.all(8),
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
@@ -132,7 +141,8 @@ class _EditProfileState extends State<EditProfilePage> {
                                     border: Border.all(
                                       color: theme.colorScheme.background,
                                       width: 5,
-                                      strokeAlign: BorderSide.strokeAlignOutside,
+                                      strokeAlign:
+                                          BorderSide.strokeAlignOutside,
                                     ),
                                   ),
                                   child: Icon(
@@ -148,101 +158,23 @@ class _EditProfileState extends State<EditProfilePage> {
                       ),
                     ),
                     SizedBox(height: 16.v),
-                    CustomTextFormField(
-                      controller: businessNameController,
-                      hintText: "Business Name",
-                      prefix: Container(
-                          margin: EdgeInsets.fromLTRB(16.h, 16.v, 12.h, 16.v),
-                          child: Icon(
-                            Icons.business,
-                            color: theme.colorScheme.primary,
-                            size: 20,
-                          )),
-                      prefixConstraints: BoxConstraints(
-                        maxHeight: 56.v,
+                    if (cubit.initialParams.userModel.accountType == 'Tavern')
+                      TavernEditFields(
+                        businessNameController: businessNameController,
+                        businessNumberController: businessNumberController,
+                        businessAddressController: businessAddressController,
+                        hoursController: hoursController,
+                        locationChangeOntap: () {
+                          cubit.navigateToEditMapScreen(
+                            businessNameController.text,
+                            businessNumberController.text,
+                            businessAddressController.text,
+                            hoursController.text,
+                            marketPlaceController.text,
+                          );
+                        },
+                        validator: validator,
                       ),
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return "Field's empty";
-                        }
-                      },
-                    ),
-                    SizedBox(height: 16.v),
-                    CustomTextFormField(
-                      controller: businessNumberController,
-                      hintText: "Business Number",
-                      prefix: Container(
-                          margin: EdgeInsets.fromLTRB(16.h, 16.v, 12.h, 16.v),
-                          child: Icon(
-                            Icons.phone,
-                            color: theme.colorScheme.primary,
-                            size: 20,
-                          )),
-                      prefixConstraints: BoxConstraints(
-                        maxHeight: 56.v,
-                      ),
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return "Field's empty";
-                        }
-                      },
-                    ),
-                    SizedBox(height: 16.v),
-                    CustomTextFormField(
-                      controller: businessAddressController,
-                      hintText: "Business Address",
-                      prefix: Container(
-                          margin: EdgeInsets.fromLTRB(16.h, 16.v, 12.h, 16.v),
-                          child: Icon(
-                            Icons.location_on,
-                            color: theme.colorScheme.primary,
-                            size: 20,
-                          )),
-                      prefixConstraints: BoxConstraints(
-                        maxHeight: 56.v,
-                      ),
-                      enabled: true,
-                      suffixConstraints: BoxConstraints(
-                        maxHeight: 56.v,
-                      ),
-                      suffix: Padding(
-                        padding: const EdgeInsets.only(right: 16, left: 8),
-                        child: InkWell(
-                          onTap: () {
-                            cubit.navigateToEditMapScreen(
-                              businessNameController.text,
-                              businessNumberController.text,
-                              businessAddressController.text,
-                              hoursController.text,
-                              marketPlaceController.text,
-                            );
-                          },
-                          child: Text(
-                            'Change',
-                            style: CustomTextStyles.bodySmallPrimary,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 16.v),
-                    CustomTextFormField(
-                      controller: hoursController,
-                      hintText: "Business Hours",
-                      prefix: Container(
-                          margin: EdgeInsets.fromLTRB(16.h, 16.v, 12.h, 16.v),
-                          child: Icon(
-                            Icons.timelapse,
-                            color: theme.colorScheme.primary,
-                            size: 20,
-                          )),
-                      prefixConstraints: BoxConstraints(
-                        maxHeight: 56.v,
-                      ),
-                      suffixConstraints: BoxConstraints(
-                        maxHeight: 56.v,
-                      ),
-                    ),
-                    SizedBox(height: 16.v),
                     CustomTextFormField(
                       controller: marketPlaceController,
                       hintText: "Marketplace",
@@ -264,6 +196,111 @@ class _EditProfileState extends State<EditProfilePage> {
                 ),
               ),
       ),
+    );
+  }
+}
+
+class TavernEditFields extends StatelessWidget {
+  TavernEditFields({
+    Key? key,
+    required this.businessNameController,
+    required this.businessNumberController,
+    required this.businessAddressController,
+    required this.hoursController,
+    required this.locationChangeOntap,
+    required this.validator,
+  }) : super(key: key);
+
+  final TextEditingController businessNameController;
+  final TextEditingController businessNumberController;
+  final TextEditingController businessAddressController;
+  final TextEditingController hoursController;
+  String? Function(String?)? validator;
+  final VoidCallback locationChangeOntap;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        CustomTextFormField(
+            controller: businessNameController,
+            hintText: "Business Name",
+            prefix: Container(
+                margin: EdgeInsets.fromLTRB(16.h, 16.v, 12.h, 16.v),
+                child: Icon(
+                  Icons.business,
+                  color: theme.colorScheme.primary,
+                  size: 20,
+                )),
+            prefixConstraints: BoxConstraints(
+              maxHeight: 56.v,
+            ),
+            validator: validator),
+        SizedBox(height: 16.v),
+        CustomTextFormField(
+          controller: businessNumberController,
+          hintText: "Business Number",
+          prefix: Container(
+              margin: EdgeInsets.fromLTRB(16.h, 16.v, 12.h, 16.v),
+              child: Icon(
+                Icons.phone,
+                color: theme.colorScheme.primary,
+                size: 20,
+              )),
+          prefixConstraints: BoxConstraints(
+            maxHeight: 56.v,
+          ),
+          validator: validator,
+        ),
+        SizedBox(height: 16.v),
+        CustomTextFormField(
+          controller: businessAddressController,
+          hintText: "Business Address",
+          prefix: Container(
+              margin: EdgeInsets.fromLTRB(16.h, 16.v, 12.h, 16.v),
+              child: Icon(
+                Icons.location_on,
+                color: theme.colorScheme.primary,
+                size: 20,
+              )),
+          prefixConstraints: BoxConstraints(
+            maxHeight: 56.v,
+          ),
+          enabled: true,
+          suffixConstraints: BoxConstraints(
+            maxHeight: 56.v,
+          ),
+          suffix: Padding(
+            padding: const EdgeInsets.only(right: 16, left: 8),
+            child: InkWell(
+              onTap: locationChangeOntap,
+              child: Text(
+                'Change',
+                style: CustomTextStyles.bodySmallPrimary,
+              ),
+            ),
+          ),
+        ),
+        SizedBox(height: 16.v),
+        CustomTextFormField(
+          controller: hoursController,
+          validator: validator,
+          hintText: "Business Hours",
+          prefix: Container(
+              margin: EdgeInsets.fromLTRB(16.h, 16.v, 12.h, 16.v),
+              child: Icon(
+                Icons.timelapse,
+                color: theme.colorScheme.primary,
+                size: 20,
+              )),
+          prefixConstraints: BoxConstraints(
+            maxHeight: 56.v,
+          ),
+          suffixConstraints: BoxConstraints(
+            maxHeight: 56.v,
+          ),
+        ),
+        SizedBox(height: 16.v),
+      ],
     );
   }
 }

@@ -3,5 +3,4 @@ class GeneralError {
   final String message;
 
   GeneralError(this.title, this.message);
-
 }

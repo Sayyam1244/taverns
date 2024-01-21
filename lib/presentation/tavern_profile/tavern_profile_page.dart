@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:taverns/core/app_export.dart';
+import 'package:taverns/presentation/tavern_profile/sub_components/tavern_business_info.dart';
 import 'package:taverns/widgets/custome_loading_widget.dart';
 import '../../widgets/app_bar/appbar_subtitle_one.dart';
 import '../../widgets/custom_elevated_button.dart';
 import '../../widgets/custom_rating_bar.dart';
+import '../../widgets/market_place_widget.dart';
 import 'tavern_profile_cubit.dart';
 import 'tavern_profile_state.dart';
 
@@ -82,9 +84,12 @@ class _TavernProfileState extends State<TavernProfilePage> {
                             Expanded(
                               child: Column(
                                 children: [
+                                  SizedBox(height: 10.v),
                                   Row(
                                     children: [
-                                      Text(state.userModel.userName!, style: CustomTextStyles.titleMedium16),
+                                      Text(state.userModel.userName!,
+                                          style:
+                                              CustomTextStyles.titleMedium16),
                                       Spacer(),
                                       cubit.initialParams.isTavernOwner
                                           ? Container()
@@ -95,17 +100,21 @@ class _TavernProfileState extends State<TavernProfilePage> {
                                     ],
                                   ),
                                   SizedBox(height: 10.v),
-                                  profileInfoItem(name: 'Business Number', value: state.userModel.businessNumber!, icon: Icons.description_outlined),
-                                  Divider(
-                                    color: appTheme.gray90060.withOpacity(0.1),
-                                    thickness: 1,
-                                  ),
-                                  profileInfoItem(name: 'Business Address', value: state.userModel.businessAddress!, icon: Icons.location_on_outlined),
-                                  Divider(
-                                    color: appTheme.gray90060.withOpacity(0.1),
-                                    thickness: 1,
-                                  ),
-                                  profileInfoItem(name: 'Business Hours', value: state.userModel.businessHours!, icon: Icons.timelapse_outlined),
+                                  state.userModel.accountType == "Tavern"
+                                      ? TavernBusinessInfo(
+                                          businessNumber:
+                                              state.userModel.businessNumber ??
+                                                  '',
+                                          businessAddress:
+                                              state.userModel.businessAddress ??
+                                                  '',
+                                          businessHours:
+                                              state.userModel.businessHours ??
+                                                  '',
+                                        )
+                                      : MarketPlaceWidget(
+                                          link: state.userModel.marketPlaceLink,
+                                          showEndIcon: false)
                                 ],
                               ),
                             )
@@ -119,16 +128,19 @@ class _TavernProfileState extends State<TavernProfilePage> {
                         SizedBox(height: 14.v),
                         Row(
                           children: [
-                            CustomRatingBar(
-                              itemSize: 20.v,
-                              initialRating: 0,
-                              color: theme.colorScheme.primary,
-                            ),
-                            SizedBox(width: 6.h),
-                            Text(
-                              "(No review yet)",
-                              style: CustomTextStyles.titleSmallPrimary,
-                            ),
+                            if (state.userModel.accountType == 'Tavern')
+                              CustomRatingBar(
+                                itemSize: 20.v,
+                                initialRating: 0,
+                                color: theme.colorScheme.primary,
+                              ),
+                            if (state.userModel.accountType == 'Tavern')
+                              SizedBox(width: 6.h),
+                            if (state.userModel.accountType == 'Tavern')
+                              Text(
+                                "(No review yet)",
+                                style: CustomTextStyles.titleSmallPrimary,
+                              ),
                             Spacer(),
                             CustomElevatedButton(
                               onPressed: () {
@@ -139,90 +151,34 @@ class _TavernProfileState extends State<TavernProfilePage> {
                                 }
                               },
                               height: 35.v,
-                              width: cubit.initialParams.isTavernOwner ? 88.h : 60.h,
-                              text: cubit.initialParams.isTavernOwner ? "Edit profile" : "Chat",
+                              width: cubit.initialParams.isTavernOwner
+                                  ? 88.h
+                                  : 60.h,
+                              text: cubit.initialParams.isTavernOwner
+                                  ? "Edit profile"
+                                  : "Chat",
                               buttonStyle: CustomButtonStyles.fillPrimaryTL8,
-                              buttonTextStyle: CustomTextStyles.labelLargeOnErrorContainer_1,
+                              buttonTextStyle:
+                                  CustomTextStyles.labelLargeOnErrorContainer_1,
                             )
                           ],
                         ),
                       ],
                     ),
                   ),
-                  Container(
-                    height: MediaQuery.sizeOf(context).height * .3,
-                    margin: EdgeInsets.symmetric(horizontal: 16),
-                    clipBehavior: Clip.hardEdge,
-                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                    decoration: AppDecoration.fillOnErrorContainer.copyWith(
-                      borderRadius: BorderRadiusStyle.roundedBorder16,
-                    ),
-                    child: Container(
-                      clipBehavior: Clip.hardEdge,
-                      decoration: AppDecoration.fillOnErrorContainer.copyWith(
-                        borderRadius: BorderRadiusStyle.roundedBorder8,
-                      ),
-                      child: GoogleMap(
-                        zoomControlsEnabled: false,
-                        zoomGesturesEnabled: false,
-                        rotateGesturesEnabled: false,
-                        myLocationEnabled: false,
-                        myLocationButtonEnabled: false,
-                        mapType: MapType.normal,
-                        markers: Set.from(
-                          [
-                            Marker(
-                              markerId: MarkerId('v'),
-                              position: LatLng(
-                                double.parse(state.userModel.lat!),
-                                double.parse(
-                                  state.userModel.long!,
-                                ),
-                              ),
-                            ),
-                          ],
+                  if (state.userModel.accountType == 'Tavern')
+                    MapWidget(
+                      latLng: LatLng(
+                        double.parse(state.userModel.lat!),
+                        double.parse(
+                          state.userModel.long!,
                         ),
-                        initialCameraPosition: CameraPosition(
-                            target: LatLng(
-                              double.parse(state.userModel.lat!),
-                              double.parse(
-                                state.userModel.long!,
-                              ),
-                            ),
-                            zoom: 14),
                       ),
                     ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                    decoration: AppDecoration.fillOnErrorContainer.copyWith(
-                      borderRadius: BorderRadiusStyle.roundedBorder16,
-                    ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Marketplace :   ',
-                          style: CustomTextStyles.titleMediumPrimary,
-                        ),
-                        Container(
-                          width: MediaQuery.sizeOf(context).width * 0.45,
-                          child: Text(
-                            (state.userModel.marketPlaceLink == '' || state.userModel.marketPlaceLink == null) ? "No market place linked" : 'https://www.amazon.in/asdkfasdkj',
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: CustomTextStyles.titleSmall12Blue,
-                          ),
-                        ),
-                        Spacer(),
-                        Icon(
-                          Icons.link,
-                          color: appTheme.blueGray800,
-                        )
-                      ],
-                    ),
-                  )
+                  if (state.userModel.accountType == "Tavern")
+                    MarketPlaceWidget(
+                        link: state.userModel.marketPlaceLink,
+                        showEndIcon: true)
                 ],
               ),
       ),
@@ -230,32 +186,44 @@ class _TavernProfileState extends State<TavernProfilePage> {
   }
 }
 
-class profileInfoItem extends StatelessWidget {
-  const profileInfoItem({
+class MapWidget extends StatelessWidget {
+  const MapWidget({
     Key? key,
-    required this.name,
-    required this.value,
-    required this.icon,
+    required this.latLng,
   }) : super(key: key);
-  final String name;
-  final String value;
-  final IconData icon;
+  final LatLng latLng;
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      child: Row(
-        children: [
-          Icon(
-            icon,
-            color: appTheme.blueGray800,
-            size: 14,
+    return Container(
+      height: MediaQuery.sizeOf(context).height * .3,
+      margin: EdgeInsets.symmetric(horizontal: 16),
+      clipBehavior: Clip.hardEdge,
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      decoration: AppDecoration.fillOnErrorContainer.copyWith(
+        borderRadius: BorderRadiusStyle.roundedBorder16,
+      ),
+      child: Container(
+        clipBehavior: Clip.hardEdge,
+        decoration: AppDecoration.fillOnErrorContainer.copyWith(
+          borderRadius: BorderRadiusStyle.roundedBorder8,
+        ),
+        child: GoogleMap(
+          zoomControlsEnabled: false,
+          zoomGesturesEnabled: false,
+          rotateGesturesEnabled: false,
+          myLocationEnabled: false,
+          myLocationButtonEnabled: false,
+          mapType: MapType.normal,
+          markers: Set.from(
+            [
+              Marker(
+                markerId: MarkerId('v'),
+                position: latLng,
+              ),
+            ],
           ),
-          SizedBox(width: 6.h),
-          Text(name, style: CustomTextStyles.titleSmall12),
-          Spacer(),
-          Container(width: MediaQuery.sizeOf(context).width * .3, child: Text(value, style: CustomTextStyles.titleSmall12400)),
-        ],
+          initialCameraPosition: CameraPosition(target: latLng, zoom: 14),
+        ),
       ),
     );
   }

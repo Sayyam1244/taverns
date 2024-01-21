@@ -22,16 +22,16 @@ class SignupSelectRoleCubit extends Cubit<SignupSelectRoleState> {
     emit(state.copyWith(selectedRoleIndex: i));
   }
 
-
   saveType(context) async {
-    UserModel userModel =
-        UserModel(accountType: state.userType[state.selectedRoleIndex], profileOnboardingCompleted: false);
+    UserModel userModel = UserModel(
+        accountType: state.userType[state.selectedRoleIndex],
+        profileOnboardingCompleted: false);
     _user.createFirestoreUser(_auth.currentUser().uid, userModel).then((value) {
       return value.fold(
           (l) => FlushbarDialogue().showErrorFlushbar(
               context: context, title: l.title, body: l.message),
-          (r) =>
-              navigator.openSignupCompletion(SignupCompletionInitialParams()));
+          (r) => navigator.openSignupCompletion(SignupCompletionInitialParams(
+              type: state.userType[state.selectedRoleIndex])));
     });
   }
 }

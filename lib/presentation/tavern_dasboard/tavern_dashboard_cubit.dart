@@ -7,6 +7,7 @@ import 'package:taverns/domain/repository/user_repository.dart';
 import 'package:taverns/presentation/chat/chat_initial_params.dart';
 import 'package:taverns/presentation/event_detail/event_detail_initial_params.dart';
 import 'package:taverns/presentation/notification_board/notification_board_initial_params.dart';
+import 'package:taverns/presentation/notifications/notifications_initial_params.dart';
 import 'package:taverns/presentation/reviews/reviews_initial_params.dart';
 import 'package:taverns/presentation/search_event/search_event_initial_params.dart';
 import 'package:taverns/presentation/search_user/search_user_initial_params.dart';
@@ -22,7 +23,8 @@ class TavernDashboardCubit extends Cubit<TavernDashboardState> {
   final AuthRepository auth;
   final UserRepository _user;
   final EventRepository events;
-  TavernDashboardCubit(this.initialParams, this.navigator, this.auth, this._user, this.events)
+  TavernDashboardCubit(
+      this.initialParams, this.navigator, this.auth, this._user, this.events)
       : super(
           TavernDashboardState.initial(
             initialParams: initialParams,
@@ -32,7 +34,8 @@ class TavernDashboardCubit extends Cubit<TavernDashboardState> {
   void navigateToNotificaitonBoard() {
     log("name " + state.user.businessName.toString());
 
-    navigator.openNotificationBoard(NotificationBoardInitialParams(userModel: state.user));
+    navigator.openNotificationBoard(
+        NotificationBoardInitialParams(userModel: state.user));
   }
 
   update(int i) {
@@ -42,7 +45,8 @@ class TavernDashboardCubit extends Cubit<TavernDashboardState> {
   getUserData(context) async {
     _user.getUser(auth.currentUser().uid).then((value) {
       return value.fold(
-        (l) => FlushbarDialogue().showErrorFlushbar(context: context, title: l.title, body: l.message),
+        (l) => FlushbarDialogue().showErrorFlushbar(
+            context: context, title: l.title, body: l.message),
         (r) async {
           await getReviewsData();
           emit(state.copyWith(user: r, isloading: false));
@@ -56,7 +60,12 @@ class TavernDashboardCubit extends Cubit<TavernDashboardState> {
   }
 
   void navigateToTavernProfileDetail() {
-    navigator.openTavernProfile(TavernProfileInitialParams(state.user.docId!, true));
+    navigator
+        .openTavernProfile(TavernProfileInitialParams(state.user.docId!, true));
+  }
+
+  void navigateToNotifications() {
+    navigator.openNotifications(NotificationsInitialParams());
   }
 
   void navigateTosearchEvent() {

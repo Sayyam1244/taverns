@@ -19,9 +19,14 @@ class TavernDashboardState {
       required this.focusedDay,
       required this.selectedDay});
 
-  factory TavernDashboardState.initial({required TavernDashboardInitialParams initialParams}) => TavernDashboardState(
+  factory TavernDashboardState.initial(
+          {required TavernDashboardInitialParams initialParams}) =>
+      TavernDashboardState(
         currentIndex: 0,
-        user: UserModel(),
+        user: UserModel(
+            userName: 'Sayyam',
+            accountType: 'Player',
+            businessNumber: '2434234234'),
         isloading: true,
         selectedDay: DateTime.now(),
         focusedDay: DateTime.now(),

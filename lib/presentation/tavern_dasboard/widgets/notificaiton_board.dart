@@ -63,7 +63,7 @@ class NotificationBoardWidget extends StatelessWidget {
                   ),
                   child: GestureDetector(
                     onTap: () {
-                      cubit.navigateToNotificaitonBoard();
+                      cubit.navigateToNotifications();
                     },
                     child: Text(
                       'See All',
