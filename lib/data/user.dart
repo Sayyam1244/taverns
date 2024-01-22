@@ -11,12 +11,19 @@ import '../domain/repository/user_repository.dart';
 
 class User implements UserRepository {
   @override
-  Future<Either<GeneralError, bool>> createFirestoreUser(String uid, UserModel userModel, {File? picture}) async {
+  Future<Either<GeneralError, bool>> createFirestoreUser(
+      String uid, UserModel userModel,
+      {File? picture}) async {
     try {
-      return await FirebaseFirestore.instance.collection('Users').where('userName', isEqualTo: userModel.userName).get().then((value) async {
+      return await FirebaseFirestore.instance
+          .collection('Users')
+          .where('userName', isEqualTo: userModel.userName)
+          .get()
+          .then((value) async {
         if (value.docs.isEmpty) {
           if (picture != null) {
-            final Reference storageRef = FirebaseStorage.instance.ref().child('user_pictures/$uid.jpg');
+            final Reference storageRef =
+                FirebaseStorage.instance.ref().child('user_pictures/$uid.jpg');
             await storageRef.putFile(picture);
             final String downloadUrl = await storageRef.getDownloadURL();
             userModel.profilePicture = downloadUrl;
@@ -30,28 +37,33 @@ class User implements UserRepository {
               ));
           return right(true);
         } else {
-          return left(GeneralError('Error', 'Username already taken, Try again!'));
+          return left(
+              GeneralError('Error', 'Username already taken, Try again!'));
         }
       });
     } catch (e) {
       print('createFirestoreUser=========>' + e.toString());
-      return left(GeneralError('Error', 'Error happened, Please try again later'));
+      return left(
+          GeneralError('Error', 'Error happened, Please try again later'));
     }
   }
 
   @override
   Future<Either<GeneralError, UserModel>> getUser(String uid) async {
     try {
-      DocumentSnapshot<Map<String, dynamic>> doc = await FirebaseFirestore.instance.collection('Users').doc(uid).get();
+      DocumentSnapshot<Map<String, dynamic>> doc =
+          await FirebaseFirestore.instance.collection('Users').doc(uid).get();
       return right(UserModel.fromMap(doc));
     } catch (e) {
       log('getUser=========>' + e.toString());
-      return left(GeneralError('Error', 'Error happened, Please try again later'));
+      return left(
+          GeneralError('Error', 'Error happened, Please try again later'));
     }
   }
 
   @override
-  Future<Either<GeneralError, bool>> updateFirestoreUser(String uid, UserModel userModel) async {
+  Future<Either<GeneralError, bool>> updateFirestoreUser(
+      String uid, UserModel userModel) async {
     try {
       await FirebaseFirestore.instance.collection('Users').doc(uid).set(
           userModel.toMapForUpload(),
@@ -62,7 +74,24 @@ class User implements UserRepository {
     } catch (e) {
       log('updateFirestoreUser=========>' + e.toString());
 
-      return left(GeneralError('Error', 'Error happened, Please try again later'));
+      return left(
+          GeneralError('Error', 'Error happened, Please try again later'));
+    }
+  }
+
+  @override
+  Future<Either<GeneralError, List<UserModel>>> getUsersbyType(
+      {required String type}) async {
+    try {
+      QuerySnapshot<Map<String, dynamic>> docs = await FirebaseFirestore
+          .instance
+          .collection('Users')
+          .where('accountType', isEqualTo: type)
+          .get();
+      return right(docs.docs.map((e) => UserModel.fromMap(e)).toList());
+    } catch (e) {
+      return left(
+          GeneralError('Error', 'Error happened, Please try again later'));
     }
   }
 }
