@@ -5,17 +5,21 @@ import 'package:taverns/domain/model/general_model.dart';
 abstract class AuthRepository {
   // Future<Either<GeneralError, User>> signWithGoogle();
 
-  Future<Either<GeneralError, User>> signInWithEmail(String email, String password);
+  Future<Either<GeneralError, User>> signInWithEmail(
+      String email, String password);
 
-  Future<Either<GeneralError, User>> signUpWithEmail(String email, String password);
+  Future<Either<GeneralError, User>> signUpWithEmail(
+      String email, String password);
 
-  Future<Either<GeneralError, bool>> checkIfUserProfileOnboardingCompleted(User user);
+  Future<Either<GeneralError, bool>> checkIfUserProfileOnboardingCompleted(
+      User user);
 
   User currentUser();
 
   Future emailverificationStatusStream();
 
   Future emailtoResetPassword({required String email});
+  Future logout();
 
   // Future<Either<GeneralError, User>>  signWithApple();
 }

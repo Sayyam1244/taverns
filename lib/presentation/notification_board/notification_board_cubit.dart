@@ -11,6 +11,7 @@ import 'package:taverns/domain/repository/auth_repository.dart';
 import 'package:taverns/domain/repository/events_repository.dart';
 import 'package:taverns/domain/repository/user_repository.dart';
 import 'package:taverns/presentation/notification_board/notification_board_navigator.dart';
+import 'package:taverns/presentation/notification_board/sub_components/request_item.dart';
 import '../../core/utils/flushbar.dart';
 import '../../domain/model/general_model.dart';
 import '../../widgets/custom_elevated_button.dart';
@@ -23,7 +24,8 @@ class NotificationBoardCubit extends Cubit<NotificationBoardState> {
   final AuthRepository auth;
   final UserRepository _user;
   final EventRepository event;
-  NotificationBoardCubit(this.initialParams, this.navigator, this.auth, this._user, this.event)
+  NotificationBoardCubit(
+      this.initialParams, this.navigator, this.auth, this._user, this.event)
       : super(
           NotificationBoardState.initial(
             initialParams: initialParams,
@@ -34,7 +36,8 @@ class NotificationBoardCubit extends Cubit<NotificationBoardState> {
   }
 
   updateDate(context) async {
-    final DateTime dateTime = await DatetimePicker().selectDate(context, state.eventDatetime);
+    final DateTime dateTime =
+        await DatetimePicker().selectDate(context, state.eventDatetime);
     emit(
       state.copyWith(
         eventDatetime: DateTime(
@@ -49,7 +52,8 @@ class NotificationBoardCubit extends Cubit<NotificationBoardState> {
   }
 
   updateTime(context) async {
-    final TimeOfDay time = await DatetimePicker().selectTime(context, state.eventDatetime);
+    final TimeOfDay time =
+        await DatetimePicker().selectTime(context, state.eventDatetime);
     emit(
       state.copyWith(
         eventDatetime: DateTime(
@@ -109,16 +113,21 @@ class NotificationBoardCubit extends Cubit<NotificationBoardState> {
     emit(state.copyWith(isPostUploading: true));
     await event.postEvent(event: eventModel).then(
           (value) => value.fold(
-            (l) => FlushbarDialogue().showErrorFlushbar(context: context, title: l.title, body: l.message),
+            (l) => FlushbarDialogue().showErrorFlushbar(
+                context: context, title: l.title, body: l.message),
             (r) {
-              FlushbarDialogue().showFlushbar(context: context, title: 'Event Uploaded', body: 'Your Post has been uploaded successfully');
+              FlushbarDialogue().showFlushbar(
+                  context: context,
+                  title: 'Event Uploaded',
+                  body: 'Your Post has been uploaded successfully');
             },
           ),
         );
     emit(state.copyWith(isPostUploading: false));
   }
 
-  Future openRequests(String? docId, int maxGm, int maxPlayers, context, NotificationBoardCubit cubit) {
+  Future openRequests(String? docId, int maxGm, int maxPlayers, context,
+      NotificationBoardCubit cubit) {
     return showModalBottomSheet(
       backgroundColor: Colors.transparent,
       context: context,
@@ -129,101 +138,191 @@ class NotificationBoardCubit extends Cubit<NotificationBoardState> {
           builder: (context, state) => Container(
             height: MediaQuery.sizeOf(context).height * .9,
             decoration: BoxDecoration(
-              color: theme.colorScheme.background,
+              color: appTheme.gray5001,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(20),
                 topRight: Radius.circular(20),
               ),
             ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Align(
-                      alignment: Alignment.topRight,
-                      child: IconButton(
-                        icon: Icon(Icons.close),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      )),
-                  SizedBox(height: 10),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: CustomElevatedButton(
-                          onPressed: () {
-                            emit(state.copyWith(isCurrentGMButtonSelected: true));
-                          },
-                          buttonStyle: state.isCurrentGMButtonSelected ? CustomButtonStyles.fillPrimaryTL8 : CustomButtonStyles.fillYellow,
-                          buttonTextStyle: state.isCurrentGMButtonSelected ? CustomTextStyles.titleSmallOnErrorContainer : CustomTextStyles.titleSmallCircularStdBluegray70001,
-                          height: 45.v,
-                          text: 'Current GM 0/$maxGm',
-                        ),
-                      ),
-                      SizedBox(width: 12.h),
-                      Expanded(
-                        child: CustomElevatedButton(
-                          onPressed: () {
-                            emit(state.copyWith(isCurrentGMButtonSelected: false));
-                          },
-                          buttonStyle: !state.isCurrentGMButtonSelected ? CustomButtonStyles.fillPrimaryTL8 : CustomButtonStyles.fillYellow,
-                          buttonTextStyle: !state.isCurrentGMButtonSelected ? CustomTextStyles.titleSmallOnErrorContainer : CustomTextStyles.titleSmallCircularStdBluegray70001,
-                          height: 45.v,
-                          text: 'Current Players 0/$maxPlayers',
-                        ),
-                      ),
-                    ],
-                  ),
-                  Expanded(
-                    child: StreamBuilder<Either<GeneralError, List<RequestModel>>>(
-                      stream: cubit.event.getRequests(eventId: docId),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          List<RequestModel> data = [];
-                          snapshot.data?.fold((l) => null, (r) => data = r);
-                          return ListView.separated(
-                            separatorBuilder: (
-                              context,
-                              index,
-                            ) =>
-                                SizedBox(width: 16.h),
-                            itemCount: data.length,
-                            itemBuilder: (context, index) {
-                              return Text(data[index].userName.toString());
-                            },
-                          );
-                        }
-                        return ListView.separated(
-                          separatorBuilder: (
-                            context,
-                            index,
-                          ) =>
-                              SizedBox(width: 16.h),
-                          itemCount: 2,
-                          itemBuilder: (context, index) {
-                            return Container(
-                              height: 250,
-                              margin: EdgeInsets.symmetric(horizontal: SizeUtils.width * .05, vertical: 10.v),
-                              decoration: BoxDecoration(
-                                color: theme.colorScheme.background,
-                                borderRadius: BorderRadius.circular(
-                                  12,
-                                ),
+            child: StreamBuilder<Either<GeneralError, List<RequestModel>>>(
+              stream: cubit.event.getRequests(eventId: docId),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  int currentGm = 0;
+                  int currentPlayer = 0;
+                  List<RequestModel> data = [];
+                  List<RequestModel> gmRequests = [];
+                  List<RequestModel> playerRequests = [];
+                  snapshot.data?.fold((l) => null, (r) {
+                    currentGm = r
+                        .where((element) {
+                          return (element.requestedFor == "GM" &&
+                              element.isApproved == true);
+                        })
+                        .toList()
+                        .length;
+                    currentPlayer = r
+                        .where((element) {
+                          return (element.requestedFor == "Player" &&
+                              element.isApproved == true);
+                        })
+                        .toList()
+                        .length;
+                    data = r;
+                    data.removeWhere((element) => element.isApproved != null);
+                    gmRequests = data
+                        .where((element) => element.requestedFor == "GM")
+                        .toList();
+                    playerRequests = data
+                        .where((element) => element.requestedFor == "Player")
+                        .toList();
+                  });
+
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 12),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Align(
+                            alignment: Alignment.topRight,
+                            child: IconButton(
+                              icon: Icon(Icons.close),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            )),
+                        SizedBox(height: 10),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: CustomElevatedButton(
+                                onPressed: () {
+                                  emit(state.copyWith(
+                                      isCurrentGMButtonSelected: true));
+                                },
+                                buttonStyle: state.isCurrentGMButtonSelected
+                                    ? CustomButtonStyles.fillPrimaryTL8
+                                    : CustomButtonStyles.fillYellow,
+                                buttonTextStyle: state.isCurrentGMButtonSelected
+                                    ? CustomTextStyles
+                                        .titleSmallOnErrorContainer
+                                    : CustomTextStyles
+                                        .titleSmallCircularStdBluegray70001,
+                                height: 45.v,
+                                text: 'Current GM $currentGm/$maxGm',
                               ),
-                            );
-                          },
-                        );
-                      },
+                            ),
+                            SizedBox(width: 12.h),
+                            Expanded(
+                              child: CustomElevatedButton(
+                                onPressed: () {
+                                  emit(state.copyWith(
+                                      isCurrentGMButtonSelected: false));
+                                },
+                                buttonStyle: !state.isCurrentGMButtonSelected
+                                    ? CustomButtonStyles.fillPrimaryTL8
+                                    : CustomButtonStyles.fillYellow,
+                                buttonTextStyle:
+                                    !state.isCurrentGMButtonSelected
+                                        ? CustomTextStyles
+                                            .titleSmallOnErrorContainer
+                                        : CustomTextStyles
+                                            .titleSmallCircularStdBluegray70001,
+                                height: 45.v,
+                                text:
+                                    'Current Players $currentPlayer/$maxPlayers',
+                              ),
+                            ),
+                          ],
+                        ),
+                        if (state.isCurrentGMButtonSelected &&
+                            (currentGm < maxGm))
+                          Expanded(
+                            child: ListView.separated(
+                              separatorBuilder: (
+                                context,
+                                index,
+                              ) {
+                                return SizedBox(width: 16.h);
+                              },
+                              itemCount: gmRequests.length,
+                              itemBuilder: (context, index) {
+                                return RequestItem(
+                                  requestModel: gmRequests[index],
+                                  cubit: cubit,
+                                );
+                              },
+                            ),
+                          ),
+                        if (!state.isCurrentGMButtonSelected &&
+                            (currentPlayer < maxPlayers))
+                          Expanded(
+                            child: ListView.separated(
+                              separatorBuilder: (
+                                context,
+                                index,
+                              ) {
+                                return SizedBox(width: 16.h);
+                              },
+                              itemCount: playerRequests.length,
+                              itemBuilder: (context, index) {
+                                return RequestItem(
+                                  requestModel: playerRequests[index],
+                                  cubit: cubit,
+                                );
+                              },
+                            ),
+                          ),
+                        if (!state.isCurrentGMButtonSelected &&
+                            (currentPlayer == maxPlayers))
+                          Padding(
+                            padding: const EdgeInsets.only(top: 20),
+                            child: Text(
+                              'Maximum requests for this event has been approved for players slots',
+                              textAlign: TextAlign.center,
+                              style:
+                                  CustomTextStyles.bodySmallMulishBluegray900,
+                            ),
+                          ),
+                        if (state.isCurrentGMButtonSelected &&
+                            (currentGm == maxGm))
+                          Padding(
+                            padding: const EdgeInsets.only(top: 20),
+                            child: Text(
+                              'Maximum requests for this event has been approved for GM slots',
+                              textAlign: TextAlign.center,
+                              style:
+                                  CustomTextStyles.bodySmallMulishBluegray900,
+                            ),
+                          )
+                      ],
                     ),
-                  )
-                ],
-              ),
+                  );
+                } else {
+                  return Container();
+                }
+              },
             ),
           ),
         );
       },
     );
+  }
+
+  void requestApproved(bool bool, requestId, eventId, context) {
+    event
+        .approveRequest(approve: bool, requestId: requestId, eventId: eventId)
+        .then(
+          (value) => value.fold(
+            (l) => FlushbarDialogue().showErrorFlushbar(
+                context: context, title: l.title, body: l.message),
+            (r) => FlushbarDialogue().showFlushbar(
+                context: context,
+                title: 'Request',
+                body:
+                    "Request ${bool ? "Approved" : "Rejected"} successfully!"),
+          ),
+        );
   }
 }

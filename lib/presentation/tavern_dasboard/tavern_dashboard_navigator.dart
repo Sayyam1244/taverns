@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:taverns/presentation/chat/chat_navigator.dart';
 import 'package:taverns/presentation/event_detail/event_detail_navigator.dart';
+import 'package:taverns/presentation/login_and_signup/login_and_signup_navigator.dart';
 import 'package:taverns/presentation/notification_board/notification_board_navigator.dart';
 import 'package:taverns/presentation/notifications/notifications_navigator.dart';
 import 'package:taverns/presentation/reviews/reviews_navigator.dart';
@@ -21,6 +22,7 @@ class TavernDashboardNavigator
         SearchEventRoute,
         SearchUserRoute,
         ChatRoute,
+        LoginAndSignupRoute,
         EventDetailRoute {
   @override
   late BuildContext context;

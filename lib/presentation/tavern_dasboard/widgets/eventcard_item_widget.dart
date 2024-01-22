@@ -74,7 +74,10 @@ class EventcardItemWidget extends StatelessWidget {
                   if (requestToJoin) SizedBox(height: 8.v),
                   if (requestToJoin)
                     CustomElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        cubit.requestToJoin(
+                            eventId: event.docId!, context: context);
+                      },
                       height: 31.v,
                       width: 120.h,
                       text: "Request to join",

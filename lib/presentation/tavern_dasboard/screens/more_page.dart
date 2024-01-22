@@ -40,26 +40,31 @@ class MorePage extends StatelessWidget {
                   MoreItem(title: 'Support', ontap: () {}),
                   MoreItem(title: 'Safety Tips', ontap: () {}),
                   SizedBox(height: 20.v),
-                  Padding(
-                    padding: EdgeInsets.only(left: 14.h),
-                    child: Row(
-                      children: [
-                        CustomImageView(
-                          imagePath: ImageConstant.imgThumbsUpRed400,
-                          height: 20.adaptSize,
-                          width: 20.adaptSize,
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                            left: 6.h,
-                            top: 2.v,
+                  GestureDetector(
+                    onTap: () {
+                      cubit.logout();
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 14.h),
+                      child: Row(
+                        children: [
+                          CustomImageView(
+                            imagePath: ImageConstant.imgThumbsUpRed400,
+                            height: 20.adaptSize,
+                            width: 20.adaptSize,
                           ),
-                          child: Text(
-                            "Logout",
-                            style: CustomTextStyles.titleSmallMulishRed400,
+                          Padding(
+                            padding: EdgeInsets.only(
+                              left: 6.h,
+                              top: 2.v,
+                            ),
+                            child: Text(
+                              "Logout",
+                              style: CustomTextStyles.titleSmallMulishRed400,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                   Spacer(),

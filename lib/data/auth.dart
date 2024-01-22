@@ -33,9 +33,11 @@ class Auth implements AuthRepository {
   // }
 
   @override
-  Future<Either<GeneralError, User>> signInWithEmail(String email, String password) async {
+  Future<Either<GeneralError, User>> signInWithEmail(
+      String email, String password) async {
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
       return right(currentUser());
     } on FirebaseAuthException catch (e) {
       print("Error " + e.toString());
@@ -44,10 +46,12 @@ class Auth implements AuthRepository {
   }
 
   @override
-  Future<Either<GeneralError, User>> signUpWithEmail(String email, String password) async {
+  Future<Either<GeneralError, User>> signUpWithEmail(
+      String email, String password) async {
     try {
       print(email + ' ' + password);
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
+      await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
       await currentUser().sendEmailVerification();
       return right(currentUser());
     } on FirebaseAuthException catch (e) {
@@ -56,9 +60,13 @@ class Auth implements AuthRepository {
   }
 
   @override
-  Future<Either<GeneralError, bool>> checkIfUserProfileOnboardingCompleted(User user) async {
+  Future<Either<GeneralError, bool>> checkIfUserProfileOnboardingCompleted(
+      User user) async {
     try {
-      final isThere = await FirebaseFirestore.instance.collection('Users').doc(user.uid).get();
+      final isThere = await FirebaseFirestore.instance
+          .collection('Users')
+          .doc(user.uid)
+          .get();
       return right(isThere.data()?['profileOnboardingCompleted'] ?? false);
     } on FirebaseException catch (e) {
       return left(GeneralError(e.code, e.message ?? ''));
@@ -76,9 +84,11 @@ class Auth implements AuthRepository {
   /// Generates a cryptographically secure random nonce, to be included in a
   /// credential request.
   String generateNonce([int length = 32]) {
-    final charset = '0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._';
+    final charset =
+        '0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._';
     final random = Random.secure();
-    return List.generate(length, (_) => charset[random.nextInt(charset.length)]).join();
+    return List.generate(length, (_) => charset[random.nextInt(charset.length)])
+        .join();
   }
 
   String sha256ofString(String input) {
@@ -90,5 +100,10 @@ class Auth implements AuthRepository {
   @override
   Future emailtoResetPassword({required String email}) async {
     await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+  }
+
+  @override
+  Future logout() async {
+    await FirebaseAuth.instance.signOut();
   }
 }

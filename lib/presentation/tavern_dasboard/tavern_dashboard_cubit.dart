@@ -1,11 +1,14 @@
 import 'dart:developer';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:taverns/domain/model/request_model.dart';
 import 'package:taverns/domain/repository/auth_repository.dart';
 import 'package:taverns/domain/repository/events_repository.dart';
 import 'package:taverns/domain/repository/user_repository.dart';
 import 'package:taverns/presentation/chat/chat_initial_params.dart';
 import 'package:taverns/presentation/event_detail/event_detail_initial_params.dart';
+import 'package:taverns/presentation/login_and_signup/login_and_signup_initial_params.dart';
 import 'package:taverns/presentation/notification_board/notification_board_initial_params.dart';
 import 'package:taverns/presentation/notifications/notifications_initial_params.dart';
 import 'package:taverns/presentation/reviews/reviews_initial_params.dart';
@@ -104,5 +107,41 @@ class TavernDashboardCubit extends Cubit<TavernDashboardState> {
         },
       );
     });
+  }
+
+  void requestToJoin({required String eventId, required BuildContext context}) {
+    RequestModel requestModel = RequestModel(
+      userName: state.user.userName,
+      userId: state.user.docId,
+      eventId: eventId,
+      requestedFor: state.user.accountType,
+    );
+    events.makeRequest(requestModel: requestModel).then(
+          (value) => value.fold(
+            (l) => FlushbarDialogue().showErrorFlushbar(
+                context: context, title: l.title, body: l.message),
+            (r) {
+              if (r) {
+                return FlushbarDialogue().showFlushbar(
+                  context: context,
+                  title: 'Request',
+                  body:
+                      'Your request as ${state.user.accountType} has been submitted for the following event',
+                );
+              } else {
+                return FlushbarDialogue().showFlushbar(
+                  context: context,
+                  title: 'Request',
+                  body: 'Your request for this event is already in progress',
+                );
+              }
+            },
+          ),
+        );
+  }
+
+  void logout() async {
+    await auth.logout();
+    navigator.openLoginAndSignup(LoginAndSignupInitialParams());
   }
 }

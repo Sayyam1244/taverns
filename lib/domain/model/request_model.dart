@@ -3,6 +3,7 @@ import 'common_model.dart';
 
 class RequestModel extends CommonModel {
   String? userName;
+  String? userId;
   String? eventId;
   String? requestedFor;
   DateTime? requestedDate;
@@ -11,14 +12,13 @@ class RequestModel extends CommonModel {
 
   RequestModel({
     String? docId,
-    DateTime? createdDate,
-    DateTime? modifiedDate,
     this.userName,
     this.eventId,
     this.requestedFor,
     this.requestedDate,
     this.isApproved,
-  }) : super(docId: docId, createdDate: createdDate, modifiedDate: modifiedDate);
+    this.userId,
+  }) : super(docId: docId);
 
   Map<String, dynamic> toMapForUpload() {
     return {
@@ -28,22 +28,21 @@ class RequestModel extends CommonModel {
       'requestedDate': FieldValue.serverTimestamp(),
       if (isApproved != null) 'isApproved': isApproved,
       if (docId != null) 'docId': docId,
-      if (createdDate != null) 'creationDate': createdDate,
-      if (modifiedDate != null) 'modifiedDate': modifiedDate,
+      if (userId != null) 'userId': userId,
     };
   }
 
-  factory RequestModel.fromMap(DocumentSnapshot<Map<String, dynamic>> snapshot) {
+  factory RequestModel.fromMap(
+      DocumentSnapshot<Map<String, dynamic>> snapshot) {
     final data = snapshot.data();
     return RequestModel(
       docId: snapshot.id,
-      createdDate: data?['createdDate']?.toDate(),
-      modifiedDate: data?['modifiedDate']?.toDate(),
       userName: data?['userName'] ?? '',
       eventId: data?['eventId'] ?? '',
       requestedFor: data?['requestedFor'] ?? '',
       requestedDate: data?['requestedDate']?.toDate(),
-      isApproved: data?['isApproved'] ?? false,
+      isApproved: data?['isApproved'] ?? null,
+      userId: data?['userId'] ?? '',
     );
   }
 }

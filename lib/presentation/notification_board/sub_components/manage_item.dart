@@ -17,7 +17,8 @@ class ManageItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: SizeUtils.width * .05, vertical: 10.v),
+      margin: EdgeInsets.symmetric(
+          horizontal: SizeUtils.width * .05, vertical: 10.v),
       decoration: BoxDecoration(
         color: theme.colorScheme.background,
         borderRadius: BorderRadius.circular(
@@ -30,7 +31,8 @@ class ManageItem extends StatelessWidget {
           children: [
             Align(
               alignment: Alignment.topLeft,
-              child: Text(event.eventName, style: CustomTextStyles.titleMedium16),
+              child:
+                  Text(event.eventName, style: CustomTextStyles.titleMedium16),
             ),
             SizedBox(height: 12.v),
             Row(
@@ -47,7 +49,8 @@ class ManageItem extends StatelessWidget {
                       SizedBox(height: 6.v),
                       Text(
                         event.eventType,
-                        style: CustomTextStyles.titleSmallProductSansBluegray800,
+                        style:
+                            CustomTextStyles.titleSmallProductSansBluegray800,
                       ),
                       SizedBox(height: 20.v),
                       Text(
@@ -57,7 +60,8 @@ class ManageItem extends StatelessWidget {
                       SizedBox(height: 6.v),
                       Text(
                         event.gameSystem,
-                        style: CustomTextStyles.titleSmallProductSansBluegray800,
+                        style:
+                            CustomTextStyles.titleSmallProductSansBluegray800,
                       ),
                     ],
                   ),
@@ -74,7 +78,8 @@ class ManageItem extends StatelessWidget {
                       SizedBox(height: 6.v),
                       Text(
                         event.gameType,
-                        style: CustomTextStyles.titleSmallProductSansBluegray800,
+                        style:
+                            CustomTextStyles.titleSmallProductSansBluegray800,
                       ),
                       SizedBox(height: 20.v),
                       Text(
@@ -84,7 +89,8 @@ class ManageItem extends StatelessWidget {
                       SizedBox(height: 6.v),
                       Text(
                         event.gameSystem,
-                        style: CustomTextStyles.titleSmallProductSansBluegray800,
+                        style:
+                            CustomTextStyles.titleSmallProductSansBluegray800,
                       ),
                     ],
                   ),
@@ -97,10 +103,12 @@ class ManageItem extends StatelessWidget {
                 Expanded(
                   child: CustomElevatedButton(
                     onPressed: () {
-                      cubit.openRequests(event.docId, event.gmsRequired, event.playerRequired, context, cubit);
+                      cubit.openRequests(event.docId, event.gmsRequired,
+                          event.playerRequired, context, cubit);
                     },
                     buttonStyle: CustomButtonStyles.fillYellow,
-                    buttonTextStyle: CustomTextStyles.titleSmallCircularStdBluegray70001,
+                    buttonTextStyle:
+                        CustomTextStyles.titleSmallCircularStdBluegray70001,
                     height: 45.v,
                     text: 'Player request',
                   ),
@@ -118,7 +126,8 @@ class ManageItem extends StatelessWidget {
                       );
                     },
                     buttonStyle: CustomButtonStyles.fillPrimaryTL8,
-                    buttonTextStyle: CustomTextStyles.titleSmallOnErrorContainer,
+                    buttonTextStyle:
+                        CustomTextStyles.titleSmallOnErrorContainer,
                     height: 45.v,
                     text: 'GM request',
                   ),

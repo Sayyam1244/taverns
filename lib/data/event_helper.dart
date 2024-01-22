@@ -11,36 +11,58 @@ import 'package:taverns/domain/repository/events_repository.dart';
 
 class EventHelper implements EventRepository {
   @override
-  Future<Either<GeneralError, bool>> postEvent({required EventModel event}) async {
+  Future<Either<GeneralError, bool>> postEvent(
+      {required EventModel event}) async {
     try {
-      DocumentReference<Map<String, dynamic>> docRef = FirebaseFirestore.instance.collection('Events').doc();
+      DocumentReference<Map<String, dynamic>> docRef =
+          FirebaseFirestore.instance.collection('Events').doc();
       event.docId = docRef.id;
       await docRef.set(event.toMapForUpload());
       return right(true);
     } catch (e) {
       log('postEvent=========>' + e.toString());
-      return left(GeneralError('Error', 'Error happened, Please try again later'));
+      return left(
+          GeneralError('Error', 'Error happened, Please try again later'));
     }
   }
 
   @override
-  Stream<Either<GeneralError, List<EventModel>>> getEvents({required bool getUser, String? userId, bool? fromTodayDate, required int limit}) async* {
+  Stream<Either<GeneralError, List<EventModel>>> getEvents(
+      {required bool getUser,
+      String? userId,
+      bool? fromTodayDate,
+      required int limit}) async* {
     try {
-      await for (QuerySnapshot<Map<String, dynamic>> eventsDocs in userId != null
+      await for (QuerySnapshot<Map<String, dynamic>> eventsDocs in userId !=
+              null
           ? (fromTodayDate != null || fromTodayDate == true)
               ? FirebaseFirestore.instance
                   .collection('Events')
-                  .where("eventDatetime", isGreaterThanOrEqualTo: DateTime.now())
+                  .where("eventDatetime",
+                      isGreaterThanOrEqualTo: DateTime.now())
                   .where("userId", isEqualTo: userId)
                   .limit(limit)
                   .snapshots()
-              : FirebaseFirestore.instance.collection('Events').where("userId", isEqualTo: userId).limit(limit).snapshots()
-          : FirebaseFirestore.instance.collection('Events').where("eventDatetime", isGreaterThanOrEqualTo: DateTime.now()).limit(limit).snapshots()) {
+              : FirebaseFirestore.instance
+                  .collection('Events')
+                  .where("userId", isEqualTo: userId)
+                  .limit(limit)
+                  .snapshots()
+          : FirebaseFirestore.instance
+              .collection('Events')
+              .where("eventDatetime", isGreaterThanOrEqualTo: DateTime.now())
+              .limit(limit)
+              .snapshots()) {
         List<EventModel> events = [];
-        for (QueryDocumentSnapshot<Map<String, dynamic>> eventDoc in eventsDocs.docs) {
+        for (QueryDocumentSnapshot<Map<String, dynamic>> eventDoc
+            in eventsDocs.docs) {
           EventModel event = EventModel.fromMap(eventDoc);
           if (getUser) {
-            DocumentSnapshot<Map<String, dynamic>> userDoc = await FirebaseFirestore.instance.collection('Users').doc(event.userId).get();
+            DocumentSnapshot<Map<String, dynamic>> userDoc =
+                await FirebaseFirestore.instance
+                    .collection('Users')
+                    .doc(event.userId)
+                    .get();
             if (userDoc.exists) {
               event.injectUser(UserModel.fromMap(userDoc));
             }
@@ -52,58 +74,81 @@ class EventHelper implements EventRepository {
       }
     } catch (e) {
       log('getEvents=========>' + e.toString());
-      yield left(GeneralError('Error', 'Error happened, Please try again later'));
+      yield left(
+          GeneralError('Error', 'Error happened, Please try again later'));
     }
   }
 
   @override
-  Stream<Either<GeneralError, List<RequestModel>>> getRequests({String? eventId}) async* {
+  Stream<Either<GeneralError, List<RequestModel>>> getRequests(
+      {String? eventId}) async* {
     try {
       await for (QuerySnapshot<Map<String, dynamic>> requestDocs
-          in FirebaseFirestore.instance.collection('Requests').where("eventId", isEqualTo: eventId).where("isApproved", isEqualTo: null).snapshots()) {
-        List<RequestModel> requests = requestDocs.docs.map((e) => RequestModel.fromMap(e)).toList();
-
+          in FirebaseFirestore.instance
+              .collection('Requests')
+              .where("eventId", isEqualTo: eventId)
+              .snapshots()) {
+        List<RequestModel> requests =
+            requestDocs.docs.map((e) => RequestModel.fromMap(e)).toList();
         yield Right(requests);
       }
     } catch (e) {
       log('getEvents=========>' + e.toString());
-      yield left(GeneralError('Error', 'Error happened, Please try again later'));
+      yield left(
+          GeneralError('Error', 'Error happened, Please try again later'));
     }
   }
 
   @override
-  Future<Either<GeneralError, EventModel>> getEvent({String? eventId, required bool getUser}) async {
+  Future<Either<GeneralError, EventModel>> getEvent(
+      {String? eventId, required bool getUser}) async {
     try {
-      DocumentSnapshot<Map<String, dynamic>> doc = await FirebaseFirestore.instance.collection('Events').doc(eventId!).get();
+      DocumentSnapshot<Map<String, dynamic>> doc = await FirebaseFirestore
+          .instance
+          .collection('Events')
+          .doc(eventId!)
+          .get();
       EventModel event = EventModel.fromMap(doc);
       if (getUser) {
-        DocumentSnapshot<Map<String, dynamic>> userDoc = await FirebaseFirestore.instance.collection('Users').doc(event.userId).get();
+        DocumentSnapshot<Map<String, dynamic>> userDoc = await FirebaseFirestore
+            .instance
+            .collection('Users')
+            .doc(event.userId)
+            .get();
 
         event.injectUser(UserModel.fromMap(userDoc));
       }
       return right(event);
     } catch (e) {
-      return left(GeneralError('Error', 'Error happened, Please try again later'));
+      return left(
+          GeneralError('Error', 'Error happened, Please try again later'));
     }
   }
 
   @override
-  Future<Either<GeneralError, bool>> submitReviewToEvent({required ReviewModel reviewModel}) async {
+  Future<Either<GeneralError, bool>> submitReviewToEvent(
+      {required ReviewModel reviewModel}) async {
     try {
-      DocumentReference<Map<String, dynamic>> docRef = FirebaseFirestore.instance.collection('Reviews').doc();
+      DocumentReference<Map<String, dynamic>> docRef =
+          FirebaseFirestore.instance.collection('Reviews').doc();
       reviewModel.docId = docRef.id;
       await docRef.set(reviewModel.toMapForUpload());
       return right(true);
     } catch (e) {
-      return left(GeneralError('Error', 'Error happened, Please try again later'));
+      return left(
+          GeneralError('Error', 'Error happened, Please try again later'));
     }
   }
 
   @override
-  Future<Either<GeneralError, bool>> checkIsReviewPosted({required String eventId, required String userId}) async {
+  Future<Either<GeneralError, bool>> checkIsReviewPosted(
+      {required String eventId, required String userId}) async {
     try {
-      QuerySnapshot<Map<String, dynamic>> doc =
-          await FirebaseFirestore.instance.collection('Reviews').where('eventId', isEqualTo: eventId).where('userId', isEqualTo: userId).get();
+      QuerySnapshot<Map<String, dynamic>> doc = await FirebaseFirestore.instance
+          .collection('Reviews')
+          .where('eventId', isEqualTo: eventId)
+          .where('userId', isEqualTo: userId)
+          .get();
       if (doc.docs.isEmpty) {
         return right(false);
       } else {
@@ -115,14 +160,64 @@ class EventHelper implements EventRepository {
   }
 
   @override
-  Future<Either<GeneralError, List<ReviewModel>>> getUserReviews({required String userId}) async {
+  Future<Either<GeneralError, List<ReviewModel>>> getUserReviews(
+      {required String userId}) async {
     try {
-      QuerySnapshot<Map<String, dynamic>> docs = await FirebaseFirestore.instance.collection('Reviews').where('userId', isEqualTo: userId).get();
-      List<ReviewModel> reviews = docs.docs.map((e) => ReviewModel.fromMap(e)).toList();
+      QuerySnapshot<Map<String, dynamic>> docs = await FirebaseFirestore
+          .instance
+          .collection('Reviews')
+          .where('userId', isEqualTo: userId)
+          .get();
+      List<ReviewModel> reviews =
+          docs.docs.map((e) => ReviewModel.fromMap(e)).toList();
       log(reviews.length.toString());
       return right(reviews);
     } catch (e) {
-      return left(GeneralError('Error', 'Error happened, Please try again later'));
+      return left(
+          GeneralError('Error', 'Error happened, Please try again later'));
+    }
+  }
+
+  @override
+  Future<Either<GeneralError, bool>> makeRequest(
+      {required RequestModel requestModel}) async {
+    try {
+      QuerySnapshot<Map<String, dynamic>> previousRequest =
+          await FirebaseFirestore.instance
+              .collection('Requests')
+              .where('eventId', isEqualTo: requestModel.eventId)
+              .where('userId', isEqualTo: requestModel.userId)
+              .get();
+
+      if (previousRequest.docs.isEmpty) {
+        DocumentReference<Map<String, dynamic>> docRef =
+            FirebaseFirestore.instance.collection('Requests').doc();
+        requestModel.docId = docRef.id;
+        await docRef.set(requestModel.toMapForUpload());
+        return right(true);
+      } else {
+        return right(false);
+      }
+    } catch (e) {
+      return left(
+          GeneralError('Error', 'Error happened, Please try again later'));
+    }
+  }
+
+  @override
+  Future<Either<GeneralError, bool>> approveRequest(
+      {required bool approve,
+      required String requestId,
+      required String eventId}) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('Requests')
+          .doc(requestId)
+          .update({"isApproved": approve});
+      return right(true);
+    } catch (e) {
+      return left(
+          GeneralError('Error', 'Error happened, Please try again later'));
     }
   }
 }

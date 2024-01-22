@@ -8,19 +8,24 @@ import '../../navigation/app_navigation.dart';
 import 'login_and_signup_initial_params.dart';
 import 'login_and_signup_page.dart';
 
-class LoginAndSignupNavigator with ForgotPasswordRoute,SignupSelectRoleRoute,TavernDashboardRoute,EmailVerificationRoute{
+class LoginAndSignupNavigator
+    with
+        ForgotPasswordRoute,
+        SignupSelectRoleRoute,
+        TavernDashboardRoute,
+        EmailVerificationRoute {
   @override
-  late BuildContext  context ;
+  late BuildContext context;
 
   @override
-  final AppNavigator  navigator ;
+  final AppNavigator navigator;
 
   LoginAndSignupNavigator(this.navigator);
 }
 
 mixin LoginAndSignupRoute {
   openLoginAndSignup(LoginAndSignupInitialParams initialParams) {
-    navigator.push(
+    navigator.pushAndReplace(
       context,
       LoginAndSignupPage(cubit: getIt(param1: initialParams)),
     );
