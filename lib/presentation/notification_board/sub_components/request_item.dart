@@ -36,8 +36,8 @@ class RequestItem extends StatelessWidget {
                 Expanded(
                   child: CustomElevatedButton(
                     onPressed: () {
-                      cubit.requestApproved(true, requestModel.docId,
-                          requestModel.eventId, context);
+                      cubit.requestApproved(
+                          true, requestModel.docId, requestModel, context);
                     },
                     buttonStyle: CustomButtonStyles.fillYellow,
                     buttonTextStyle:
@@ -50,8 +50,8 @@ class RequestItem extends StatelessWidget {
                 Expanded(
                   child: CustomElevatedButton(
                     onPressed: () {
-                      cubit.requestApproved(false, requestModel.docId,
-                          requestModel.eventId, context);
+                      cubit.requestApproved(
+                          false, requestModel.docId, requestModel, context);
                     },
                     buttonStyle: CustomButtonStyles.fillPrimaryTL8,
                     buttonTextStyle:

@@ -6,9 +6,11 @@ import 'package:fpdart/fpdart.dart';
 import 'package:taverns/core/app_export.dart';
 import 'package:taverns/core/utils/datetime_picker.dart';
 import 'package:taverns/domain/model/event_model.dart';
+import 'package:taverns/domain/model/notification_model.dart';
 import 'package:taverns/domain/model/request_model.dart';
 import 'package:taverns/domain/repository/auth_repository.dart';
 import 'package:taverns/domain/repository/events_repository.dart';
+import 'package:taverns/domain/repository/notification_repository.dart';
 import 'package:taverns/domain/repository/user_repository.dart';
 import 'package:taverns/presentation/notification_board/notification_board_navigator.dart';
 import 'package:taverns/presentation/notification_board/sub_components/request_item.dart';
@@ -24,8 +26,9 @@ class NotificationBoardCubit extends Cubit<NotificationBoardState> {
   final AuthRepository auth;
   final UserRepository _user;
   final EventRepository event;
-  NotificationBoardCubit(
-      this.initialParams, this.navigator, this.auth, this._user, this.event)
+  final NotificationRepository notification;
+  NotificationBoardCubit(this.initialParams, this.navigator, this.auth,
+      this._user, this.event, this.notification)
       : super(
           NotificationBoardState.initial(
             initialParams: initialParams,
@@ -310,18 +313,33 @@ class NotificationBoardCubit extends Cubit<NotificationBoardState> {
     );
   }
 
-  void requestApproved(bool bool, requestId, eventId, context) {
+  void requestApproved(
+      bool bool, requestId, RequestModel requestModel, context) {
     event
-        .approveRequest(approve: bool, requestId: requestId, eventId: eventId)
+        .approveRequest(
+            approve: bool, requestId: requestId, eventId: requestModel.eventId!)
         .then(
           (value) => value.fold(
             (l) => FlushbarDialogue().showErrorFlushbar(
                 context: context, title: l.title, body: l.message),
-            (r) => FlushbarDialogue().showFlushbar(
-                context: context,
-                title: 'Request',
-                body:
-                    "Request ${bool ? "Approved" : "Rejected"} successfully!"),
+            (r) async {
+              NotificationModel notificationModel = NotificationModel(
+                  notification:
+                      'Your request for ${requestModel.requestedFor} has been ${bool ? "Approved" : "Rejected"}',
+                  to: requestModel.userId,
+                  from: auth.currentUser().uid,
+                  eventId: requestModel.eventId,
+                  sender: initialParams.userModel.accountType == "Tavern"
+                      ? initialParams.userModel.businessName
+                      : initialParams.userModel.userName);
+              await notification.generateNotification(
+                  notificationModel: notificationModel);
+              return FlushbarDialogue().showFlushbar(
+                  context: context,
+                  title: 'Request',
+                  body:
+                      "Request ${bool ? "Approved" : "Rejected"} successfully!");
+            },
           ),
         );
   }

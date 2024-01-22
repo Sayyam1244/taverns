@@ -1,8 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:taverns/data/event_helper.dart';
+import 'package:taverns/data/notification_helper.dart';
 import 'package:taverns/data/place_search.dart';
 import 'package:taverns/domain/repository/events_repository.dart';
+import 'package:taverns/domain/repository/notification_repository.dart';
 import 'package:taverns/domain/repository/places_repository.dart';
 import 'package:taverns/presentation/chat/chat_cubit.dart';
 import 'package:taverns/presentation/chat/chat_initial_params.dart';
@@ -31,6 +33,7 @@ import 'package:taverns/presentation/notification_board/notification_board_initi
 import 'package:taverns/presentation/notification_board/notification_board_navigator.dart';
 import 'package:taverns/presentation/notifications/notifications_cubit.dart';
 import 'package:taverns/presentation/notifications/notifications_initial_params.dart';
+import 'package:taverns/presentation/notifications/notifications_navigator.dart';
 import 'package:taverns/presentation/notifications_email_screen/notification_settings_cubit.dart';
 import 'package:taverns/presentation/notifications_email_screen/notification_settings_initial_params.dart';
 import 'package:taverns/presentation/notifications_email_screen/notification_settings_navigator.dart';
@@ -112,11 +115,14 @@ void main() async {
   getIt.registerSingleton<EditProfileNavigator>(EditProfileNavigator(getIt()));
   getIt.registerSingleton<EditLocationOnMapNavigator>(
       EditLocationOnMapNavigator(getIt()));
+  getIt.registerSingleton<NotificationsNavigator>(
+      NotificationsNavigator(getIt()));
 
   getIt.registerSingleton<AuthRepository>(Auth());
   getIt.registerSingleton<UserRepository>(User());
   getIt.registerSingleton<LocationRepository>(LocationHelper());
   getIt.registerSingleton<EventRepository>(EventHelper());
+  getIt.registerSingleton<NotificationRepository>(NotificationHelper());
   getIt.registerSingleton<PlacesRepository>(
       PlaceSearch('AIzaSyAz7vjzXAVIh7DBoS61XrYFtn8V8bcOs-c'));
 
@@ -152,15 +158,15 @@ void main() async {
       dynamic>((params, param2) => SignupSuccessFullCubit(params, getIt()));
   getIt.registerFactoryParam<TavernDashboardCubit, TavernDashboardInitialParams,
           dynamic>(
-      (params, param2) =>
-          TavernDashboardCubit(params, getIt(), getIt(), getIt(), getIt()));
+      (params, param2) => TavernDashboardCubit(
+          params, getIt(), getIt(), getIt(), getIt(), getIt()));
   getIt.registerFactoryParam<EmailVerificationCubit,
           EmailVerificationInitialParams, dynamic>(
       (params, param2) => EmailVerificationCubit(params, getIt(), getIt()));
   getIt.registerFactoryParam<NotificationBoardCubit,
           NotificationBoardInitialParams, dynamic>(
-      (params, param2) =>
-          NotificationBoardCubit(params, getIt(), getIt(), getIt(), getIt()));
+      (params, param2) => NotificationBoardCubit(
+          params, getIt(), getIt(), getIt(), getIt(), getIt()));
   getIt.registerFactoryParam<TavernProfileCubit, TavernProfileInitialParams,
           dynamic>(
       (params, param2) => TavernProfileCubit(params, getIt(), getIt()));
@@ -180,7 +186,9 @@ void main() async {
   getIt.registerFactoryParam<ReviewsCubit, ReviewsInitialParams, dynamic>(
       (params, param2) => ReviewsCubit(params, getIt()));
   getIt.registerFactoryParam<NotificationsCubit, NotificationsInitialParams,
-      dynamic>((params, param2) => NotificationsCubit(params, getIt()));
+          dynamic>(
+      (params, param2) =>
+          NotificationsCubit(params, getIt(), getIt(), getIt()));
 }
 
 class MyApp extends StatelessWidget {

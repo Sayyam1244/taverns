@@ -2,9 +2,11 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:taverns/domain/model/event_model.dart';
 import 'package:taverns/domain/model/request_model.dart';
 import 'package:taverns/domain/repository/auth_repository.dart';
 import 'package:taverns/domain/repository/events_repository.dart';
+import 'package:taverns/domain/repository/notification_repository.dart';
 import 'package:taverns/domain/repository/user_repository.dart';
 import 'package:taverns/presentation/chat/chat_initial_params.dart';
 import 'package:taverns/presentation/event_detail/event_detail_initial_params.dart';
@@ -17,6 +19,7 @@ import 'package:taverns/presentation/search_user/search_user_initial_params.dart
 import 'package:taverns/presentation/tavern_dasboard/tavern_dashboard_navigator.dart';
 import 'package:taverns/presentation/tavern_profile/tavern_profile_initial_params.dart';
 import '../../core/utils/flushbar.dart';
+import '../../domain/model/notification_model.dart';
 import 'tavern_dashboard_initial_params.dart';
 import 'tavern_dashboard_state.dart';
 
@@ -26,8 +29,9 @@ class TavernDashboardCubit extends Cubit<TavernDashboardState> {
   final AuthRepository auth;
   final UserRepository _user;
   final EventRepository events;
-  TavernDashboardCubit(
-      this.initialParams, this.navigator, this.auth, this._user, this.events)
+  final NotificationRepository notification;
+  TavernDashboardCubit(this.initialParams, this.navigator, this.auth,
+      this._user, this.events, this.notification)
       : super(
           TavernDashboardState.initial(
             initialParams: initialParams,
@@ -109,19 +113,30 @@ class TavernDashboardCubit extends Cubit<TavernDashboardState> {
     });
   }
 
-  void requestToJoin({required String eventId, required BuildContext context}) {
+  void requestToJoin(
+      {required EventModel event, required BuildContext context}) {
     RequestModel requestModel = RequestModel(
       userName: state.user.userName,
       userId: state.user.docId,
-      eventId: eventId,
+      eventId: event.docId,
       requestedFor: state.user.accountType,
     );
     events.makeRequest(requestModel: requestModel).then(
           (value) => value.fold(
             (l) => FlushbarDialogue().showErrorFlushbar(
                 context: context, title: l.title, body: l.message),
-            (r) {
+            (r) async {
               if (r) {
+                NotificationModel notificationModel = NotificationModel(
+                    notification:
+                        'Requested a slot for ${requestModel.requestedFor} in ${event.eventName}',
+                    to: event.userId,
+                    from: auth.currentUser().uid,
+                    eventId: event.docId,
+                    sender: state.user.userName);
+
+                await notification.generateNotification(
+                    notificationModel: notificationModel);
                 return FlushbarDialogue().showFlushbar(
                   context: context,
                   title: 'Request',

@@ -2,7 +2,10 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:taverns/core/app_export.dart';
+import 'package:taverns/domain/model/general_model.dart';
+import 'package:taverns/domain/model/notification_model.dart';
 import 'package:taverns/presentation/tavern_dasboard/tavern_dashboard_cubit.dart';
 import 'package:taverns/presentation/tavern_dasboard/tavern_dashboard_state.dart';
 
@@ -79,26 +82,74 @@ class NotificationBoardWidget extends StatelessWidget {
           Align(
             alignment: Alignment.bottomCenter,
             child: SizedBox(
-              height: 165.v,
-              child: ListView.separated(
-                padding: EdgeInsets.only(left: 15.h, bottom: 20.v, top: 15.v),
-                scrollDirection: Axis.horizontal,
-                separatorBuilder: (
-                  context,
-                  index,
-                ) {
-                  return SizedBox(
-                    width: 17.h,
-                  );
-                },
-                itemCount: 2,
-                itemBuilder: (context, index) {
-                  return NotificationcardItemWidget();
+              height: 140.v,
+              child:
+                  StreamBuilder<Either<GeneralError, List<NotificationModel>>>(
+                stream: cubit.notification.getNotifications(
+                    userId: cubit.auth.currentUser().uid, limit: 5),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    List<NotificationModel> data = [];
+                    snapshot.data!.fold((l) => null, (r) => data = r);
+                    if (data.isEmpty) {
+                      return NoNotificationWidget();
+                    }
+                    return ListView.separated(
+                      padding:
+                          EdgeInsets.only(left: 15.h, bottom: 20.v, top: 15.v),
+                      scrollDirection: Axis.horizontal,
+                      separatorBuilder: (
+                        context,
+                        index,
+                      ) {
+                        return SizedBox(
+                          width: 17.h,
+                        );
+                      },
+                      itemCount: data.length,
+                      itemBuilder: (context, index) {
+                        return NotificationcardItemWidget(
+                          notificationModel: data[index],
+                          onTap: () {
+                            cubit.navigateToEventDetailScreen(
+                                data[index].eventId);
+                          },
+                        );
+                      },
+                    );
+                  } else {
+                    return NoNotificationWidget();
+                  }
                 },
               ),
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class NoNotificationWidget extends StatelessWidget {
+  const NoNotificationWidget({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 30),
+      padding: EdgeInsets.all(15.h),
+      decoration: AppDecoration.outlineBlueGray.copyWith(
+        borderRadius: BorderRadiusStyle.roundedBorder8,
+      ),
+      width: MediaQuery.sizeOf(context).width * 0.8,
+      child: Center(
+        child: Text(
+          'No Notification yet!',
+          style: CustomTextStyles.titleSmallMulishGray800,
+          textAlign: TextAlign.center,
+        ),
       ),
     );
   }

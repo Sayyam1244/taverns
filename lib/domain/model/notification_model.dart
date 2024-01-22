@@ -30,7 +30,7 @@ class NotificationModel extends CommonModel {
       'eventId': eventId,
       'sender': sender,
       if (docId != null) 'docId': docId,
-      'creationDate': FieldValue.serverTimestamp(),
+      'createdDate': FieldValue.serverTimestamp(),
       if (modifiedDate != null) 'modifiedDate': modifiedDate,
     };
   }
