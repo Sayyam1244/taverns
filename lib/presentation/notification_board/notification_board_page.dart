@@ -83,26 +83,31 @@ class _NotificationBoardState extends State<NotificationBoardPage> {
         bloc: cubit,
         builder: (context, state) => Column(
           children: [
-            SizedBox(height: 20),
-            Center(
-              child: ToggleSwitch(
-                customWidths: [
-                  SizeUtils.width * .3,
-                  SizeUtils.width * .3,
-                  SizeUtils.width * .3,
-                ],
-                cornerRadius: 12,
-                initialLabelIndex: state.index,
-                totalSwitches: 3,
-                activeBgColor: [theme.colorScheme.primary],
-                inactiveBgColor: PrimaryColors().yellow50,
-                labels: ['Post', 'Manage', 'Request'],
-                onToggle: (index) {
-                  cubit.changeIndex(index!);
-                },
+            if (cubit.initialParams.userModel!.accountType != "Player")
+              SizedBox(height: 20),
+            if (cubit.initialParams.userModel!.accountType != "Player")
+              Center(
+                child: ToggleSwitch(
+                  customWidths: [
+                    SizeUtils.width * .3,
+                    SizeUtils.width * .3,
+                    SizeUtils.width * .3,
+                  ],
+                  cornerRadius: 12,
+                  initialLabelIndex: state.index,
+                  totalSwitches: 3,
+                  activeBgColor: [theme.colorScheme.primary],
+                  inactiveBgColor: PrimaryColors().yellow50,
+                  labels: labels(),
+                  onToggle: (index) {
+                    cubit.changeIndex(index!);
+                  },
+                ),
               ),
-            ),
-            Expanded(child: tabs(cubit, state)[state.index])
+            if (cubit.initialParams.userModel!.accountType != "Player")
+              Expanded(child: tabs(cubit, state)[state.index]),
+            if (cubit.initialParams.userModel!.accountType == "Player")
+              Expanded(child: tabs(cubit, state)[0]),
           ],
         ),
       ),
