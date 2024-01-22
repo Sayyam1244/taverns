@@ -37,6 +37,9 @@ import 'package:taverns/presentation/notifications/notifications_navigator.dart'
 import 'package:taverns/presentation/notifications_email_screen/notification_settings_cubit.dart';
 import 'package:taverns/presentation/notifications_email_screen/notification_settings_initial_params.dart';
 import 'package:taverns/presentation/notifications_email_screen/notification_settings_navigator.dart';
+import 'package:taverns/presentation/pulls_nearby_businesses/pull_nearby_businesses_cubit.dart';
+import 'package:taverns/presentation/pulls_nearby_businesses/pull_nearby_businesses_initial_params.dart';
+import 'package:taverns/presentation/pulls_nearby_businesses/pull_nearby_businesses_navigator.dart';
 import 'package:taverns/presentation/reviews/reviews_cubit.dart';
 import 'package:taverns/presentation/reviews/reviews_initial_params.dart';
 import 'package:taverns/presentation/search_event/search_event_cubit.dart';
@@ -117,6 +120,8 @@ void main() async {
       EditLocationOnMapNavigator(getIt()));
   getIt.registerSingleton<NotificationsNavigator>(
       NotificationsNavigator(getIt()));
+  getIt.registerSingleton<PullNearbyBusinessesNavigator>(
+      PullNearbyBusinessesNavigator(getIt()));
 
   getIt.registerSingleton<AuthRepository>(Auth());
   getIt.registerSingleton<UserRepository>(User());
@@ -189,6 +194,11 @@ void main() async {
           dynamic>(
       (params, param2) =>
           NotificationsCubit(params, getIt(), getIt(), getIt()));
+
+  getIt.registerFactoryParam<PullNearbyBusinessesCubit,
+          PullNearbyBusinessesInitialParams, dynamic>(
+      (params, param2) =>
+          PullNearbyBusinessesCubit(params, getIt(), getIt(), getIt()));
 }
 
 class MyApp extends StatelessWidget {

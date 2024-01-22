@@ -14,6 +14,7 @@ import 'package:taverns/domain/repository/notification_repository.dart';
 import 'package:taverns/domain/repository/user_repository.dart';
 import 'package:taverns/presentation/notification_board/notification_board_navigator.dart';
 import 'package:taverns/presentation/notification_board/sub_components/request_item.dart';
+import 'package:taverns/presentation/pulls_nearby_businesses/pull_nearby_businesses_initial_params.dart';
 import '../../core/utils/flushbar.dart';
 import '../../domain/model/general_model.dart';
 import '../../widgets/custom_elevated_button.dart';
@@ -96,12 +97,11 @@ class NotificationBoardCubit extends Cubit<NotificationBoardState> {
   Future<void> postEvent(
     BuildContext context,
   ) async {
-    log('asdf' + initialParams.userModel.businessName.toString());
     EventModel eventModel = EventModel(
-      businessName: initialParams.userModel.businessName ?? '',
-      businessNumber: initialParams.userModel.businessNumber ?? '',
-      userId: initialParams.userModel.docId ?? '',
-      businessAddress: initialParams.userModel.businessAddress ?? '',
+      businessName: initialParams.userModel!.businessName ?? '',
+      businessNumber: initialParams.userModel!.businessNumber ?? '',
+      userId: initialParams.userModel!.docId ?? '',
+      businessAddress: initialParams.userModel!.businessAddress ?? '',
       eventName: state.eventName!,
       eventDatetime: state.eventDatetime,
       eventType: state.eventType!,
@@ -329,9 +329,9 @@ class NotificationBoardCubit extends Cubit<NotificationBoardState> {
                   to: requestModel.userId,
                   from: auth.currentUser().uid,
                   eventId: requestModel.eventId,
-                  sender: initialParams.userModel.accountType == "Tavern"
-                      ? initialParams.userModel.businessName
-                      : initialParams.userModel.userName);
+                  sender: initialParams.userModel!.accountType == "Tavern"
+                      ? initialParams.userModel!.businessName
+                      : initialParams.userModel!.userName);
               await notification.generateNotification(
                   notificationModel: notificationModel);
               return FlushbarDialogue().showFlushbar(
@@ -342,5 +342,10 @@ class NotificationBoardCubit extends Cubit<NotificationBoardState> {
             },
           ),
         );
+  }
+
+  void navigateToPullsNearby() {
+    navigator.openAndRemoveCurrentPullNearbyBusinesses(
+        PullNearbyBusinessesInitialParams(initialParams.userModel!));
   }
 }

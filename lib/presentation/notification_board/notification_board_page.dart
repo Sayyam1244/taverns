@@ -24,7 +24,9 @@ class NotificationBoardPage extends StatefulWidget {
 
 class _NotificationBoardState extends State<NotificationBoardPage> {
   NotificationBoardCubit get cubit => widget.cubit;
-  List<Widget> tabs(NotificationBoardCubit cubit, NotificationBoardState state) => [
+  List<Widget> tabs(
+          NotificationBoardCubit cubit, NotificationBoardState state) =>
+      [
         PostWidget(
           cubit: cubit,
           state: state,
@@ -41,6 +43,17 @@ class _NotificationBoardState extends State<NotificationBoardPage> {
   @override
   void initState() {
     super.initState();
+    cubit.navigator.context = context;
+  }
+
+  List<String> labels() {
+    if (cubit.initialParams.userModel!.accountType == "Tavern") {
+      return ['Post', 'Manage', 'Request'];
+    } else if (cubit.initialParams.userModel!.accountType == "GM") {
+      return ['Request', 'Manage', 'Notifications'];
+    } else {
+      return ['Events'];
+    }
   }
 
   @override
@@ -55,7 +68,9 @@ class _NotificationBoardState extends State<NotificationBoardPage> {
       ),
       body: BlocBuilder<NotificationBoardCubit, NotificationBoardState>(
         buildWhen: (previous, current) {
-          if (previous.isPostUploading != current.isPostUploading || previous.eventDatetime != current.eventDatetime || previous.index != current.index) {
+          if (previous.isPostUploading != current.isPostUploading ||
+              previous.eventDatetime != current.eventDatetime ||
+              previous.index != current.index) {
             return true;
           }
           return false;
@@ -76,7 +91,7 @@ class _NotificationBoardState extends State<NotificationBoardPage> {
                 totalSwitches: 3,
                 activeBgColor: [theme.colorScheme.primary],
                 inactiveBgColor: PrimaryColors().yellow50,
-                labels: ['Post', 'Manage', 'Request'],
+                labels: labels(),
                 onToggle: (index) {
                   cubit.changeIndex(index!);
                 },
