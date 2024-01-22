@@ -18,7 +18,9 @@ class EventModel extends CommonModel {
   int playerRequired;
   int tables;
   String note;
+  bool? isApproved;
   UserModel? user;
+  String? requestedTavern;
 
   EventModel({
     String? docId,
@@ -38,8 +40,11 @@ class EventModel extends CommonModel {
     required this.playerRequired,
     required this.tables,
     required this.note,
+    this.isApproved,
+    this.requestedTavern,
     this.user,
-  }) : super(docId: docId, createdDate: createdDate, modifiedDate: modifiedDate);
+  }) : super(
+            docId: docId, createdDate: createdDate, modifiedDate: modifiedDate);
 
   Map<String, dynamic> toMapForUpload() {
     return {
@@ -60,30 +65,33 @@ class EventModel extends CommonModel {
       'playerRequired': playerRequired,
       'tables': tables,
       'note': note,
+      'isApproved': isApproved,
+      'requestedTavern': requestedTavern,
     };
   }
 
   factory EventModel.fromMap(DocumentSnapshot<Map<String, dynamic>> snapshot) {
     final data = snapshot.data()!;
     return EventModel(
-      docId: data['docId'] ?? '',
-      createdDate: data['creationDate']?.toDate(),
-      modifiedDate: data['modifiedDate']?.toDate(),
-      businessName: data['businessName'] ?? '',
-      businessNumber: data['businessNumber'] ?? '',
-      userId: data['userId'] ?? '',
-      businessAddress: data['businessAddress'] ?? '',
-      eventName: data['eventName'] ?? '',
-      eventDatetime: data['eventDatetime']?.toDate(),
-      eventType: data['eventType'] ?? '',
-      gameType: data['gameType'] ?? '',
-      gameSystem: data['gameSystem'] ?? '',
-      isFree: data['isFree'] ?? false,
-      gmsRequired: data['gmsRequired'] ?? 0,
-      playerRequired: data['playerRequired'] ?? 0,
-      tables: data['tables'] ?? 0,
-      note: data['note'] ?? '',
-    );
+        docId: data['docId'] ?? '',
+        createdDate: data['creationDate']?.toDate(),
+        modifiedDate: data['modifiedDate']?.toDate(),
+        businessName: data['businessName'] ?? '',
+        businessNumber: data['businessNumber'] ?? '',
+        userId: data['userId'] ?? '',
+        businessAddress: data['businessAddress'] ?? '',
+        eventName: data['eventName'] ?? '',
+        eventDatetime: data['eventDatetime']?.toDate(),
+        eventType: data['eventType'] ?? '',
+        gameType: data['gameType'] ?? '',
+        gameSystem: data['gameSystem'] ?? '',
+        isFree: data['isFree'] ?? false,
+        gmsRequired: data['gmsRequired'] ?? 0,
+        playerRequired: data['playerRequired'] ?? 0,
+        tables: data['tables'] ?? 0,
+        note: data['note'] ?? '',
+        isApproved: data['isApproved'] ?? null,
+        requestedTavern: data['requestedTavern'] ?? null);
   }
   injectUser(UserModel userModel) {
     user = userModel;

@@ -47,11 +47,7 @@ class PullNearbyBusinessesCubit extends Cubit<PullNearbyBusinessesState> {
   }
 
   void confirmLocation() {
-    UserModel userModel = UserModel();
-
-    userModel.businessAddress =
-        state.taverns[state.selectedIndex].businessAddress;
-    userModel.businessName = state.taverns[state.selectedIndex].userName;
+    UserModel userModel = state.taverns[state.selectedIndex];
 
     navigator.openAndRemoveCurrentNotificationBoard(
       NotificationBoardInitialParams(

@@ -147,7 +147,7 @@ class TavernDashboardCubit extends Cubit<TavernDashboardState> {
                 return FlushbarDialogue().showFlushbar(
                   context: context,
                   title: 'Request',
-                  body: 'Your request for this event is already in progress',
+                  body: 'Your request for this event is already submitted',
                 );
               }
             },
@@ -158,5 +158,10 @@ class TavernDashboardCubit extends Cubit<TavernDashboardState> {
   void logout() async {
     await auth.logout();
     navigator.openLoginAndSignup(LoginAndSignupInitialParams());
+  }
+
+  void seeAllEvents() {
+    navigator.openNotificationBoard(
+        NotificationBoardInitialParams(userModel: state.user, index: 1));
   }
 }

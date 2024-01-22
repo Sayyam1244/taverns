@@ -95,13 +95,18 @@ class NotificationBoardCubit extends Cubit<NotificationBoardState> {
   }
 
   Future<void> postEvent(
-    BuildContext context,
-  ) async {
+      BuildContext context, bool isTavernOwnerPosting) async {
     EventModel eventModel = EventModel(
-      businessName: initialParams.userModel!.businessName ?? '',
-      businessNumber: initialParams.userModel!.businessNumber ?? '',
+      businessName: isTavernOwnerPosting
+          ? initialParams.userModel!.businessName ?? ''
+          : initialParams.userModelForOtherTavern!.businessName ?? '',
+      businessNumber: isTavernOwnerPosting
+          ? initialParams.userModel!.businessNumber ?? ''
+          : '',
       userId: initialParams.userModel!.docId ?? '',
-      businessAddress: initialParams.userModel!.businessAddress ?? '',
+      businessAddress: isTavernOwnerPosting
+          ? initialParams.userModel!.businessAddress ?? ''
+          : initialParams.userModelForOtherTavern!.businessAddress ?? '',
       eventName: state.eventName!,
       eventDatetime: state.eventDatetime,
       eventType: state.eventType!,
@@ -112,20 +117,37 @@ class NotificationBoardCubit extends Cubit<NotificationBoardState> {
       playerRequired: state.playerRequired!,
       tables: state.tables!,
       note: state.note ?? '',
+      isApproved: isTavernOwnerPosting ? true : null,
+      requestedTavern: initialParams.userModelForOtherTavern?.docId ?? null,
     );
     emit(state.copyWith(isPostUploading: true));
     await event.postEvent(event: eventModel).then(
           (value) => value.fold(
             (l) => FlushbarDialogue().showErrorFlushbar(
                 context: context, title: l.title, body: l.message),
-            (r) {
+            (r) async {
               FlushbarDialogue().showFlushbar(
                   context: context,
                   title: 'Event Uploaded',
                   body: 'Your Post has been uploaded successfully');
+              //         if (!isTavernOwnerPosting) {
+              //   NotificationModel notificationModel = NotificationModel(
+              //               notification:
+              //                   '${initialParams.userModel!.userName} has requested an event slot in your tavern on ${eventModel.eventDatetime.format('dd/MM/YYYY hh:mm: a')}',
+              //               to: initialParams.userModelForOtherTavern?.docId,
+              //               from: auth.currentUser().uid,
+              //               eventId: requestModel.eventId,
+              //               sender: initialParams.userModel!.accountType == "Tavern"
+              //                   ? initialParams.userModel!.businessName
+              //                   : initialParams.userModel!.userName);
+              //           await notification.generateNotification(
+              //               notificationModel: notificationModel);
+              //   await notification.generateNotification(notificationModel: notificationModel)
+              // }
             },
           ),
         );
+
     emit(state.copyWith(isPostUploading: false));
   }
 
@@ -347,5 +369,66 @@ class NotificationBoardCubit extends Cubit<NotificationBoardState> {
   void navigateToPullsNearby() {
     navigator.openAndRemoveCurrentPullNearbyBusinesses(
         PullNearbyBusinessesInitialParams(initialParams.userModel!));
+  }
+
+  void approveEventRequest(bool bool, EventModel eventModel) async {
+    event.updateEventRequest(approve: bool, eventId: eventModel.docId);
+    NotificationModel notificationModel = NotificationModel(
+        notification:
+            'Your request for ${eventModel.eventName} has been ${bool ? "Approved" : "Rejected"}',
+        to: eventModel.userId,
+        from: auth.currentUser().uid,
+        eventId: eventModel.docId,
+        sender: initialParams.userModel!.accountType == "Tavern"
+            ? initialParams.userModel!.businessName
+            : initialParams.userModel!.userName);
+    await notification.generateNotification(
+        notificationModel: notificationModel);
+  }
+
+  void requestToJoin(
+      {required EventModel event, required BuildContext context}) {
+    RequestModel requestModel = RequestModel(
+      userName: initialParams.userModel!.userName!,
+      userId: initialParams.userModel!.docId,
+      eventId: event.docId,
+      requestedFor: initialParams.userModel!.accountType,
+    );
+    this.event.makeRequest(requestModel: requestModel).then(
+          (value) => value.fold(
+            (l) => FlushbarDialogue().showErrorFlushbar(
+                context: context, title: l.title, body: l.message),
+            (r) async {
+              if (r) {
+                NotificationModel notificationModel = NotificationModel(
+                    notification:
+                        'Requested a slot for ${requestModel.requestedFor} in ${event.eventName}',
+                    to: event.userId,
+                    from: auth.currentUser().uid,
+                    eventId: event.docId,
+                    sender: initialParams.userModel!.userName);
+
+                await notification.generateNotification(
+                    notificationModel: notificationModel);
+                return FlushbarDialogue().showFlushbar(
+                  context: context,
+                  title: 'Request',
+                  body:
+                      'Your request for ${initialParams.userModel!.accountType} has been submitted for the following event',
+                );
+              } else {
+                return FlushbarDialogue().showFlushbar(
+                  context: context,
+                  title: 'Request',
+                  body: 'Your request for this event is already submitted',
+                );
+              }
+            },
+          ),
+        );
+  }
+
+  void setIndex() {
+    emit(state.copyWith(index: initialParams.index ?? 0));
   }
 }

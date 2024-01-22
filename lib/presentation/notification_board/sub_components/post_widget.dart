@@ -1,6 +1,4 @@
 import 'dart:developer';
-
-import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:taverns/widgets/custom_text_form_field.dart';
@@ -287,10 +285,26 @@ class _PostWidgetState extends State<PostWidget> {
             text: 'Post',
             isLoading: widget.state.isPostUploading,
             onPressed: () {
-              if (formKey.currentState?.validate() ?? false) {
-                widget.cubit.postEvent(context);
-              } else {
-                log('missing');
+              if (widget.cubit.initialParams.userModel!.accountType ==
+                  "Tavern") {
+                if (formKey.currentState?.validate() ?? false) {
+                  widget.cubit.postEvent(context, true);
+                } else {
+                  log('missing');
+                }
+              } else if (widget.cubit.initialParams.userModel!.accountType ==
+                  "GM") {
+                if ((formKey.currentState?.validate() ?? false) &&
+                    widget.cubit.initialParams.userModelForOtherTavern
+                            ?.businessName !=
+                        null &&
+                    widget.cubit.initialParams.userModelForOtherTavern
+                            ?.businessAddress !=
+                        null) {
+                  widget.cubit.postEvent(context, false);
+                } else {
+                  log('missing');
+                }
               }
             },
           ),

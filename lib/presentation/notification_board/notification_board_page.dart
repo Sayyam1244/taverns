@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taverns/core/app_export.dart';
+import 'package:taverns/presentation/notification_board/sub_components/events_widget.dart';
 import 'package:taverns/presentation/notification_board/sub_components/manage_widget.dart';
 import 'package:taverns/presentation/notification_board/sub_components/request_widget.dart';
 import 'package:taverns/theme/theme_helper.dart';
@@ -25,24 +26,28 @@ class NotificationBoardPage extends StatefulWidget {
 class _NotificationBoardState extends State<NotificationBoardPage> {
   NotificationBoardCubit get cubit => widget.cubit;
   List<Widget> tabs(
-          NotificationBoardCubit cubit, NotificationBoardState state) =>
-      [
-        PostWidget(
-          cubit: cubit,
-          state: state,
-        ),
-        ManageWidget(
-          cubit: cubit,
-          state: state,
-        ),
-        RequestWidget(
-          cubit: cubit,
-          state: state,
-        ),
+      NotificationBoardCubit cubit, NotificationBoardState state) {
+    if (cubit.initialParams.userModel!.accountType == "Tavern") {
+      return [
+        PostWidget(cubit: cubit, state: state),
+        ManageWidget(cubit: cubit, state: state),
+        RequestWidget(cubit: cubit, state: state)
       ];
+    } else if (cubit.initialParams.userModel!.accountType == "GM") {
+      return [
+        PostWidget(cubit: cubit, state: state),
+        ManageWidget(cubit: cubit, state: state),
+        EventsWidget(cubit: cubit, state: state)
+      ];
+    } else {
+      return [EventsWidget(cubit: cubit, state: state)];
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+    cubit.setIndex();
     cubit.navigator.context = context;
   }
 
@@ -50,7 +55,7 @@ class _NotificationBoardState extends State<NotificationBoardPage> {
     if (cubit.initialParams.userModel!.accountType == "Tavern") {
       return ['Post', 'Manage', 'Request'];
     } else if (cubit.initialParams.userModel!.accountType == "GM") {
-      return ['Request', 'Manage', 'Notifications'];
+      return ['Request', 'Manage', 'Events'];
     } else {
       return ['Events'];
     }
@@ -78,26 +83,31 @@ class _NotificationBoardState extends State<NotificationBoardPage> {
         bloc: cubit,
         builder: (context, state) => Column(
           children: [
-            SizedBox(height: 20),
-            Center(
-              child: ToggleSwitch(
-                customWidths: [
-                  SizeUtils.width * .3,
-                  SizeUtils.width * .3,
-                  SizeUtils.width * .3,
-                ],
-                cornerRadius: 12,
-                initialLabelIndex: state.index,
-                totalSwitches: 3,
-                activeBgColor: [theme.colorScheme.primary],
-                inactiveBgColor: PrimaryColors().yellow50,
-                labels: labels(),
-                onToggle: (index) {
-                  cubit.changeIndex(index!);
-                },
+            if (cubit.initialParams.userModel!.accountType != "Player")
+              SizedBox(height: 20),
+            if (cubit.initialParams.userModel!.accountType != "Player")
+              Center(
+                child: ToggleSwitch(
+                  customWidths: [
+                    SizeUtils.width * .3,
+                    SizeUtils.width * .3,
+                    SizeUtils.width * .3,
+                  ],
+                  cornerRadius: 12,
+                  initialLabelIndex: state.index,
+                  totalSwitches: 3,
+                  activeBgColor: [theme.colorScheme.primary],
+                  inactiveBgColor: PrimaryColors().yellow50,
+                  labels: labels(),
+                  onToggle: (index) {
+                    cubit.changeIndex(index!);
+                  },
+                ),
               ),
-            ),
-            Expanded(child: tabs(cubit, state)[state.index])
+            if (cubit.initialParams.userModel!.accountType != "Player")
+              Expanded(child: tabs(cubit, state)[state.index]),
+            if (cubit.initialParams.userModel!.accountType == "Player")
+              Expanded(child: tabs(cubit, state)[0]),
           ],
         ),
       ),

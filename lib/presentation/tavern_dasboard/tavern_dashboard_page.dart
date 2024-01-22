@@ -28,7 +28,12 @@ class _TavernDashboardState extends State<TavernDashboardPage> {
     TavernDashboardCubit cubit,
     TavernDashboardState state,
   ) =>
-      [Home(cubit: cubit, state: state), CalenderScreen(cubit: cubit), Chats(cubit: cubit), MorePage(cubit: cubit, state: state)];
+      [
+        Home(cubit: cubit, state: state),
+        CalenderScreen(cubit: cubit),
+        Chats(cubit: cubit),
+        MorePage(cubit: cubit, state: state)
+      ];
 
   @override
   void initState() {
@@ -42,7 +47,8 @@ class _TavernDashboardState extends State<TavernDashboardPage> {
     return SafeArea(
       child: BlocBuilder<TavernDashboardCubit, TavernDashboardState>(
         buildWhen: (previous, current) {
-          if (previous.currentIndex != current.currentIndex || previous.isloading != current.isloading) {
+          if (previous.currentIndex != current.currentIndex ||
+              previous.isloading != current.isloading) {
             return true;
           }
           return false;
@@ -51,10 +57,18 @@ class _TavernDashboardState extends State<TavernDashboardPage> {
         builder: (context, state) => Scaffold(
           backgroundColor: appTheme.gray5001,
           resizeToAvoidBottomInset: false,
-          appBar: state.currentIndex == 0 ? tavernAppBar(context) : null,
-          body: state.isloading ? CustomLoadingWidget() : screens(cubit, state)[state.currentIndex],
-          bottomNavigationBar: BlocBuilder<TavernDashboardCubit, TavernDashboardState>(
-            buildWhen: (previous, current) => previous.currentIndex != current.currentIndex,
+          appBar: state.currentIndex == 0
+              ? tavernAppBar(context, () {
+                  cubit.navigateToNotifications();
+                })
+              : null,
+          body: state.isloading
+              ? CustomLoadingWidget()
+              : screens(cubit, state)[state.currentIndex],
+          bottomNavigationBar:
+              BlocBuilder<TavernDashboardCubit, TavernDashboardState>(
+            buildWhen: (previous, current) =>
+                previous.currentIndex != current.currentIndex,
             bloc: cubit,
             builder: (context, state) => Container(
               height: 70,
@@ -72,8 +86,10 @@ class _TavernDashboardState extends State<TavernDashboardPage> {
                   selectedItemColor: theme.colorScheme.primary,
                   currentIndex: state.currentIndex,
                   items: [
-                    BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: 'Home'),
-                    BottomNavigationBarItem(icon: Icon(Icons.calendar_month), label: 'Calender'),
+                    BottomNavigationBarItem(
+                        icon: Icon(Icons.home_outlined), label: 'Home'),
+                    BottomNavigationBarItem(
+                        icon: Icon(Icons.calendar_month), label: 'Calender'),
                     BottomNavigationBarItem(
                         icon: Stack(
                           alignment: Alignment.center,
@@ -94,7 +110,8 @@ class _TavernDashboardState extends State<TavernDashboardPage> {
                           ],
                         ),
                         label: 'Message'),
-                    BottomNavigationBarItem(icon: Icon(Icons.more_horiz), label: 'More'),
+                    BottomNavigationBarItem(
+                        icon: Icon(Icons.more_horiz), label: 'More'),
                   ]),
             ),
           ),

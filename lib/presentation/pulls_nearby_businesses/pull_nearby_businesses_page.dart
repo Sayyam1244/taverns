@@ -56,6 +56,7 @@ class _PullNearbyBusinessesState extends State<PullNearbyBusinessesPage> {
                     flex: 8,
                     child: GoogleMap(
                       zoomControlsEnabled: false,
+                      mapType: MapType.normal,
                       markers: Set.from([
                         ...state.taverns
                             .mapWithIndex(

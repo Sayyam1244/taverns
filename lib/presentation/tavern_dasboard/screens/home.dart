@@ -65,15 +65,20 @@ class Home extends StatelessWidget {
                         color: appTheme.blueGray800,
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                        top: 2.v,
-                        bottom: 4.v,
-                      ),
-                      child: Text(
-                        'See All',
-                        style: CustomTextStyles.labelLargePrimary.copyWith(
-                          color: theme.colorScheme.primary,
+                    GestureDetector(
+                      onTap: () {
+                        cubit.seeAllEvents();
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                          top: 2.v,
+                          bottom: 4.v,
+                        ),
+                        child: Text(
+                          'See All',
+                          style: CustomTextStyles.labelLargePrimary.copyWith(
+                            color: theme.colorScheme.primary,
+                          ),
                         ),
                       ),
                     ),
@@ -88,11 +93,19 @@ class Home extends StatelessWidget {
                     getUser: true,
                     limit: 5,
                     fromTodayDate: true,
+                    userId: state.user.accountType == 'Tavern'
+                        ? cubit.auth.currentUser().uid
+                        : null,
                   ),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       List<EventModel> data = [];
-                      snapshot.data?.fold((l) => null, (r) => data = r);
+                      snapshot.data?.fold((l) => null, (r) {
+                        if (state.user.accountType != 'Tavern')
+                          r.removeWhere((element) =>
+                              element.userId == cubit.auth.currentUser().uid);
+                        data = r;
+                      });
                       if (data.isNotEmpty) {
                         return ListView.separated(
                           padding: EdgeInsets.only(left: 13.h),

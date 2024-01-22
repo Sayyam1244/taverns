@@ -51,6 +51,7 @@ class EventHelper implements EventRepository {
           : FirebaseFirestore.instance
               .collection('Events')
               .where("eventDatetime", isGreaterThanOrEqualTo: DateTime.now())
+              .where('isApproved', isEqualTo: true)
               .limit(limit)
               .snapshots()) {
         List<EventModel> events = [];
@@ -213,6 +214,57 @@ class EventHelper implements EventRepository {
       await FirebaseFirestore.instance
           .collection('Requests')
           .doc(requestId)
+          .update({"isApproved": approve});
+      return right(true);
+    } catch (e) {
+      return left(
+          GeneralError('Error', 'Error happened, Please try again later'));
+    }
+  }
+
+  @override
+  Stream<Either<GeneralError, List<EventModel>>> getEventsRequestFromGM(
+      {String? userId, required bool getUser}) async* {
+    try {
+      await for (QuerySnapshot<Map<String, dynamic>> eventsDocs
+          in FirebaseFirestore.instance
+              .collection('Events')
+              .where('requestedTavern', isEqualTo: userId)
+              .where('isApproved', isEqualTo: null)
+              .snapshots()) {
+        List<EventModel> events = [];
+        for (QueryDocumentSnapshot<Map<String, dynamic>> eventDoc
+            in eventsDocs.docs) {
+          EventModel event = EventModel.fromMap(eventDoc);
+          if (getUser) {
+            DocumentSnapshot<Map<String, dynamic>> userDoc =
+                await FirebaseFirestore.instance
+                    .collection('Users')
+                    .doc(event.userId)
+                    .get();
+            if (userDoc.exists) {
+              event.injectUser(UserModel.fromMap(userDoc));
+            }
+          }
+          events.add(event);
+        }
+
+        yield Right(events);
+      }
+    } catch (e) {
+      log('getEvents=========>' + e.toString());
+      yield left(
+          GeneralError('Error', 'Error happened, Please try again later'));
+    }
+  }
+
+  @override
+  Future<Either<GeneralError, bool>> updateEventRequest(
+      {required bool approve, String? eventId}) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('Events')
+          .doc(eventId)
           .update({"isApproved": approve});
       return right(true);
     } catch (e) {

@@ -53,7 +53,13 @@ class _NotificationsState extends State<NotificationsPage> {
               List<NotificationModel> data = [];
               snapshot.data!.fold((l) => null, (r) => data = r);
               if (data.isEmpty) {
-                return NoNotificationWidget();
+                return Center(
+                  child: Text(
+                    'No Notification yet!',
+                    style: CustomTextStyles.titleSmallMulishGray800,
+                    textAlign: TextAlign.center,
+                  ),
+                );
               }
               return ListView(
                 children: data

@@ -98,42 +98,86 @@ class ManageItem extends StatelessWidget {
               ],
             ),
             SizedBox(height: 30.v),
-            Row(
-              children: [
-                Expanded(
-                  child: CustomElevatedButton(
-                    onPressed: () {
-                      cubit.openRequests(event.docId, event.gmsRequired,
-                          event.playerRequired, context, cubit);
-                    },
-                    buttonStyle: CustomButtonStyles.fillYellow,
-                    buttonTextStyle:
-                        CustomTextStyles.titleSmallCircularStdBluegray70001,
-                    height: 45.v,
-                    text: 'Player request',
+            if (event.requestedTavern != null && (event.isApproved ?? false))
+              Row(
+                children: [
+                  Expanded(
+                    child: CustomElevatedButton(
+                      onPressed: () {
+                        cubit.openRequests(event.docId, event.gmsRequired,
+                            event.playerRequired, context, cubit);
+                      },
+                      buttonStyle: CustomButtonStyles.fillYellow,
+                      buttonTextStyle:
+                          CustomTextStyles.titleSmallCircularStdBluegray70001,
+                      height: 45.v,
+                      text: 'Player request',
+                    ),
                   ),
-                ),
-                SizedBox(width: 12.h),
-                Expanded(
-                  child: CustomElevatedButton(
-                    onPressed: () {
-                      cubit.openRequests(
-                        event.docId,
-                        event.gmsRequired,
-                        event.playerRequired,
-                        context,
-                        cubit,
-                      );
-                    },
-                    buttonStyle: CustomButtonStyles.fillPrimaryTL8,
-                    buttonTextStyle:
-                        CustomTextStyles.titleSmallOnErrorContainer,
-                    height: 45.v,
-                    text: 'GM request',
+                  SizedBox(width: 12.h),
+                  Expanded(
+                    child: CustomElevatedButton(
+                      onPressed: () {
+                        cubit.openRequests(
+                          event.docId,
+                          event.gmsRequired,
+                          event.playerRequired,
+                          context,
+                          cubit,
+                        );
+                      },
+                      buttonStyle: CustomButtonStyles.fillPrimaryTL8,
+                      buttonTextStyle:
+                          CustomTextStyles.titleSmallOnErrorContainer,
+                      height: 45.v,
+                      text: 'GM request',
+                    ),
                   ),
-                ),
-              ],
-            )
+                ],
+              ),
+            if (event.requestedTavern != null &&
+                (event.isApproved ?? false) == false)
+              Text(
+                'Approval pending to Tavern owner',
+                style: CustomTextStyles.bodySmallSFProBluegray40001,
+              ),
+            if (event.requestedTavern == null)
+              Row(
+                children: [
+                  Expanded(
+                    child: CustomElevatedButton(
+                      onPressed: () {
+                        cubit.openRequests(event.docId, event.gmsRequired,
+                            event.playerRequired, context, cubit);
+                      },
+                      buttonStyle: CustomButtonStyles.fillYellow,
+                      buttonTextStyle:
+                          CustomTextStyles.titleSmallCircularStdBluegray70001,
+                      height: 45.v,
+                      text: 'Player request',
+                    ),
+                  ),
+                  SizedBox(width: 12.h),
+                  Expanded(
+                    child: CustomElevatedButton(
+                      onPressed: () {
+                        cubit.openRequests(
+                          event.docId,
+                          event.gmsRequired,
+                          event.playerRequired,
+                          context,
+                          cubit,
+                        );
+                      },
+                      buttonStyle: CustomButtonStyles.fillPrimaryTL8,
+                      buttonTextStyle:
+                          CustomTextStyles.titleSmallOnErrorContainer,
+                      height: 45.v,
+                      text: 'GM request',
+                    ),
+                  ),
+                ],
+              )
           ],
         ),
       ),

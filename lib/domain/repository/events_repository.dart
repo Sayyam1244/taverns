@@ -14,6 +14,7 @@ abstract class EventRepository {
       required int limit});
   Stream<Either<GeneralError, List<RequestModel>>> getRequests(
       {String? eventId});
+
   Future<Either<GeneralError, EventModel>> getEvent(
       {String? eventId, required bool getUser});
   Future<Either<GeneralError, bool>> submitReviewToEvent(
@@ -29,4 +30,9 @@ abstract class EventRepository {
       {required bool approve,
       required String requestId,
       required String eventId});
+  Stream<Either<GeneralError, List<EventModel>>> getEventsRequestFromGM(
+      {String? userId, required bool getUser});
+
+  Future<Either<GeneralError, bool>> updateEventRequest(
+      {required bool approve, String? eventId});
 }
