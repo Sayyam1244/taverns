@@ -9,6 +9,7 @@ import 'package:taverns/domain/repository/events_repository.dart';
 import 'package:taverns/domain/repository/notification_repository.dart';
 import 'package:taverns/domain/repository/user_repository.dart';
 import 'package:taverns/presentation/chat/chat_initial_params.dart';
+import 'package:taverns/presentation/edit_profile/edit_profile_initial_params.dart';
 import 'package:taverns/presentation/event_detail/event_detail_initial_params.dart';
 import 'package:taverns/presentation/login_and_signup/login_and_signup_initial_params.dart';
 import 'package:taverns/presentation/notification_board/notification_board_initial_params.dart';
@@ -163,5 +164,9 @@ class TavernDashboardCubit extends Cubit<TavernDashboardState> {
   void seeAllEvents() {
     navigator.openNotificationBoard(
         NotificationBoardInitialParams(userModel: state.user, index: 1));
+  }
+
+  void onEditProfile() {
+    navigator.openEditProfile(EditProfileInitialParams(userModel: state.user));
   }
 }

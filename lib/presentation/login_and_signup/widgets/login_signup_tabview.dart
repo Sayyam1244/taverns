@@ -34,6 +34,7 @@ class LoginSignupTabview extends StatelessWidget {
           fontFamily: 'Cairo',
           fontWeight: FontWeight.w600,
         ),
+        indicatorSize: TabBarIndicatorSize.tab,
         indicatorPadding: EdgeInsets.all(
           6.0.h,
         ),
@@ -45,22 +46,10 @@ class LoginSignupTabview extends StatelessWidget {
         ),
         tabs: [
           Tab(
-            child: SizedBox(
-              child: Text(
-                "Login",
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
+            text: "Login",
           ),
           Tab(
-            child: SizedBox(
-              child: Text(
-                "Signup",
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
+            text: "Signup",
           ),
         ],
       ),

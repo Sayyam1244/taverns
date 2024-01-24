@@ -12,7 +12,8 @@ class SignupWidget extends StatelessWidget {
       required this.email,
       required this.setPassword,
       required this.confirmPassword,
-      required this.loginformKey, required this.cubit})
+      required this.loginformKey,
+      required this.cubit})
       : super(key: key);
   final TextEditingController email;
   final TextEditingController setPassword;
@@ -93,13 +94,12 @@ class SignupWidget extends StatelessWidget {
               contentPadding: EdgeInsets.symmetric(vertical: 14.v),
             ),
             SizedBox(height: 14.v),
-            BlocBuilder<LoginAndSignupCubit,LoginAndSignupState>(
-              
+            BlocBuilder<LoginAndSignupCubit, LoginAndSignupState>(
               bloc: cubit,
               builder: (context, state) => Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                     Checkbox(
+                  Checkbox(
                       value: state.termsAccepted,
                       checkColor:
                           theme.colorScheme.onErrorContainer.withOpacity(1),

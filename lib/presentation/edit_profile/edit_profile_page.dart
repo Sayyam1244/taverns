@@ -63,7 +63,9 @@ class _EditProfileState extends State<EditProfilePage> {
         title: AppbarSubtitleOne(text: "Edit profile"),
         actions: [
           Padding(
-            padding: EdgeInsets.only(right: 16.h, top: 26.v),
+            padding: EdgeInsets.only(
+              right: 16.h,
+            ),
             child: GestureDetector(
                 onTap: () {
                   if (_formKey.currentState!.validate()) {

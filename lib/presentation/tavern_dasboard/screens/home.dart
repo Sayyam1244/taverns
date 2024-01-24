@@ -87,7 +87,7 @@ class Home extends StatelessWidget {
               ),
               SizedBox(height: 12.v),
               SizedBox(
-                height: state.user.accountType != 'Tavern' ? 120.v : 90.v,
+                height: state.user.accountType != 'Tavern' ? 130.v : 90.v,
                 child: StreamBuilder<Either<GeneralError, List<EventModel>>>(
                   stream: cubit.events.getEvents(
                     getUser: true,

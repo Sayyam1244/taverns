@@ -40,35 +40,51 @@ class TavernProfileTopbar extends StatelessWidget {
               ),
             ),
           ),
-          Padding(
-            padding: EdgeInsets.only(
-              left: 12.h,
-              top: 3.v,
-              bottom: 3.v,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  state.user.userName ?? '',
-                  style: CustomTextStyles.titleSmallProductSansBluegray800,
+          state.user.accountType == 'Tavern'
+              ? Padding(
+                  padding: EdgeInsets.only(
+                    left: 12.h,
+                    top: 3.v,
+                    bottom: 3.v,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        state.user.userName ?? '',
+                        style:
+                            CustomTextStyles.titleSmallProductSansBluegray800,
+                      ),
+                      SizedBox(height: 6.v),
+                      Text(
+                        state.user.businessNumber ?? '',
+                        style: theme.textTheme.labelMedium,
+                      ),
+                    ],
+                  ),
+                )
+              : Padding(
+                  padding: EdgeInsets.only(
+                    left: 12.h,
+                  ),
+                  child: Text(
+                    state.user.userName ?? '',
+                    style: CustomTextStyles.titleSmallProductSansBluegray800,
+                  ),
                 ),
-                SizedBox(height: 6.v),
-                Text(
-                  state.user.businessNumber ?? '',
-                  style: theme.textTheme.labelMedium,
-                ),
-              ],
-            ),
-          ),
           Spacer(),
-          CustomImageView(
-            imagePath: ImageConstant.imgEdit,
-            height: 18.adaptSize,
-            width: 18.adaptSize,
-            margin: EdgeInsets.only(
-              top: 12.v,
-              bottom: 13.v,
+          GestureDetector(
+            onTap: () {
+              cubit.onEditProfile();
+            },
+            child: CustomImageView(
+              imagePath: ImageConstant.imgEdit,
+              height: 18.adaptSize,
+              width: 18.adaptSize,
+              margin: EdgeInsets.only(
+                top: 12.v,
+                bottom: 13.v,
+              ),
             ),
           ),
         ],

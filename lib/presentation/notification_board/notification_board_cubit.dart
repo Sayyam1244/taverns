@@ -119,6 +119,7 @@ class NotificationBoardCubit extends Cubit<NotificationBoardState> {
       note: state.note ?? '',
       isApproved: isTavernOwnerPosting ? true : null,
       requestedTavern: initialParams.userModelForOtherTavern?.docId ?? null,
+      eventUsers: isTavernOwnerPosting ? [auth.currentUser().uid] : [],
     );
     emit(state.copyWith(isPostUploading: true));
     await event.postEvent(event: eventModel).then(
@@ -130,20 +131,6 @@ class NotificationBoardCubit extends Cubit<NotificationBoardState> {
                   context: context,
                   title: 'Event Uploaded',
                   body: 'Your Post has been uploaded successfully');
-              //         if (!isTavernOwnerPosting) {
-              //   NotificationModel notificationModel = NotificationModel(
-              //               notification:
-              //                   '${initialParams.userModel!.userName} has requested an event slot in your tavern on ${eventModel.eventDatetime.format('dd/MM/YYYY hh:mm: a')}',
-              //               to: initialParams.userModelForOtherTavern?.docId,
-              //               from: auth.currentUser().uid,
-              //               eventId: requestModel.eventId,
-              //               sender: initialParams.userModel!.accountType == "Tavern"
-              //                   ? initialParams.userModel!.businessName
-              //                   : initialParams.userModel!.userName);
-              //           await notification.generateNotification(
-              //               notificationModel: notificationModel);
-              //   await notification.generateNotification(notificationModel: notificationModel)
-              // }
             },
           ),
         );
@@ -338,32 +325,45 @@ class NotificationBoardCubit extends Cubit<NotificationBoardState> {
   void requestApproved(
       bool bool, requestId, RequestModel requestModel, context) {
     event
-        .approveRequest(
-            approve: bool, requestId: requestId, eventId: requestModel.eventId!)
-        .then(
-          (value) => value.fold(
-            (l) => FlushbarDialogue().showErrorFlushbar(
-                context: context, title: l.title, body: l.message),
-            (r) async {
-              NotificationModel notificationModel = NotificationModel(
-                  notification:
-                      'Your request for ${requestModel.requestedFor} has been ${bool ? "Approved" : "Rejected"}',
-                  to: requestModel.userId,
-                  from: auth.currentUser().uid,
-                  eventId: requestModel.eventId,
-                  sender: initialParams.userModel!.accountType == "Tavern"
-                      ? initialParams.userModel!.businessName
-                      : initialParams.userModel!.userName);
-              await notification.generateNotification(
-                  notificationModel: notificationModel);
-              return FlushbarDialogue().showFlushbar(
-                  context: context,
-                  title: 'Request',
-                  body:
-                      "Request ${bool ? "Approved" : "Rejected"} successfully!");
-            },
-          ),
-        );
+        .addInEvent(
+            eventId: requestModel.eventId!, userId: requestModel.userId!)
+        .then((value) {
+      return value.fold(
+        (l) => FlushbarDialogue().showErrorFlushbar(
+            context: context, title: l.title, body: l.message),
+        (r) async {
+          event
+              .approveRequest(
+                  approve: bool,
+                  requestId: requestId,
+                  eventId: requestModel.eventId!)
+              .then(
+                (value) => value.fold(
+                  (l) => FlushbarDialogue().showErrorFlushbar(
+                      context: context, title: l.title, body: l.message),
+                  (r) async {
+                    NotificationModel notificationModel = NotificationModel(
+                        notification:
+                            'Your request for ${requestModel.requestedFor} has been ${bool ? "Approved" : "Rejected"}',
+                        to: requestModel.userId,
+                        from: auth.currentUser().uid,
+                        eventId: requestModel.eventId,
+                        sender: initialParams.userModel!.accountType == "Tavern"
+                            ? initialParams.userModel!.businessName
+                            : initialParams.userModel!.userName);
+                    await notification.generateNotification(
+                        notificationModel: notificationModel);
+                    return FlushbarDialogue().showFlushbar(
+                        context: context,
+                        title: 'Request',
+                        body:
+                            "Request ${bool ? "Approved" : "Rejected"} successfully!");
+                  },
+                ),
+              );
+        },
+      );
+    });
   }
 
   void navigateToPullsNearby() {
@@ -373,6 +373,12 @@ class NotificationBoardCubit extends Cubit<NotificationBoardState> {
 
   void approveEventRequest(bool bool, EventModel eventModel) async {
     event.updateEventRequest(approve: bool, eventId: eventModel.docId);
+    if (bool) {
+      await event.addInEvent(
+          eventId: eventModel.docId!, userId: eventModel.userId);
+      await event.addInEvent(
+          eventId: eventModel.docId!, userId: auth.currentUser().uid);
+    }
     NotificationModel notificationModel = NotificationModel(
         notification:
             'Your request for ${eventModel.eventName} has been ${bool ? "Approved" : "Rejected"}',

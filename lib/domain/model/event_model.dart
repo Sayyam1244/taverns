@@ -21,6 +21,7 @@ class EventModel extends CommonModel {
   bool? isApproved;
   UserModel? user;
   String? requestedTavern;
+  List? eventUsers;
 
   EventModel({
     String? docId,
@@ -43,6 +44,7 @@ class EventModel extends CommonModel {
     this.isApproved,
     this.requestedTavern,
     this.user,
+    this.eventUsers,
   }) : super(
             docId: docId, createdDate: createdDate, modifiedDate: modifiedDate);
 
@@ -67,6 +69,7 @@ class EventModel extends CommonModel {
       'note': note,
       'isApproved': isApproved,
       'requestedTavern': requestedTavern,
+      'eventUsers': eventUsers ?? FieldValue.arrayUnion(eventUsers!),
     };
   }
 
@@ -91,7 +94,8 @@ class EventModel extends CommonModel {
         tables: data['tables'] ?? 0,
         note: data['note'] ?? '',
         isApproved: data['isApproved'] ?? null,
-        requestedTavern: data['requestedTavern'] ?? null);
+        requestedTavern: data['requestedTavern'] ?? null,
+        eventUsers: data['eventUsers'] ?? null);
   }
   injectUser(UserModel userModel) {
     user = userModel;

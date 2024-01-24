@@ -35,4 +35,8 @@ abstract class EventRepository {
 
   Future<Either<GeneralError, bool>> updateEventRequest(
       {required bool approve, String? eventId});
+  Future<Either<GeneralError, bool>> addInEvent(
+      {required String eventId, required String userId});
+  Stream<Either<GeneralError, List<EventModel>>> getCalenderData(
+      {required String userId});
 }

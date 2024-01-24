@@ -54,10 +54,7 @@ class MorePage extends StatelessWidget {
                             width: 20.adaptSize,
                           ),
                           Padding(
-                            padding: EdgeInsets.only(
-                              left: 6.h,
-                              top: 2.v,
-                            ),
+                            padding: EdgeInsets.only(left: 8.h),
                             child: Text(
                               "Logout",
                               style: CustomTextStyles.titleSmallMulishRed400,

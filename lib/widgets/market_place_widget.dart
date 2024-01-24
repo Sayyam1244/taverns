@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taverns/core/app_export.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MarketPlaceWidget extends StatelessWidget {
   const MarketPlaceWidget({
@@ -23,33 +24,38 @@ class MarketPlaceWidget extends StatelessWidget {
               borderRadius: BorderRadiusStyle.roundedBorder16,
             )
           : null,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            'Marketplace :   ',
-            style: CustomTextStyles.titleMediumPrimary,
-          ),
-          Expanded(
-            child: Container(
-              width: MediaQuery.sizeOf(context).width * 0.45,
-              child: Text(
-                (link == '' || link == null)
-                    ? "No market place linked"
-                    : 'https://www.amazon.in/asdkfasdkj',
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: CustomTextStyles.titleSmall12Blue,
+      child: GestureDetector(
+        onTap: () {
+          launchUrl(Uri.parse(link!));
+        },
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              'Marketplace :   ',
+              style: CustomTextStyles.titleMediumPrimary,
+            ),
+            Expanded(
+              child: Container(
+                width: MediaQuery.sizeOf(context).width * 0.45,
+                child: Text(
+                  (link == '' || link == null)
+                      ? "No market place linked"
+                      : link!,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: CustomTextStyles.titleSmall12Blue,
+                ),
               ),
             ),
-          ),
-          if (showEndIcon) Spacer(),
-          if (showEndIcon)
-            Icon(
-              Icons.link,
-              color: appTheme.blueGray800,
-            )
-        ],
+            if (showEndIcon) Spacer(),
+            if (showEndIcon)
+              Icon(
+                Icons.link,
+                color: appTheme.blueGray800,
+              )
+          ],
+        ),
       ),
     );
   }

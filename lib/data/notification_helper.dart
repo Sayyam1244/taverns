@@ -32,6 +32,7 @@ class NotificationHelper implements NotificationRepository {
           .where("createdDate",
               isGreaterThanOrEqualTo:
                   DateTime.now().subtract(Duration(days: 7)))
+          .orderBy('createdDate', descending: true)
           .limit(limit)
           .snapshots()) {
         List<NotificationModel> notifications = [];

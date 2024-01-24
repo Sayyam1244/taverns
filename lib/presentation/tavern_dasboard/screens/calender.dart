@@ -41,18 +41,24 @@ class _CalenderScreenState extends State<CalenderScreen> {
             child: Container(
               width: double.infinity,
               color: appTheme.white,
-              child: StreamBuilder<either.Either<GeneralError, List<EventModel>>>(
-                  stream: widget.cubit.events.getEvents(getUser: false, limit: 1000, userId: widget.cubit.auth.currentUser().uid),
+              child: StreamBuilder<
+                      either.Either<GeneralError, List<EventModel>>>(
+                  stream: widget.cubit.events.getCalenderData(
+                      userId: widget.cubit.auth.currentUser().uid),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       List<EventModel> data = [];
                       snapshot.data?.fold((l) => null, (r) => data = r);
 
-                      return BlocBuilder<TavernDashboardCubit, TavernDashboardState>(
+                      return BlocBuilder<TavernDashboardCubit,
+                          TavernDashboardState>(
                         bloc: widget.cubit,
                         builder: (context, state) {
                           List<EventModel?> events = data.map((e) {
-                            if (e.eventDatetime.year == state.focusedDay.year && e.eventDatetime.month == state.focusedDay.month && e.eventDatetime.day == state.focusedDay.day) {
+                            if (e.eventDatetime.year == state.focusedDay.year &&
+                                e.eventDatetime.month ==
+                                    state.focusedDay.month &&
+                                e.eventDatetime.day == state.focusedDay.day) {
                               return e;
                             }
                           }).toList();
@@ -62,7 +68,8 @@ class _CalenderScreenState extends State<CalenderScreen> {
                               TableCalendar(
                                 calendarStyle: CalendarStyle(
                                   todayDecoration: BoxDecoration(
-                                    color: theme.colorScheme.primary.withOpacity(0.5),
+                                    color: theme.colorScheme.primary
+                                        .withOpacity(0.5),
                                     shape: BoxShape.circle,
                                   ),
                                   selectedDecoration: BoxDecoration(
@@ -71,7 +78,9 @@ class _CalenderScreenState extends State<CalenderScreen> {
                                   ),
                                 ),
                                 daysOfWeekVisible: false,
-                                availableCalendarFormats: {CalendarFormat.month: 'Month'},
+                                availableCalendarFormats: {
+                                  CalendarFormat.month: 'Month'
+                                },
                                 calendarFormat: CalendarFormat.month,
                                 firstDay: DateTime.utc(2010, 10, 16),
                                 lastDay: DateTime.utc(2030, 3, 14),
@@ -80,7 +89,8 @@ class _CalenderScreenState extends State<CalenderScreen> {
                                   return isSameDay(state.selectedDay, day);
                                 },
                                 onDaySelected: (selectedDay, focusedDay) {
-                                  widget.cubit.updateDates(selectedDay, focusedDay);
+                                  widget.cubit
+                                      .updateDates(selectedDay, focusedDay);
                                 },
                                 eventLoader: (day) {
                                   List<DateTime> specificDates = data.map((e) {
@@ -91,9 +101,12 @@ class _CalenderScreenState extends State<CalenderScreen> {
                                     );
                                   }).toList();
 
-                                  if (specificDates.contains(DateTime(day.year, day.month, day.day))) {
+                                  if (specificDates.contains(
+                                      DateTime(day.year, day.month, day.day))) {
                                     List dates = specificDates.where((element) {
-                                      if (element.day == day.day && element.month == day.month && element.year == day.year) {
+                                      if (element.day == day.day &&
+                                          element.month == day.month &&
+                                          element.year == day.year) {
                                         return true;
                                       } else {
                                         return false;
@@ -108,7 +121,8 @@ class _CalenderScreenState extends State<CalenderScreen> {
                               Align(
                                 alignment: Alignment.topLeft,
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20, vertical: 10),
                                   child: Text(
                                     'Events',
                                     style: CustomTextStyles.titleMedium16,
@@ -131,7 +145,9 @@ class _CalenderScreenState extends State<CalenderScreen> {
                                             return CalenderItem(
                                               event: events[index]!,
                                               ontap: () {
-                                                widget.cubit.navigateToEventDetailScreen(events[index]!.docId);
+                                                widget.cubit
+                                                    .navigateToEventDetailScreen(
+                                                        events[index]!.docId);
                                               },
                                             );
                                           } else {
@@ -149,7 +165,8 @@ class _CalenderScreenState extends State<CalenderScreen> {
                     } else {
                       return Column(
                         children: [
-                          SizedBox(height: MediaQuery.sizeOf(context).height * 0.4),
+                          SizedBox(
+                              height: MediaQuery.sizeOf(context).height * 0.4),
                           CustomLoadingWidget(),
                         ],
                       );
