@@ -1,3 +1,5 @@
+import 'package:taverns/domain/model/keyboolModel.dart';
+
 import 'notification_board_initial_params.dart';
 
 class NotificationBoardState {
@@ -14,23 +16,55 @@ class NotificationBoardState {
   final String? note;
   final bool? isPostUploading;
   final bool isCurrentGMButtonSelected;
-  const NotificationBoardState(
-      {required this.index,
-      required this.eventDatetime,
-      this.eventName,
-      this.eventType,
-      this.gameType,
-      this.gameSystem,
-      this.isFree,
-      this.gmsRequired,
-      this.tables,
-      this.playerRequired,
-      this.note,
-      this.isPostUploading,
-      required this.isCurrentGMButtonSelected});
+  final bool? showFilter;
+  final bool? isFilterApplied;
+  final List<KeyBoolModel> tavernGmOnly;
+  final List<KeyBoolModel> otherFilters;
 
-  factory NotificationBoardState.initial({required NotificationBoardInitialParams initialParams}) =>
-      NotificationBoardState(index: 0, eventDatetime: DateTime.now(), isPostUploading: false, isCurrentGMButtonSelected: true);
+  const NotificationBoardState({
+    required this.index,
+    required this.eventDatetime,
+    this.eventName,
+    this.eventType,
+    this.gameType,
+    this.gameSystem,
+    this.isFree,
+    this.gmsRequired,
+    this.tables,
+    this.playerRequired,
+    this.note,
+    this.isPostUploading,
+    this.showFilter,
+    required this.isCurrentGMButtonSelected,
+    this.isFilterApplied,
+    required this.tavernGmOnly,
+    required this.otherFilters,
+  });
+
+  factory NotificationBoardState.initial(
+          {required NotificationBoardInitialParams initialParams}) =>
+      NotificationBoardState(
+          index: 0,
+          eventDatetime: DateTime.now(),
+          isPostUploading: false,
+          showFilter: false,
+          isFilterApplied: false,
+          isCurrentGMButtonSelected: true,
+          tavernGmOnly: [
+            KeyBoolModel(title: "Tavern Only", istrue: false),
+            KeyBoolModel(title: "GM Only", istrue: false),
+          ],
+          otherFilters: [
+            KeyBoolModel(title: "Online", istrue: false),
+            KeyBoolModel(title: "In-Person", istrue: false),
+            //
+            KeyBoolModel(title: "Paid", istrue: false),
+            KeyBoolModel(title: "Free", istrue: false),
+            //
+            KeyBoolModel(title: "TTRPG", istrue: false),
+            KeyBoolModel(title: "Card Game", istrue: false),
+            KeyBoolModel(title: "Board Game", istrue: false),
+          ]);
 
   NotificationBoardState copyWith({
     int? index,
@@ -46,6 +80,10 @@ class NotificationBoardState {
     String? note,
     bool? isPostUploading,
     bool? isCurrentGMButtonSelected,
+    bool? showFilter,
+    bool? isFilterApplied,
+    List<KeyBoolModel>? tavernGmOnly,
+    List<KeyBoolModel>? otherFilters,
   }) {
     return NotificationBoardState(
       index: index ?? this.index,
@@ -60,7 +98,12 @@ class NotificationBoardState {
       tables: tables ?? this.tables,
       note: note ?? this.note,
       isPostUploading: isPostUploading ?? this.isPostUploading,
-      isCurrentGMButtonSelected: isCurrentGMButtonSelected ?? this.isCurrentGMButtonSelected,
+      isCurrentGMButtonSelected:
+          isCurrentGMButtonSelected ?? this.isCurrentGMButtonSelected,
+      showFilter: showFilter ?? this.showFilter,
+      isFilterApplied: isFilterApplied ?? this.isFilterApplied,
+      tavernGmOnly: tavernGmOnly ?? this.tavernGmOnly,
+      otherFilters: otherFilters ?? this.otherFilters,
     );
   }
 }

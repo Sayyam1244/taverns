@@ -6,6 +6,7 @@ import 'package:fpdart/fpdart.dart';
 import 'package:taverns/core/app_export.dart';
 import 'package:taverns/core/utils/datetime_picker.dart';
 import 'package:taverns/domain/model/event_model.dart';
+import 'package:taverns/domain/model/keyboolModel.dart';
 import 'package:taverns/domain/model/notification_model.dart';
 import 'package:taverns/domain/model/request_model.dart';
 import 'package:taverns/domain/repository/auth_repository.dart';
@@ -436,5 +437,36 @@ class NotificationBoardCubit extends Cubit<NotificationBoardState> {
 
   void setIndex() {
     emit(state.copyWith(index: initialParams.index ?? 0));
+  }
+
+  toggleFilterVisibility() {
+    emit(state.copyWith(showFilter: !state.showFilter!));
+    log(state.showFilter.toString());
+  }
+
+  void changeOnlyTavernGm(int index) {
+    List<KeyBoolModel> ls = state.tavernGmOnly;
+    ls[index] = KeyBoolModel(title: ls[index].title, istrue: !ls[index].istrue);
+    emit(state.copyWith(tavernGmOnly: ls));
+  }
+
+  void applyFilters(bool bool) {
+    if (bool) {
+      emit(state.copyWith(isFilterApplied: bool, showFilter: false));
+    } else {
+      List<KeyBoolModel> ls = state.otherFilters;
+      List<KeyBoolModel> ls2 = state.tavernGmOnly;
+      emit(state.copyWith(
+          showFilter: false,
+          isFilterApplied: false,
+          otherFilters: ls,
+          tavernGmOnly: ls2));
+    }
+  }
+
+  void changeFilterByIndex(int index) {
+    List<KeyBoolModel> ls = state.otherFilters;
+    ls[index] = KeyBoolModel(title: ls[index].title, istrue: !ls[index].istrue);
+    emit(state.copyWith(otherFilters: ls));
   }
 }
