@@ -1,0 +1,4 @@
+class DatabaseInitialParams {
+
+const DatabaseInitialParams();
+}

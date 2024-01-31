@@ -1,13 +1,19 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:taverns/data/db_helper.dart';
 import 'package:taverns/data/event_helper.dart';
 import 'package:taverns/data/notification_helper.dart';
 import 'package:taverns/data/place_search.dart';
 import 'package:taverns/domain/repository/events_repository.dart';
 import 'package:taverns/domain/repository/notification_repository.dart';
 import 'package:taverns/domain/repository/places_repository.dart';
+import 'package:taverns/presentation/character_sheets/character_sheets_cubit.dart';
+import 'package:taverns/presentation/character_sheets/character_sheets_initial_params.dart';
 import 'package:taverns/presentation/chat/chat_cubit.dart';
 import 'package:taverns/presentation/chat/chat_initial_params.dart';
+import 'package:taverns/presentation/database/database_cubit.dart';
+import 'package:taverns/presentation/database/database_initial_params.dart';
+import 'package:taverns/presentation/database/database_navigator.dart';
 import 'package:taverns/presentation/edit_location_map/edit_location_on_map_cubit.dart';
 import 'package:taverns/presentation/edit_location_map/edit_location_on_map_initial_params.dart';
 import 'package:taverns/presentation/edit_location_map/edit_location_on_map_navigator.dart';
@@ -89,6 +95,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  getIt.registerSingleton<DatabaseHelper>(DatabaseHelper.instance);
   runApp(MyApp());
   getIt.registerSingleton<AppNavigator>(AppNavigator());
   getIt.registerSingleton<SplashNavigator>(SplashNavigator(getIt()));
@@ -122,6 +129,7 @@ void main() async {
       NotificationsNavigator(getIt()));
   getIt.registerSingleton<PullNearbyBusinessesNavigator>(
       PullNearbyBusinessesNavigator(getIt()));
+  getIt.registerSingleton<DatabaseNavigator>(DatabaseNavigator(getIt()));
 
   getIt.registerSingleton<AuthRepository>(Auth());
   getIt.registerSingleton<UserRepository>(User());
@@ -199,6 +207,10 @@ void main() async {
           PullNearbyBusinessesInitialParams, dynamic>(
       (params, param2) =>
           PullNearbyBusinessesCubit(params, getIt(), getIt(), getIt()));
+  getIt.registerFactoryParam<DatabaseCubit, DatabaseInitialParams, dynamic>(
+      (params, param2) => DatabaseCubit(params, getIt()));
+  getIt.registerFactoryParam<CharacterSheetsCubit, CharacterSheetsInitialParams,
+      dynamic>((params, param2) => CharacterSheetsCubit(params));
 }
 
 class MyApp extends StatelessWidget {

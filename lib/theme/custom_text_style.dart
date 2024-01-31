@@ -109,7 +109,7 @@ class CustomTextStyles {
         color: appTheme.blueGray800,
         fontSize: 18.fSize,
       );
-  static get titleMediumCircularStdBluegray90001 =>
+  static TextStyle get titleMediumCircularStdBluegray90001 =>
       theme.textTheme.titleMedium!.circularStd.copyWith(
         color: appTheme.blueGray90001,
         fontWeight: FontWeight.w500,

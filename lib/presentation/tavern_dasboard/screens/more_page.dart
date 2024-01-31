@@ -34,7 +34,11 @@ class MorePage extends StatelessWidget {
                       ontap: () {
                         cubit.navigateToNotificaitonBoard();
                       }),
-                  MoreItem(title: 'Database', ontap: () {}),
+                  MoreItem(
+                      title: 'Database',
+                      ontap: () {
+                        cubit.navigateToDatabase();
+                      }),
                   MoreItem(title: 'QOL (Quality of Life)', ontap: () {}),
                   MoreItem(title: 'How-To', ontap: () {}),
                   MoreItem(title: 'Support', ontap: () {}),
