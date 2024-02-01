@@ -22,11 +22,9 @@ class TavernDashboardState {
   factory TavernDashboardState.initial(
           {required TavernDashboardInitialParams initialParams}) =>
       TavernDashboardState(
-        currentIndex: 0,
-        user: UserModel(
-            userName: 'Sayyam',
-            accountType: 'Player',
-            businessNumber: '2434234234'),
+        currentIndex: 2,
+        user:
+            UserModel(userName: '', accountType: 'Player', businessNumber: ''),
         isloading: true,
         selectedDay: DateTime.now(),
         focusedDay: DateTime.now(),

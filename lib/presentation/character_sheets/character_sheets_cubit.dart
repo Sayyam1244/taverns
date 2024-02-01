@@ -2,13 +2,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taverns/data/db_helper.dart';
 import 'package:taverns/domain/model/db_models.dart';
 import 'package:taverns/main.dart';
+import 'package:taverns/presentation/character_sheets/character_sheets_navigator.dart';
+import 'package:taverns/presentation/chat_list/chat_list_initial_params.dart';
 import 'character_sheets_initial_params.dart';
 import 'character_sheets_state.dart';
 
 class CharacterSheetsCubit extends Cubit<CharacterSheetsState> {
   final CharacterSheetsInitialParams initialParams;
+  final CharacterSheetsNavigator navigator;
 
-  CharacterSheetsCubit(this.initialParams)
+  CharacterSheetsCubit(this.initialParams, this.navigator)
       : super(CharacterSheetsState.initial(initialParams: initialParams));
   getCharacterSheets({int? sysId}) async {
     List<Character> cr =
@@ -37,5 +40,10 @@ class CharacterSheetsCubit extends Cubit<CharacterSheetsState> {
             ),
           ),
         );
+  }
+
+  void navigateToShare(Character character) {
+    navigator.openChatList(
+        ChatListInitialParams(toSend: false, character: character));
   }
 }

@@ -30,8 +30,11 @@ class _CharacterSheetsState extends State<CharacterSheetsPage> {
   CharacterSheetsCubit get cubit => widget.cubit;
   int? id;
   TextEditingController title = TextEditingController();
+  ValueNotifier<String> search = ValueNotifier<String>('');
+
   @override
   void initState() {
+    cubit.navigator.context = context;
     cubit.getCharacterSheets();
     cubit.getSystems();
     super.initState();
@@ -103,66 +106,90 @@ class _CharacterSheetsState extends State<CharacterSheetsPage> {
                       SizedBox(height: 10),
                       CustomSearchView(
                         autofocus: false,
+                        onChanged: (v) {
+                          search.value = v;
+                        },
                       ),
                       SizedBox(height: 10),
                       Expanded(
-                        child: ListView(
-                          children: state.characters
-                              .map(
-                                (e) => Container(
-                                  margin: EdgeInsets.symmetric(vertical: 10),
-                                  padding: EdgeInsets.only(
-                                    left: 15.h,
-                                    bottom: 15.v,
-                                  ),
-                                  decoration:
-                                      AppDecoration.outlineBlueGray.copyWith(
-                                    borderRadius:
-                                        BorderRadiusStyle.roundedBorder8,
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Text(
-                                            e.title,
-                                            style: CustomTextStyles
-                                                .titleMediumCircularStdBluegray90001,
-                                          ),
-                                          Spacer(),
-                                          PopupMenuButton<String>(
-                                            onSelected: (v) {},
-                                            itemBuilder:
-                                                (BuildContext context) {
-                                              return {'Delete', 'Share', "Send"}
-                                                  .map((String choice) {
-                                                return PopupMenuItem<String>(
-                                                  value: choice,
-                                                  child: Text(choice),
-                                                );
-                                              }).toList();
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                      Text(
-                                        e.system!.title.toString(),
-                                        style: CustomTextStyles
-                                            .bodySmallSFProBluegray40001,
-                                      ),
-                                      Text(
-                                        e.level.toString() + " Level",
-                                        style: CustomTextStyles
-                                            .bodySmallSFProBluegray40001
-                                            .copyWith(color: appTheme.gray400),
-                                      ),
-                                    ],
-                                  ),
+                        child: ValueListenableBuilder(
+                          valueListenable: search,
+                          builder: (context, v, child) {
+                            List<Character> data = state.characters;
+                            if (v != '') {
+                              data = data
+                                  .where((element) => element.title
+                                      .toUpperCase()
+                                      .contains(v.toString().toUpperCase()))
+                                  .toList();
+                            }
+                            return ListView.builder(
+                              itemCount: data.length,
+                              itemBuilder: (context, index) => Container(
+                                margin: EdgeInsets.symmetric(vertical: 10),
+                                padding: EdgeInsets.only(
+                                  left: 15.h,
+                                  bottom: 15.v,
                                 ),
-                              )
-                              .toList(),
+                                decoration:
+                                    AppDecoration.outlineBlueGray.copyWith(
+                                  borderRadius:
+                                      BorderRadiusStyle.roundedBorder8,
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text(
+                                          data[index].title,
+                                          style: CustomTextStyles
+                                              .titleMediumCircularStdBluegray90001,
+                                        ),
+                                        Spacer(),
+                                        PopupMenuButton<String>(
+                                          onSelected: (v) {},
+                                          itemBuilder: (BuildContext context) {
+                                            return {'Delete', 'Share', "Send"}
+                                                .map((String choice) {
+                                              return PopupMenuItem<String>(
+                                                onTap: () {
+                                                  if (choice == 'Delete') {
+                                                    getIt<DatabaseHelper>()
+                                                        .deleteCharacter(
+                                                            data[index].id!);
+                                                    cubit.getCharacterSheets();
+                                                  }
+                                                  if (choice == "Send") {
+                                                    cubit.navigateToShare(
+                                                        data[index]);
+                                                  }
+                                                  if (choice == "Share") {}
+                                                },
+                                                value: choice,
+                                                child: Text(choice),
+                                              );
+                                            }).toList();
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                    Text(
+                                      data[index].system!.title.toString(),
+                                      style: CustomTextStyles
+                                          .bodySmallSFProBluegray40001,
+                                    ),
+                                    Text(
+                                      data[index].level.toString() + " Level",
+                                      style: CustomTextStyles
+                                          .bodySmallSFProBluegray40001
+                                          .copyWith(color: appTheme.gray400),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
                         ),
                       )
                     ],

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taverns/presentation/tavern_dasboard/screens/calender.dart';
@@ -47,6 +49,8 @@ class _TavernDashboardState extends State<TavernDashboardPage> {
     return SafeArea(
       child: BlocBuilder<TavernDashboardCubit, TavernDashboardState>(
         buildWhen: (previous, current) {
+          log('getUserData');
+
           if (previous.currentIndex != current.currentIndex ||
               previous.isloading != current.isloading) {
             return true;

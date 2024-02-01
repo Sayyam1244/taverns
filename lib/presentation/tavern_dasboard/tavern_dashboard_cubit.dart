@@ -29,11 +29,11 @@ class TavernDashboardCubit extends Cubit<TavernDashboardState> {
   final TavernDashboardInitialParams initialParams;
   final TavernDashboardNavigator navigator;
   final AuthRepository auth;
-  final UserRepository _user;
+  final UserRepository userHelper;
   final EventRepository events;
   final NotificationRepository notification;
   TavernDashboardCubit(this.initialParams, this.navigator, this.auth,
-      this._user, this.events, this.notification)
+      this.userHelper, this.events, this.notification)
       : super(
           TavernDashboardState.initial(
             initialParams: initialParams,
@@ -52,7 +52,8 @@ class TavernDashboardCubit extends Cubit<TavernDashboardState> {
   }
 
   getUserData(context) async {
-    _user.getUser(auth.currentUser().uid).then((value) {
+    log('getUserData');
+    await userHelper.getUser(auth.currentUser().uid).then((value) {
       return value.fold(
         (l) => FlushbarDialogue().showErrorFlushbar(
             context: context, title: l.title, body: l.message),
@@ -81,8 +82,8 @@ class TavernDashboardCubit extends Cubit<TavernDashboardState> {
     navigator.openSearchEvent(SearchEventInitialParams());
   }
 
-  void navigateToChatScreen({required String otherUserId}) {
-    navigator.openChat(ChatInitialParams(chatRoomId: 'asd'));
+  void navigateToChatScreen({required String chatroomId}) {
+    navigator.openChat(ChatInitialParams(chatRoomId: chatroomId));
   }
 
   void navigateToUserSearch() {

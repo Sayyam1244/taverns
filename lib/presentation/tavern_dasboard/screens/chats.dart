@@ -1,5 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:fpdart/fpdart.dart';
+import 'package:intl/intl.dart';
 import 'package:taverns/core/app_export.dart';
+import 'package:taverns/domain/model/chatroom_model.dart';
+import 'package:taverns/domain/model/general_model.dart';
 import 'package:taverns/presentation/tavern_dasboard/tavern_dashboard_cubit.dart';
 
 class Chats extends StatelessWidget {
@@ -39,17 +45,33 @@ class Chats extends StatelessWidget {
             ),
           ),
           Expanded(
-              child: ListView.builder(
-                  itemCount: 1,
-                  itemBuilder: (context, index) => ChatItem(
-                      ontap: () {
-                        cubit.navigateToChatScreen(otherUserId: 'q12341234');
-                      },
-                      imagePath: cubit.state.user.profilePicture ?? '',
-                      title: 'GM00001',
-                      subtitle:
-                          'asdf asdfadfa asdfasd fs dfsaf asdfa asdfaasdfasd',
-                      newMessage: true)))
+              child: StreamBuilder<Either<GeneralError, List<ChatRoomModel>>>(
+                  stream: cubit.userHelper
+                      .getChats(userId: cubit.auth.currentUser().uid),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      List<ChatRoomModel> data = [];
+                      snapshot.data!.fold((l) => null, (r) => data = r);
+                      log(cubit.auth.currentUser().uid);
+                      log(data.length.toString());
+                      return ListView.builder(
+                          itemCount: data.length,
+                          itemBuilder: (context, index) => ChatItem(
+                                ontap: () {
+                                  cubit.navigateToChatScreen(
+                                      chatroomId: data[index].docId!);
+                                },
+                                imagePath:
+                                    cubit.state.user.profilePicture ?? '',
+                                title: data[index].otherUsername!,
+                                subtitle: data[index].last!,
+                                newMessage: false,
+                                dateTime: data[index].lastModified!,
+                              ));
+                    } else {
+                      return Container();
+                    }
+                  }))
         ],
       ),
     );
@@ -64,11 +86,13 @@ class ChatItem extends StatelessWidget {
     required this.subtitle,
     required this.newMessage,
     required this.ontap,
+    required this.dateTime,
   }) : super(key: key);
   final String imagePath;
   final String title;
   final String subtitle;
   final bool newMessage;
+  final DateTime dateTime;
   final VoidCallback ontap;
   @override
   Widget build(BuildContext context) {
@@ -126,7 +150,7 @@ class ChatItem extends StatelessWidget {
                         ),
                         Spacer(),
                         Text(
-                          '12:40',
+                          DateFormat('hh:mm: a').format(dateTime),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: CustomTextStyles.bodySmallMulishBluegray900,

@@ -9,8 +9,11 @@ import 'package:taverns/domain/repository/notification_repository.dart';
 import 'package:taverns/domain/repository/places_repository.dart';
 import 'package:taverns/presentation/character_sheets/character_sheets_cubit.dart';
 import 'package:taverns/presentation/character_sheets/character_sheets_initial_params.dart';
+import 'package:taverns/presentation/character_sheets/character_sheets_navigator.dart';
 import 'package:taverns/presentation/chat/chat_cubit.dart';
 import 'package:taverns/presentation/chat/chat_initial_params.dart';
+import 'package:taverns/presentation/chat_list/chat_list_cubit.dart';
+import 'package:taverns/presentation/chat_list/chat_list_initial_params.dart';
 import 'package:taverns/presentation/database/database_cubit.dart';
 import 'package:taverns/presentation/database/database_initial_params.dart';
 import 'package:taverns/presentation/database/database_navigator.dart';
@@ -129,6 +132,8 @@ void main() async {
       NotificationsNavigator(getIt()));
   getIt.registerSingleton<PullNearbyBusinessesNavigator>(
       PullNearbyBusinessesNavigator(getIt()));
+  getIt.registerSingleton<CharacterSheetsNavigator>(
+      CharacterSheetsNavigator(getIt()));
   getIt.registerSingleton<DatabaseNavigator>(DatabaseNavigator(getIt()));
 
   getIt.registerSingleton<AuthRepository>(Auth());
@@ -210,7 +215,9 @@ void main() async {
   getIt.registerFactoryParam<DatabaseCubit, DatabaseInitialParams, dynamic>(
       (params, param2) => DatabaseCubit(params, getIt()));
   getIt.registerFactoryParam<CharacterSheetsCubit, CharacterSheetsInitialParams,
-      dynamic>((params, param2) => CharacterSheetsCubit(params));
+      dynamic>((params, param2) => CharacterSheetsCubit(params, getIt()));
+  getIt.registerFactoryParam<ChatListCubit, ChatListInitialParams, dynamic>(
+      (params, param2) => ChatListCubit(params, getIt(), getIt()));
 }
 
 class MyApp extends StatelessWidget {
