@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:taverns/domain/model/chatroom_model.dart';
 import 'package:taverns/domain/model/event_model.dart';
 import 'package:taverns/domain/model/request_model.dart';
 import 'package:taverns/domain/repository/auth_repository.dart';
@@ -82,8 +83,8 @@ class TavernDashboardCubit extends Cubit<TavernDashboardState> {
     navigator.openSearchEvent(SearchEventInitialParams());
   }
 
-  void navigateToChatScreen({required String chatroomId}) {
-    navigator.openChat(ChatInitialParams(chatRoomId: chatroomId));
+  void navigateToChatScreen({required ChatRoomModel chatRoomModel}) {
+    navigator.openChat(ChatInitialParams(chatroom: chatRoomModel));
   }
 
   void navigateToUserSearch() {

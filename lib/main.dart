@@ -191,7 +191,7 @@ void main() async {
   getIt.registerFactoryParam<SearchEventCubit, SearchEventInitialParams,
       dynamic>((params, param2) => SearchEventCubit(params));
   getIt.registerFactoryParam<ChatCubit, ChatInitialParams, dynamic>(
-      (params, param2) => ChatCubit(params));
+      (params, param2) => ChatCubit(params, getIt()));
   getIt.registerFactoryParam<SearchUserCubit, SearchUserInitialParams, dynamic>(
       (params, param2) => SearchUserCubit(params));
   getIt.registerFactoryParam<EditProfileCubit, EditProfileInitialParams,

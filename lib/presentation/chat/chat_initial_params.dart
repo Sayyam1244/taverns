@@ -1,4 +1,7 @@
+import 'package:taverns/domain/model/chatroom_model.dart';
+
 class ChatInitialParams {
-  final String chatRoomId;
-  const ChatInitialParams({required this.chatRoomId});
+  final ChatRoomModel chatroom;
+
+  const ChatInitialParams({required this.chatroom});
 }

@@ -22,4 +22,6 @@ abstract class UserRepository {
       {required ChatModel chatModel, required String chatRoomId});
   Stream<Either<GeneralError, List<ChatRoomModel>>> getChats(
       {required String userId});
+  Stream<Either<GeneralError, List<ChatModel>>> getChatroomChats(
+      {required String chatroomId});
 }

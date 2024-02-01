@@ -181,4 +181,32 @@ class User implements UserRepository {
           GeneralError('Error', 'Error happened, Please try again later'));
     }
   }
+
+  @override
+  Stream<Either<GeneralError, List<ChatModel>>> getChatroomChats(
+      {required String chatroomId}) async* {
+    try {
+      await for (QuerySnapshot<Map<String, dynamic>> chatDocs
+          in FirebaseFirestore.instance
+              .collection('Chatrooms')
+              .doc(chatroomId)
+              .collection('Chats')
+              .orderBy('createdDate', descending: true)
+              .snapshots()) {
+        List<ChatModel> chats = [];
+        for (QueryDocumentSnapshot<Map<String, dynamic>> chat
+            in chatDocs.docs) {
+          ChatModel cr = ChatModel.fromMap(snapshot: chat);
+
+          chats.add(cr);
+        }
+
+        yield Right(chats);
+      }
+    } catch (e) {
+      log('=========>' + e.toString());
+      yield left(
+          GeneralError('Error', 'Error happened, Please try again later'));
+    }
+  }
 }

@@ -59,7 +59,7 @@ class Chats extends StatelessWidget {
                           itemBuilder: (context, index) => ChatItem(
                                 ontap: () {
                                   cubit.navigateToChatScreen(
-                                      chatroomId: data[index].docId!);
+                                      chatRoomModel: data[index]);
                                 },
                                 imagePath:
                                     cubit.state.user.profilePicture ?? '',

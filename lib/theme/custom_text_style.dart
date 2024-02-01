@@ -94,7 +94,8 @@ class CustomTextStyles {
       height: .96);
   /////as
 
-  static get titlelarge => theme.textTheme.titleMedium!.circularStd.copyWith(
+  static TextStyle get titlelarge =>
+      theme.textTheme.titleMedium!.circularStd.copyWith(
         color: appTheme.blueGray800,
         fontSize: 24,
         fontWeight: FontWeight.w700,
