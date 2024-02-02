@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taverns/data/db_helper.dart';
 import 'package:taverns/domain/model/db_models.dart';
@@ -21,11 +23,14 @@ class CharacterSheetsCubit extends Cubit<CharacterSheetsState> {
               }).toList(),
             );
     for (var i = 0; i < cr.length; i++) {
-      await getIt<DatabaseHelper>().getSystem(cr[i].systemId).then(
-            (value) => cr[i].injectSystem(
-              System.fromMap(value!),
-            ),
+      await getIt<DatabaseHelper>().getSystem(id: cr[i].systemId).then(
+        (value) {
+          log(value.toString());
+          return cr[i].injectSystem(
+            System.fromMap(value!),
           );
+        },
+      );
     }
     emit(
       state.copyWith(characters: cr.reversed.toList(), isloading: false),

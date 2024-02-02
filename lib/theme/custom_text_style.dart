@@ -183,7 +183,8 @@ class CustomTextStyles {
         color: appTheme.red400,
         fontWeight: FontWeight.w700,
       );
-  static get titleSmall12 => theme.textTheme.titleSmall!.circularStd.copyWith(
+  static TextStyle get titleSmall12 =>
+      theme.textTheme.titleSmall!.circularStd.copyWith(
         color: appTheme.blueGray800,
         fontWeight: FontWeight.w400,
       );

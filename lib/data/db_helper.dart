@@ -165,10 +165,11 @@ class DatabaseHelper {
   }
 
   // Get single functions
-  Future<Map<String, dynamic>?> getSystem(int id) async {
+  Future<Map<String, dynamic>?> getSystem({int? id, String? title}) async {
     Database db = await instance.database;
-    List<Map<String, dynamic>> result =
-        await db.query('System', where: 'id = ?', whereArgs: [id]);
+    List<Map<String, dynamic>> result = await db.query('System',
+        where: title != null ? 'title = ?' : 'id = ?',
+        whereArgs: [title ?? id]);
     return result.isNotEmpty ? result.first : null;
   }
 

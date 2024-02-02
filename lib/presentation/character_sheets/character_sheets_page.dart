@@ -1,7 +1,9 @@
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
+import 'package:another_flushbar/flushbar_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taverns/core/app_export.dart';
+import 'package:taverns/core/utils/flushbar.dart';
 import 'package:taverns/data/db_helper.dart';
 import 'package:taverns/domain/model/db_models.dart';
 import 'package:taverns/main.dart';
@@ -200,99 +202,109 @@ class _CharacterSheetsState extends State<CharacterSheetsPage> {
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: CustomElevatedButton(
                     text: "Create new",
-                    onPressed: () {
-                      showModalBottomSheet(
-                        isScrollControlled: true,
-                        context: context,
-                        builder: (context) {
-                          late int systemId;
-                          late int level;
-                          return Container(
-                            height: MediaQuery.sizeOf(context).height - 100,
-                            child: ListView(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 30),
-                              children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      'Add Character',
-                                      style: CustomTextStyles
-                                          .titleMediumCircularStdBluegray800,
+                    onPressed: () async {
+                      late int level;
+                      late int systemId;
+
+                      List ls = await getIt<DatabaseHelper>().getAllSystems();
+                      if (ls.isNotEmpty) {
+                        showModalBottomSheet(
+                          isScrollControlled: true,
+                          context: context,
+                          builder: (context) {
+                            return Container(
+                              height: MediaQuery.sizeOf(context).height - 100,
+                              child: ListView(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 30),
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'Add Character',
+                                        style: CustomTextStyles
+                                            .titleMediumCircularStdBluegray800,
+                                      ),
+                                      Spacer(),
+                                      IconButton(
+                                        icon: Icon(Icons.close),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                      )
+                                    ],
+                                  ),
+                                  SizedBox(height: 30),
+                                  CustomTextFormField(
+                                    controller: title,
+                                    autofocus: false,
+                                    // controller: marketPlaceController,
+                                    prefix: Container(
+                                        margin: EdgeInsets.fromLTRB(
+                                            16.h, 16.v, 12.h, 16.v),
+                                        child: Icon(
+                                          Icons.person,
+                                          color: theme.colorScheme.primary,
+                                          size: 20,
+                                        )),
+                                    prefixConstraints: BoxConstraints(
+                                      maxHeight: 56.v,
                                     ),
-                                    Spacer(),
-                                    IconButton(
-                                      icon: Icon(Icons.close),
-                                      onPressed: () {
+                                    suffixConstraints: BoxConstraints(
+                                      maxHeight: 56.v,
+                                    ),
+                                    hintText: 'Character Name',
+                                  ),
+                                  SizedBox(height: 20),
+                                  CustomDropdownWidget(
+                                    list: state.systems
+                                        .map((e) => e.title)
+                                        .toList(),
+                                    onChanged: (v) {
+                                      systemId = state.systems
+                                          .singleWhere(
+                                              (element) => element.title == v)
+                                          .id!;
+                                    },
+                                    hinttext: 'System',
+                                  ),
+                                  SizedBox(height: 12),
+                                  CustomDropdownWidget(
+                                    list: List.generate(
+                                        100, (index) => index.toString()),
+                                    onChanged: (v) {
+                                      level = int.parse(v!);
+                                    },
+                                    hinttext: 'Level',
+                                  ),
+                                  SizedBox(height: 30),
+                                  CustomElevatedButton(
+                                    text: "Confirm",
+                                    onPressed: () {
+                                      if (level != null && systemId != null) {
+                                        getIt<DatabaseHelper>()
+                                            .insertCharacter(Character(
+                                          title: title.text.trim(),
+                                          level: level,
+                                          systemId: systemId,
+                                        ).toMap());
+                                        cubit.getCharacterSheets();
                                         Navigator.pop(context);
-                                      },
-                                    )
-                                  ],
-                                ),
-                                SizedBox(height: 30),
-                                CustomTextFormField(
-                                  controller: title,
-                                  autofocus: false,
-                                  // controller: marketPlaceController,
-                                  prefix: Container(
-                                      margin: EdgeInsets.fromLTRB(
-                                          16.h, 16.v, 12.h, 16.v),
-                                      child: Icon(
-                                        Icons.person,
-                                        color: theme.colorScheme.primary,
-                                        size: 20,
-                                      )),
-                                  prefixConstraints: BoxConstraints(
-                                    maxHeight: 56.v,
-                                  ),
-                                  suffixConstraints: BoxConstraints(
-                                    maxHeight: 56.v,
-                                  ),
-                                  hintText: 'Character Name',
-                                ),
-                                SizedBox(height: 20),
-                                CustomDropdownWidget(
-                                  list: state.systems
-                                      .map((e) => e.title)
-                                      .toList(),
-                                  onChanged: (v) {
-                                    systemId = state.systems
-                                        .singleWhere(
-                                            (element) => element.title == v)
-                                        .id!;
-                                  },
-                                  hinttext: 'System',
-                                ),
-                                SizedBox(height: 12),
-                                CustomDropdownWidget(
-                                  list: List.generate(
-                                      100, (index) => index.toString()),
-                                  onChanged: (v) {
-                                    level = int.parse(v!);
-                                  },
-                                  hinttext: 'Level',
-                                ),
-                                SizedBox(height: 30),
-                                CustomElevatedButton(
-                                  text: "Confirm",
-                                  onPressed: () {
-                                    if (level != null && systemId != null) {
-                                      getIt<DatabaseHelper>()
-                                          .insertCharacter(Character(
-                                        title: title.text.trim(),
-                                        level: level,
-                                        systemId: systemId,
-                                      ).toMap());
-                                      cubit.getCharacterSheets();
-                                      Navigator.pop(context);
-                                    }
-                                  },
-                                )
-                              ],
-                            ),
-                          );
-                        },
-                      );
+                                      }
+                                    },
+                                  )
+                                ],
+                              ),
+                            );
+                          },
+                        );
+                      } else {
+                        FlushbarDialogue().showFlushbar(
+                            context: context,
+                            title: 'Error',
+                            body:
+                                'First add System then try adding character sheets');
+                      }
                     },
                   ),
                 ),

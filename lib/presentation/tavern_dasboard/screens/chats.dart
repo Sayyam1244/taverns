@@ -66,7 +66,8 @@ class Chats extends StatelessWidget {
                                 title: data[index].otherUsername!,
                                 subtitle: data[index].last!,
                                 newMessage: false,
-                                dateTime: data[index].lastModified!,
+                                dateTime:
+                                    data[index].lastModified ?? DateTime.now(),
                               ));
                     } else {
                       return Container();
