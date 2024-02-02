@@ -1,0 +1,4 @@
+class CompendiumInitialParams {
+
+const CompendiumInitialParams();
+}

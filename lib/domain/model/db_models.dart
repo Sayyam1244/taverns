@@ -42,7 +42,7 @@ class Category {
 
 class SubCategory {
   int? id;
-  int categoryId;
+  int? categoryId;
   String title;
 
   SubCategory({this.id, required this.categoryId, required this.title});
@@ -106,12 +106,16 @@ class Compendium {
   String title;
   int categoryId;
   int subCategoryId;
-
-  Compendium(
-      {this.id,
-      required this.title,
-      required this.categoryId,
-      required this.subCategoryId});
+  Category? category;
+  SubCategory? subCategory;
+  Compendium({
+    this.id,
+    required this.title,
+    required this.categoryId,
+    required this.subCategoryId,
+    this.category,
+    this.subCategory,
+  });
 
   factory Compendium.fromMap(Map<String, dynamic> map) {
     return Compendium(

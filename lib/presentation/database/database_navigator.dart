@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:taverns/presentation/character_sheets/character_sheets_navigator.dart';
+import 'package:taverns/presentation/compendium/compendium_navigator.dart';
 import 'package:taverns/presentation/database/database_initial_params.dart';
 import 'package:taverns/presentation/database/database_page.dart';
 import '../../main.dart';
 import '../../navigation/app_navigation.dart';
 
-class DatabaseNavigator with CharacterSheetsRoute {
+class DatabaseNavigator with CharacterSheetsRoute, CompendiumRoute {
   @override
   late BuildContext context;
 

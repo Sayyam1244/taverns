@@ -14,6 +14,9 @@ import 'package:taverns/presentation/chat/chat_cubit.dart';
 import 'package:taverns/presentation/chat/chat_initial_params.dart';
 import 'package:taverns/presentation/chat_list/chat_list_cubit.dart';
 import 'package:taverns/presentation/chat_list/chat_list_initial_params.dart';
+import 'package:taverns/presentation/compendium/compendium_cubit.dart';
+import 'package:taverns/presentation/compendium/compendium_initial_params.dart';
+import 'package:taverns/presentation/compendium/compendium_navigator.dart';
 import 'package:taverns/presentation/database/database_cubit.dart';
 import 'package:taverns/presentation/database/database_initial_params.dart';
 import 'package:taverns/presentation/database/database_navigator.dart';
@@ -134,6 +137,7 @@ void main() async {
       PullNearbyBusinessesNavigator(getIt()));
   getIt.registerSingleton<CharacterSheetsNavigator>(
       CharacterSheetsNavigator(getIt()));
+  getIt.registerSingleton<CompendiumNavigator>(CompendiumNavigator(getIt()));
   getIt.registerSingleton<DatabaseNavigator>(DatabaseNavigator(getIt()));
 
   getIt.registerSingleton<AuthRepository>(Auth());
@@ -218,6 +222,8 @@ void main() async {
       dynamic>((params, param2) => CharacterSheetsCubit(params, getIt()));
   getIt.registerFactoryParam<ChatListCubit, ChatListInitialParams, dynamic>(
       (params, param2) => ChatListCubit(params, getIt(), getIt()));
+  getIt.registerFactoryParam<CompendiumCubit, CompendiumInitialParams, dynamic>(
+      (params, param2) => CompendiumCubit(params, getIt()));
 }
 
 class MyApp extends StatelessWidget {

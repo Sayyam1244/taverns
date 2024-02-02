@@ -173,14 +173,14 @@ class DatabaseHelper {
     return result.isNotEmpty ? result.first : null;
   }
 
-  Future<Map<String, dynamic>?> getCategory(int id) async {
+  Future<Map<String, dynamic>?> getCategory({required int id}) async {
     Database db = await instance.database;
     List<Map<String, dynamic>> result =
         await db.query('Category', where: 'id = ?', whereArgs: [id]);
     return result.isNotEmpty ? result.first : null;
   }
 
-  Future<Map<String, dynamic>?> getSubCategory(int id) async {
+  Future<Map<String, dynamic>?> getSubCategory({required int id}) async {
     Database db = await instance.database;
     List<Map<String, dynamic>> result =
         await db.query('SubCategory', where: 'id = ?', whereArgs: [id]);
@@ -227,7 +227,8 @@ class DatabaseHelper {
     return ls;
   }
 
-  Future<List<Map<String, dynamic>>> getAllCompendium() async {
+  Future<List<Map<String, dynamic>>> getAllCompendium(
+      {int? catId, int? subCatId}) async {
     Database db = await instance.database;
     return await db.query('Compendium');
   }
