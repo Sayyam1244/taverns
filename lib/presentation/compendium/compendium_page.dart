@@ -1,3 +1,4 @@
+import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taverns/core/app_export.dart';
@@ -62,40 +63,71 @@ class _CompendiumState extends State<CompendiumPage> {
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
                     children: [
-                      // Row(
-                      //   children: [
-
-                      //     Container(
-                      //       width: 120,
-                      //       child: CustomDropdown<String>(
-                      //         closedHeaderPadding: EdgeInsets.symmetric(
-                      //             horizontal: 12, vertical: 10),
-                      //         decoration: CustomDropdownDecoration(
-                      //           headerStyle: CustomTextStyles
-                      //               .bodySmallCircularStdBluegray40001,
-                      //           hintStyle: CustomTextStyles
-                      //               .bodySmallCircularStdBluegray40001,
-                      //           closedFillColor: appTheme.yellow50,
-                      //           closedBorderRadius: BorderRadius.circular(16.h),
-                      //         ),
-                      //         hintText: 'Sort by',
-                      //         items: systems,
-                      //         onChanged: (v) {
-                      //           if (v == 'All') {
-                      //             cubit.getCharacterSheets();
-                      //           } else {
-                      //             id = state.systems
-                      //                 .singleWhere(
-                      //                     (element) => element.title == v)
-                      //                 .id!;
-                      //             cubit.getCharacterSheets(sysId: id);
-                      //           }
-                      //         },
-                      //       ),
-                      //     ),
-                      //   ],
-                      // ),
-
+                      Row(
+                        children: [
+                          Container(
+                            width: 120,
+                            child: CustomDropdown<String>(
+                              closedHeaderPadding: EdgeInsets.symmetric(
+                                  horizontal: 12, vertical: 10),
+                              decoration: CustomDropdownDecoration(
+                                headerStyle: CustomTextStyles
+                                    .bodySmallCircularStdBluegray40001,
+                                hintStyle: CustomTextStyles
+                                    .bodySmallCircularStdBluegray40001,
+                                closedFillColor: appTheme.yellow50,
+                                closedBorderRadius: BorderRadius.circular(16.h),
+                              ),
+                              hintText: 'Category',
+                              items:
+                                  state.categories.map((e) => e.title).toList(),
+                              onChanged: (v) {
+                                if (v == 'All') {
+                                  cubit.getCompendiums();
+                                } else {
+                                  id = state.categories
+                                      .singleWhere(
+                                          (element) => element.title == v)
+                                      .id!;
+                                  cubit.getCompendiums(catId: id);
+                                }
+                              },
+                            ),
+                          ),
+                          SizedBox(width: 12),
+                          Container(
+                            width: 120,
+                            child: CustomDropdown<String>(
+                              closedHeaderPadding: EdgeInsets.symmetric(
+                                  horizontal: 12, vertical: 10),
+                              decoration: CustomDropdownDecoration(
+                                headerStyle: CustomTextStyles
+                                    .bodySmallCircularStdBluegray40001,
+                                hintStyle: CustomTextStyles
+                                    .bodySmallCircularStdBluegray40001,
+                                closedFillColor: appTheme.yellow50,
+                                closedBorderRadius: BorderRadius.circular(16.h),
+                              ),
+                              hintText: 'Sub Category',
+                              items: state.subCategories
+                                  .map((e) => e.title)
+                                  .toList(),
+                              onChanged: (v) {
+                                if (v == 'All') {
+                                  cubit.getCompendiums(catId: id);
+                                } else {
+                                  int sid = state.subCategories
+                                      .singleWhere(
+                                          (element) => element.title == v)
+                                      .id!;
+                                  cubit.getCompendiums(
+                                      catId: id, subCatId: sid);
+                                }
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
                       SizedBox(height: 10),
                       CustomSearchView(
                         autofocus: false,
@@ -148,16 +180,20 @@ class _CompendiumState extends State<CompendiumPage> {
                                               return PopupMenuItem<String>(
                                                 onTap: () {
                                                   if (choice == 'Delete') {
-                                                    // getIt<DatabaseHelper>()
-                                                    //     .deleteCharacter(
-                                                    //         data[index].id!);
-                                                    // cubit.getCharacterSheets();
+                                                    getIt<DatabaseHelper>()
+                                                        .deleteCompendium(
+                                                            data[index].id!);
+                                                    cubit.getCompendiums();
                                                   }
                                                   if (choice == "Send") {
-                                                    // cubit.navigateToShare(
-                                                    //     data[index]);
+                                                    cubit.navigateToShare(
+                                                        data[index]);
                                                   }
-                                                  if (choice == "Share") {}
+                                                  if (choice == "Share") {
+                                                    cubit.share(
+                                                        data[index].toMap(),
+                                                        context);
+                                                  }
                                                 },
                                                 value: choice,
                                                 child: Text(choice),
@@ -168,12 +204,12 @@ class _CompendiumState extends State<CompendiumPage> {
                                       ],
                                     ),
                                     Text(
-                                      'data[index].system!.title.toString()',
+                                      data[index].subCategory!.title.toString(),
                                       style: CustomTextStyles
                                           .bodySmallSFProBluegray40001,
                                     ),
                                     Text(
-                                      'data[index].level.toString()' + " Level",
+                                      data[index].category!.title.toString(),
                                       style: CustomTextStyles
                                           .bodySmallSFProBluegray40001
                                           .copyWith(color: appTheme.gray400),
@@ -269,7 +305,7 @@ class _CompendiumState extends State<CompendiumPage> {
                                                 element.title == v!)
                                             .id!;
                                       },
-                                      hinttext: 'Select Category',
+                                      hinttext: 'Select Sub Category',
                                       list: state.subCategories
                                           .map((e) => e.title)
                                           .toList()),

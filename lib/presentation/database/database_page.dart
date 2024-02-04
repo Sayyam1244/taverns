@@ -1,6 +1,8 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taverns/core/app_export.dart';
@@ -326,6 +328,21 @@ class _DatabaseState extends State<DatabasePage> {
                 },
                 title: Text(
                   'Sub-Category',
+                  style: CustomTextStyles.titleSmallMulishGray800,
+                ),
+              ),
+              ListTile(
+                onTap: () async {
+                  FilePickerResult? fl = await FilePicker.platform.pickFiles(
+                      type: FileType.custom, allowedExtensions: ['json']);
+                  if (fl != null) {
+                    File f = File(fl.files.first.path!);
+                    String js = await f.readAsString();
+                    log(js);
+                  }
+                },
+                title: Text(
+                  'Import',
                   style: CustomTextStyles.titleSmallMulishGray800,
                 ),
               ),

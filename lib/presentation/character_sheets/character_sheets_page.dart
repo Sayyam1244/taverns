@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:another_flushbar/flushbar_route.dart';
 import 'package:flutter/material.dart';
@@ -166,7 +168,12 @@ class _CharacterSheetsState extends State<CharacterSheetsPage> {
                                                     cubit.navigateToShare(
                                                         data[index]);
                                                   }
-                                                  if (choice == "Share") {}
+                                                  if (choice == "Share") {
+                                                    log('share');
+                                                    cubit.share(
+                                                        data[index].toMap(),
+                                                        context);
+                                                  }
                                                 },
                                                 value: choice,
                                                 child: Text(choice),

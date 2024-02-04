@@ -173,17 +173,21 @@ class DatabaseHelper {
     return result.isNotEmpty ? result.first : null;
   }
 
-  Future<Map<String, dynamic>?> getCategory({required int id}) async {
+  Future<Map<String, dynamic>?> getCategory({int? id, String? title}) async {
     Database db = await instance.database;
-    List<Map<String, dynamic>> result =
-        await db.query('Category', where: 'id = ?', whereArgs: [id]);
+    List<Map<String, dynamic>> result = await db.query('Category',
+        where: title != null ? 'title = ?' : 'id = ?',
+        whereArgs: [title ?? id]);
     return result.isNotEmpty ? result.first : null;
   }
 
-  Future<Map<String, dynamic>?> getSubCategory({required int id}) async {
+  Future<Map<String, dynamic>?> getSubCategory({int? id, String? title}) async {
     Database db = await instance.database;
-    List<Map<String, dynamic>> result =
-        await db.query('SubCategory', where: 'id = ?', whereArgs: [id]);
+    List<Map<String, dynamic>> result = await db.query(
+      'SubCategory',
+      where: title != null ? 'title = ?' : 'id = ?',
+      whereArgs: [title ?? id],
+    );
     return result.isNotEmpty ? result.first : null;
   }
 
@@ -230,6 +234,15 @@ class DatabaseHelper {
   Future<List<Map<String, dynamic>>> getAllCompendium(
       {int? catId, int? subCatId}) async {
     Database db = await instance.database;
-    return await db.query('Compendium');
+    if (catId == null) {
+      return await db.query('Compendium');
+    } else if (catId != null && subCatId != null) {
+      return await db.query('Compendium',
+          whereArgs: [catId, subCatId],
+          where: 'categoryId = ? AND subCategoryId = ?');
+    } else {
+      return await db.query('Compendium',
+          whereArgs: [catId], where: 'categoryId = ?');
+    }
   }
 }

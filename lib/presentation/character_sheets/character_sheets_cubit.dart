@@ -1,6 +1,12 @@
+import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share/share.dart';
+import 'package:taverns/core/utils/flushbar.dart';
 import 'package:taverns/data/db_helper.dart';
 import 'package:taverns/domain/model/db_models.dart';
 import 'package:taverns/main.dart';
@@ -50,5 +56,23 @@ class CharacterSheetsCubit extends Cubit<CharacterSheetsState> {
   void navigateToShare(Character character) {
     navigator.openChatList(
         ChatListInitialParams(toSend: false, character: character));
+  }
+
+  Future<void> share(Map data, BuildContext context) async {
+    try {
+      final String filename = DateTime.now().toString();
+      final directory = await getApplicationDocumentsDirectory();
+      final file = File('${directory.path}/$filename.json');
+
+      final jsonString = jsonEncode(data);
+      await file.writeAsString(jsonString);
+      await Share.shareFiles([file.path], text: 'Sharing Sheet');
+    } catch (e) {
+      log(e.toString());
+      FlushbarDialogue().showErrorFlushbar(
+          context: context,
+          title: 'Error',
+          body: 'Error happened, Please try again later');
+    }
   }
 }

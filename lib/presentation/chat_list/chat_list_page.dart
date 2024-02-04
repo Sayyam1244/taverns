@@ -106,6 +106,19 @@ class _ChatListState extends State<ChatListPage> with ChangeNotifier {
                                           .system!.title,
                                       context: ctx);
                                 }
+                                if (cubit.initialParams.compendium != null) {
+                                  cubit.sendToUserAndNavigate(
+                                      content: 'Compendium',
+                                      otherUserID: data[index].docId!,
+                                      sheetName:
+                                          cubit.initialParams.compendium!.title,
+                                      category: cubit.initialParams.compendium!
+                                          .category!.title,
+                                      subCategory: cubit.initialParams
+                                          .compendium!.subCategory!.title,
+                                      type: 'Compendium',
+                                      context: ctx);
+                                }
                               },
                               child: Padding(
                                 padding: EdgeInsets.symmetric(

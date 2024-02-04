@@ -23,6 +23,8 @@ class ChatCubit extends Cubit<ChatState> {
     required ChatModel chatModel,
     required BuildContext context,
   }) async {
+    log(chatModel.TYPE.toString());
+
     if (chatModel.TYPE == 'Character Sheet') {
       Map<String, dynamic>? sysExist =
           await getIt<DatabaseHelper>().getSystem(title: chatModel.system);
@@ -50,6 +52,50 @@ class ChatCubit extends Cubit<ChatState> {
           context: context, title: 'Database', body: 'Added successfully');
     }
 
-    if (chatModel.TYPE == 'COMPENDIUM') {}
+    if (chatModel.TYPE == 'Compendium') {
+      log(chatModel.category.toString());
+      log(chatModel.subCategory.toString());
+      log(chatModel.sheetName.toString());
+      Map<String, dynamic>? catExist =
+          await getIt<DatabaseHelper>().getCategory(title: chatModel.category);
+      Map<String, dynamic>? subCatExist = await getIt<DatabaseHelper>()
+          .getSubCategory(title: chatModel.subCategory);
+      //check
+      if (catExist == null || subCatExist == null) {
+        if (catExist == null) {
+          getIt<DatabaseHelper>()
+              .insertCategory(Category(title: chatModel.category!).toMap());
+          catExist = await getIt<DatabaseHelper>()
+              .getCategory(title: chatModel.category);
+        }
+        if (subCatExist == null) {
+          getIt<DatabaseHelper>().insertSubCategory(SubCategory(
+                  title: chatModel.subCategory!, categoryId: catExist!['id'])
+              .toMap());
+          subCatExist = await getIt<DatabaseHelper>()
+              .getSubCategory(title: chatModel.subCategory);
+        }
+
+        Category category = Category.fromMap(catExist!);
+        SubCategory subCategory = SubCategory.fromMap(subCatExist!);
+
+        await getIt<DatabaseHelper>().insertCompendium(Compendium(
+          title: chatModel.sheetName!,
+          categoryId: category.id!,
+          subCategoryId: subCategory.id!,
+        ).toMap());
+      } else {
+        Category category = Category.fromMap(catExist!);
+        SubCategory subCategory = SubCategory.fromMap(subCatExist!);
+
+        await getIt<DatabaseHelper>().insertCompendium(Compendium(
+          title: chatModel.sheetName!,
+          categoryId: category.id!,
+          subCategoryId: subCategory.id!,
+        ).toMap());
+      }
+      FlushbarDialogue().showFlushbar(
+          context: context, title: 'Database', body: 'Added successfully');
+    }
   }
 }
