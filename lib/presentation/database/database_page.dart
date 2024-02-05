@@ -333,13 +333,7 @@ class _DatabaseState extends State<DatabasePage> {
               ),
               ListTile(
                 onTap: () async {
-                  FilePickerResult? fl = await FilePicker.platform.pickFiles(
-                      type: FileType.custom, allowedExtensions: ['json']);
-                  if (fl != null) {
-                    File f = File(fl.files.first.path!);
-                    String js = await f.readAsString();
-                    log(js);
-                  }
+                  cubit.import(context);
                 },
                 title: Text(
                   'Import',

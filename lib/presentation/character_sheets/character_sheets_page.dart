@@ -169,10 +169,18 @@ class _CharacterSheetsState extends State<CharacterSheetsPage> {
                                                         data[index]);
                                                   }
                                                   if (choice == "Share") {
-                                                    log('share');
-                                                    cubit.share(
-                                                        data[index].toMap(),
-                                                        context);
+                                                    cubit.share({
+                                                      'TYPE': 'Character Sheet',
+                                                      'sheetName':
+                                                          data[index].title,
+                                                      'level':
+                                                          data[index].level,
+                                                      'system': data[index]
+                                                          .system!
+                                                          .title,
+                                                      'category': null,
+                                                      'subCategory': null,
+                                                    }, context);
                                                   }
                                                 },
                                                 value: choice,

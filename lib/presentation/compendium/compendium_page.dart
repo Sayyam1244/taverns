@@ -190,9 +190,19 @@ class _CompendiumState extends State<CompendiumPage> {
                                                         data[index]);
                                                   }
                                                   if (choice == "Share") {
-                                                    cubit.share(
-                                                        data[index].toMap(),
-                                                        context);
+                                                    cubit.share({
+                                                      'TYPE': 'Compendium',
+                                                      'sheetName':
+                                                          data[index].title,
+                                                      'level': null,
+                                                      'system': null,
+                                                      'category': data[index]
+                                                          .category!
+                                                          .title,
+                                                      'subCategory': data[index]
+                                                          .subCategory!
+                                                          .title,
+                                                    }, context);
                                                   }
                                                 },
                                                 value: choice,
