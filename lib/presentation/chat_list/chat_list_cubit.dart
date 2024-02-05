@@ -4,8 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taverns/core/utils/flushbar.dart';
 import 'package:taverns/domain/model/chat_model.dart';
+import 'package:taverns/domain/model/chatroom_model.dart';
 import 'package:taverns/domain/repository/auth_repository.dart';
 import 'package:taverns/domain/repository/user_repository.dart';
+import 'package:taverns/presentation/chat/chat_initial_params.dart';
+import 'package:taverns/presentation/chat_list/chat_list_navigator.dart';
 import 'chat_list_initial_params.dart';
 import 'chat_list_state.dart';
 
@@ -13,7 +16,8 @@ class ChatListCubit extends Cubit<ChatListState> {
   final ChatListInitialParams initialParams;
   final UserRepository user;
   final AuthRepository auth;
-  ChatListCubit(this.initialParams, this.user, this.auth)
+  final ChatListNavigator navigator;
+  ChatListCubit(this.initialParams, this.user, this.auth, this.navigator)
       : super(ChatListState.initial(initialParams: initialParams));
 
   getUsers(context) async {
@@ -66,5 +70,15 @@ class ChatListCubit extends Cubit<ChatListState> {
           ),
         );
     emit(state.copyWith(isloading: false));
+  }
+
+  navigateTochaTscreen({required String otherUserUid, name}) {
+    List<String> userIds = [auth.currentUser().uid, otherUserUid]..sort();
+    String chatRoomId = userIds.join("_");
+    ChatRoomModel chatRoomModel = ChatRoomModel(
+        users: [auth.currentUser().uid, otherUserUid],
+        docId: chatRoomId,
+        otherUsername: name);
+    navigator.openChat(ChatInitialParams(chatroom: chatRoomModel));
   }
 }

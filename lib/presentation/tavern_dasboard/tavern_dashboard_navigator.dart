@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taverns/presentation/chat/chat_navigator.dart';
+import 'package:taverns/presentation/chat_list/chat_list_navigator.dart';
 import 'package:taverns/presentation/database/database_navigator.dart';
 import 'package:taverns/presentation/edit_profile/edit_profile_navigator.dart';
 import 'package:taverns/presentation/event_detail/event_detail_navigator.dart';
@@ -27,6 +28,7 @@ class TavernDashboardNavigator
         LoginAndSignupRoute,
         EditProfileRoute,
         DatabaseRoute,
+        ChatListRoute,
         EventDetailRoute {
   @override
   late BuildContext context;

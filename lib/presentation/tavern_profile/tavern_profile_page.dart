@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -35,6 +37,7 @@ class _TavernProfileState extends State<TavernProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    log('----');
     return Scaffold(
       backgroundColor: appTheme.gray5001,
       appBar: AppBar(
@@ -90,13 +93,6 @@ class _TavernProfileState extends State<TavernProfilePage> {
                                       Text(state.userModel.userName!,
                                           style:
                                               CustomTextStyles.titleMedium16),
-                                      Spacer(),
-                                      cubit.initialParams.isTavernOwner
-                                          ? Container()
-                                          : Icon(
-                                              Icons.favorite,
-                                              color: theme.colorScheme.primary,
-                                            )
                                     ],
                                   ),
                                   SizedBox(height: 10.v),
@@ -147,6 +143,8 @@ class _TavernProfileState extends State<TavernProfilePage> {
                                 if (cubit.initialParams.isTavernOwner) {
                                   cubit.navigateToEditProfileScreen();
                                 } else {
+                                  cubit.chat(cubit.initialParams.docId,
+                                      state.userModel.userName);
                                   //chat here
                                 }
                               },

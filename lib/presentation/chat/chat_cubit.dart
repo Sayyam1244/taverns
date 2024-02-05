@@ -9,14 +9,17 @@ import 'package:taverns/domain/model/db_models.dart';
 import 'package:taverns/domain/repository/auth_repository.dart';
 import 'package:taverns/domain/repository/user_repository.dart';
 import 'package:taverns/main.dart';
+import 'package:taverns/presentation/chat/chat_navigator.dart';
+import 'package:taverns/presentation/tavern_profile/tavern_profile_initial_params.dart';
 import 'chat_initial_params.dart';
 import 'chat_state.dart';
 
 class ChatCubit extends Cubit<ChatState> {
   final ChatInitialParams initialParams;
+  final ChatNavigator navigator;
   final UserRepository user;
   final AuthRepository auth;
-  ChatCubit(this.initialParams, this.user, this.auth)
+  ChatCubit(this.initialParams, this.user, this.auth, this.navigator)
       : super(ChatState.initial(initialParams: initialParams));
 
   saveInDb({
@@ -97,5 +100,9 @@ class ChatCubit extends Cubit<ChatState> {
       FlushbarDialogue().showFlushbar(
           context: context, title: 'Database', body: 'Added successfully');
     }
+  }
+
+  void naviateToUserDetailScreen(String otherUid) {
+    navigator.openTavernProfile(TavernProfileInitialParams(otherUid, false));
   }
 }

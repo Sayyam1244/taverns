@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,10 +32,13 @@ class _ChatState extends State<ChatPage> {
   @override
   void initState() {
     super.initState();
+    cubit.navigator.context = context;
   }
 
   @override
   Widget build(BuildContext context) {
+    log(cubit.initialParams.chatroom.docId.toString());
+    log(cubit.initialParams.chatroom.otherUsername.toString());
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 70.v,
@@ -42,20 +47,28 @@ class _ChatState extends State<ChatPage> {
         actions: [
           Row(
             children: [
-              Container(
-                margin: EdgeInsets.only(left: 50.h),
-                height: 45.adaptSize,
-                width: 45.adaptSize,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle, color: theme.colorScheme.primary),
-                child: Text(
-                  cubit.initialParams.chatroom.otherUsername
-                      .toString()
-                      .characters
-                      .first,
-                  style: CustomTextStyles.titlelarge
-                      .copyWith(color: appTheme.white),
+              GestureDetector(
+                onTap: () {
+                  String otherUid = cubit.initialParams.chatroom.users!
+                      .firstWhere(
+                          (element) => element != cubit.auth.currentUser().uid);
+                  cubit.naviateToUserDetailScreen(otherUid);
+                },
+                child: Container(
+                  margin: EdgeInsets.only(left: 50.h),
+                  height: 45.adaptSize,
+                  width: 45.adaptSize,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle, color: theme.colorScheme.primary),
+                  child: Text(
+                    cubit.initialParams.chatroom.otherUsername
+                        .toString()
+                        .characters
+                        .first,
+                    style: CustomTextStyles.titlelarge
+                        .copyWith(color: appTheme.white),
+                  ),
                 ),
               ),
               SizedBox(width: 12.h),

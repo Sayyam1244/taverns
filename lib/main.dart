@@ -12,8 +12,10 @@ import 'package:taverns/presentation/character_sheets/character_sheets_initial_p
 import 'package:taverns/presentation/character_sheets/character_sheets_navigator.dart';
 import 'package:taverns/presentation/chat/chat_cubit.dart';
 import 'package:taverns/presentation/chat/chat_initial_params.dart';
+import 'package:taverns/presentation/chat/chat_navigator.dart';
 import 'package:taverns/presentation/chat_list/chat_list_cubit.dart';
 import 'package:taverns/presentation/chat_list/chat_list_initial_params.dart';
+import 'package:taverns/presentation/chat_list/chat_list_navigator.dart';
 import 'package:taverns/presentation/compendium/compendium_cubit.dart';
 import 'package:taverns/presentation/compendium/compendium_initial_params.dart';
 import 'package:taverns/presentation/compendium/compendium_navigator.dart';
@@ -139,6 +141,8 @@ void main() async {
       CharacterSheetsNavigator(getIt()));
   getIt.registerSingleton<CompendiumNavigator>(CompendiumNavigator(getIt()));
   getIt.registerSingleton<DatabaseNavigator>(DatabaseNavigator(getIt()));
+  getIt.registerSingleton<ChatListNavigator>(ChatListNavigator(getIt()));
+  getIt.registerSingleton<ChatNavigator>(ChatNavigator(getIt()));
 
   getIt.registerSingleton<AuthRepository>(Auth());
   getIt.registerSingleton<UserRepository>(User());
@@ -191,11 +195,12 @@ void main() async {
           params, getIt(), getIt(), getIt(), getIt(), getIt()));
   getIt.registerFactoryParam<TavernProfileCubit, TavernProfileInitialParams,
           dynamic>(
-      (params, param2) => TavernProfileCubit(params, getIt(), getIt()));
+      (params, param2) =>
+          TavernProfileCubit(params, getIt(), getIt(), getIt()));
   getIt.registerFactoryParam<SearchEventCubit, SearchEventInitialParams,
       dynamic>((params, param2) => SearchEventCubit(params));
   getIt.registerFactoryParam<ChatCubit, ChatInitialParams, dynamic>(
-      (params, param2) => ChatCubit(params, getIt(), getIt()));
+      (params, param2) => ChatCubit(params, getIt(), getIt(), getIt()));
   getIt.registerFactoryParam<SearchUserCubit, SearchUserInitialParams, dynamic>(
       (params, param2) => SearchUserCubit(params));
   getIt.registerFactoryParam<EditProfileCubit, EditProfileInitialParams,
@@ -221,7 +226,7 @@ void main() async {
   getIt.registerFactoryParam<CharacterSheetsCubit, CharacterSheetsInitialParams,
       dynamic>((params, param2) => CharacterSheetsCubit(params, getIt()));
   getIt.registerFactoryParam<ChatListCubit, ChatListInitialParams, dynamic>(
-      (params, param2) => ChatListCubit(params, getIt(), getIt()));
+      (params, param2) => ChatListCubit(params, getIt(), getIt(), getIt()));
   getIt.registerFactoryParam<CompendiumCubit, CompendiumInitialParams, dynamic>(
       (params, param2) => CompendiumCubit(params, getIt()));
 }

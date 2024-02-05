@@ -147,7 +147,7 @@ class User implements UserRepository {
           in FirebaseFirestore.instance
               .collection('Chatrooms')
               .where("users", arrayContains: userId)
-              // .orderBy('lastModified', descending: true)
+              .orderBy('lastModified', descending: true)
               .snapshots()) {
         List<ChatRoomModel> chatrooms = [];
         for (QueryDocumentSnapshot<Map<String, dynamic>> chatroom

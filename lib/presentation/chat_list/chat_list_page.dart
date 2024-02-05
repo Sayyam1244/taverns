@@ -28,6 +28,7 @@ class _ChatListState extends State<ChatListPage> with ChangeNotifier {
 
   @override
   void initState() {
+    cubit.navigator.context = context;
     cubit.getUsers(context);
     super.initState();
   }
@@ -105,8 +106,8 @@ class _ChatListState extends State<ChatListPage> with ChangeNotifier {
                                       system: cubit.initialParams.character!
                                           .system!.title,
                                       context: ctx);
-                                }
-                                if (cubit.initialParams.compendium != null) {
+                                } else if (cubit.initialParams.compendium !=
+                                    null) {
                                   cubit.sendToUserAndNavigate(
                                       content: 'Compendium',
                                       otherUserID: data[index].docId!,
@@ -118,6 +119,10 @@ class _ChatListState extends State<ChatListPage> with ChangeNotifier {
                                           .compendium!.subCategory!.title,
                                       type: 'Compendium',
                                       context: ctx);
+                                } else {
+                                  cubit.navigateTochaTscreen(
+                                      name: data[index].userName,
+                                      otherUserUid: data[index].docId!);
                                 }
                               },
                               child: Padding(

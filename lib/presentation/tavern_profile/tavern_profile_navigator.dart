@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:taverns/presentation/chat/chat_navigator.dart';
 import 'package:taverns/presentation/edit_profile/edit_profile_navigator.dart';
 import 'package:taverns/presentation/tavern_profile/tavern_profile_initial_params.dart';
 import 'package:taverns/presentation/tavern_profile/tavern_profile_page.dart';
 import '../../main.dart';
 import '../../navigation/app_navigation.dart';
 
-class TavernProfileNavigator with EditProfileRoute {
+class TavernProfileNavigator with EditProfileRoute, ChatRoute {
   @override
   late BuildContext context;
 

@@ -37,10 +37,6 @@ class Chats extends StatelessWidget {
                     imagePath: ImageConstant.searchIcon,
                   ),
                 ),
-                SizedBox(width: 20.h),
-                CustomImageView(
-                  imagePath: ImageConstant.editIcon,
-                )
               ],
             ),
           ),
