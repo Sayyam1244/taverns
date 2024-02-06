@@ -28,16 +28,21 @@ class TavernProfileTopbar extends StatelessWidget {
             width: 43.adaptSize,
             alignment: Alignment.center,
             decoration: BoxDecoration(
-              image: state.user.profilePicture != null
-                  ? DecorationImage(
-                      image: NetworkImage(state.user.profilePicture!),
-                      fit: BoxFit.cover)
-                  : null,
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: theme.colorScheme.primary,
-                width: 1,
-              ),
+                // image: state.user.profilePicture != null
+                //     ? DecorationImage(
+                //         image: NetworkImage(state.user.profilePicture!),
+                //         fit: BoxFit.cover)
+                //     : null,
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: theme.colorScheme.primary,
+                  width: 1,
+                ),
+                color: theme.colorScheme.primary),
+            child: Text(
+              state.user.userName.toString().characters.first,
+              style:
+                  CustomTextStyles.titlelarge.copyWith(color: appTheme.white),
             ),
           ),
           state.user.accountType == 'Tavern'

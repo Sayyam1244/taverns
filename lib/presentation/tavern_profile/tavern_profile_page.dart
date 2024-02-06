@@ -68,19 +68,28 @@ class _TavernProfileState extends State<TavernProfilePage> {
                               width: 43.adaptSize,
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
-                                image: state.userModel.profilePicture != null
-                                    ? DecorationImage(
-                                        image: NetworkImage(
-                                          state.userModel.profilePicture!,
-                                        ),
-                                        fit: BoxFit.cover,
-                                      )
-                                    : null,
+                                color: theme.colorScheme.primary,
+                                // image: state.userModel.profilePicture != null
+                                //     ? DecorationImage(
+                                //         image: NetworkImage(
+                                //           state.userModel.profilePicture!,
+                                //         ),
+                                //         fit: BoxFit.cover,
+                                //       )
+                                //     : null,
                                 shape: BoxShape.circle,
                                 border: Border.all(
                                   color: theme.colorScheme.primary,
                                   width: 1,
                                 ),
+                              ),
+                              child: Text(
+                                state.userModel.userName
+                                    .toString()
+                                    .characters
+                                    .first,
+                                style: CustomTextStyles.titlelarge
+                                    .copyWith(color: appTheme.white),
                               ),
                             ),
                             SizedBox(width: 16.h),
@@ -126,15 +135,18 @@ class _TavernProfileState extends State<TavernProfilePage> {
                           children: [
                             if (state.userModel.accountType == 'Tavern')
                               CustomRatingBar(
+                                ignoreGestures: true,
                                 itemSize: 20.v,
-                                initialRating: 0,
+                                initialRating: state.stars.toDouble(),
                                 color: theme.colorScheme.primary,
                               ),
                             if (state.userModel.accountType == 'Tavern')
                               SizedBox(width: 6.h),
                             if (state.userModel.accountType == 'Tavern')
                               Text(
-                                "(No review yet)",
+                                state.reviewCount == 0
+                                    ? "(No review yet)"
+                                    : "${state.reviewCount} Reviews",
                                 style: CustomTextStyles.titleSmallPrimary,
                               ),
                             Spacer(),
@@ -211,7 +223,7 @@ class MapWidget extends StatelessWidget {
           rotateGesturesEnabled: false,
           myLocationEnabled: false,
           myLocationButtonEnabled: false,
-          mapType: MapType.normal,
+          mapType: MapType.terrain,
           markers: Set.from(
             [
               Marker(

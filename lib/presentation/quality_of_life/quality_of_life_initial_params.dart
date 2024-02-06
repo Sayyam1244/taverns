@@ -1,0 +1,4 @@
+class QualityOfLifeInitialParams {
+
+const QualityOfLifeInitialParams();
+}

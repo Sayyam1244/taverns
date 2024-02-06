@@ -95,25 +95,26 @@ class _TavernDashboardState extends State<TavernDashboardPage> {
                     BottomNavigationBarItem(
                         icon: Icon(Icons.calendar_month), label: 'Calender'),
                     BottomNavigationBarItem(
-                        icon: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            Icon(Icons.comment_outlined),
-                            Align(
-                              alignment: Alignment.topCenter,
-                              child: Container(
-                                margin: EdgeInsets.only(bottom: 12, left: 20),
-                                height: 10,
-                                width: 10,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: theme.colorScheme.primary,
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                        label: 'Message'),
+                        icon: Icon(Icons.comment_outlined),
+                        // Stack(
+                        //   alignment: Alignment.center,
+                        //   children: [
+                        //     Icon(Icons.comment_outlined),
+                        //     Align(
+                        //       alignment: Alignment.topCenter,
+                        //       child: Container(
+                        //         margin: EdgeInsets.only(bottom: 12, left: 20),
+                        //         height: 10,
+                        //         width: 10,
+                        //         decoration: BoxDecoration(
+                        //           shape: BoxShape.circle,
+                        //           color: theme.colorScheme.primary,
+                        //         ),
+                        //       ),
+                        //     )
+                        //   ],
+                        // ),
+                        label: 'Chat'),
                     BottomNavigationBarItem(
                         icon: Icon(Icons.more_horiz), label: 'More'),
                   ]),

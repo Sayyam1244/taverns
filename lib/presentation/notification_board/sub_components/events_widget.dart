@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fpdart/fpdart.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:taverns/domain/model/keyboolModel.dart';
 import 'package:taverns/presentation/notification_board/sub_components/eventItem2.dart';
 import 'package:taverns/widgets/custom_elevated_button.dart';
@@ -28,7 +29,7 @@ class EventsWidget extends StatelessWidget {
       bloc: cubit,
       builder: (context, state) =>
           StreamBuilder<Either<GeneralError, List<EventModel>>>(
-        stream: cubit.event.getEvents(getUser: false, limit: 1000),
+        stream: cubit.event.getEvents(getUser: true, limit: 1000),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             List<EventModel> data = [];
@@ -176,6 +177,14 @@ class EventsWidget extends StatelessWidget {
                           SizedBox(width: 16.h),
                       itemCount: data.length,
                       itemBuilder: (context, index) {
+                        final est = Geolocator.distanceBetween(
+                            double.parse(
+                                cubit.initialParams.userModel!.lat.toString()),
+                            double.parse(
+                                cubit.initialParams.userModel!.long.toString()),
+                            double.parse(data[index].user!.lat.toString()),
+                            double.parse(data[index].user!.long.toString()));
+                        log('${(est / 1000).toStringAsFixed(2)} KM');
                         return EventItem2(
                           event: data[index],
                           cubit: cubit,

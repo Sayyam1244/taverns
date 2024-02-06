@@ -96,69 +96,70 @@ class _EditProfileState extends State<EditProfilePage> {
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   children: [
                     SizedBox(height: 30.v),
-                    Align(
-                      alignment: Alignment.center,
-                      child: GestureDetector(
-                        onTap: () async {
-                          file = await CustomFilePicker().getImageFromGallery();
-                          setState(() {});
-                        },
-                        child: Container(
-                          height: 120.v,
-                          width: 120.v,
-                          child: Stack(
-                            children: [
-                              Container(
-                                height: 120.v,
-                                width: 120.v,
-                                clipBehavior: Clip.hardEdge,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                    image: file != null
-                                        ? FileImage(
-                                            file!,
-                                          ) as ImageProvider<Object>
-                                        : NetworkImage(
-                                            cubit.initialParams.userModel
-                                                .profilePicture!,
-                                          ),
-                                    fit: BoxFit.cover,
-                                  ),
-                                  border: Border.all(
-                                    color: theme.colorScheme.primary,
-                                    width: 2,
-                                  ),
-                                ),
-                              ),
-                              Align(
-                                alignment: Alignment.bottomRight,
-                                child: Container(
-                                  margin:
-                                      EdgeInsets.only(bottom: 5.v, right: 5.v),
-                                  padding: EdgeInsets.all(8),
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: theme.colorScheme.primary,
-                                    border: Border.all(
-                                      color: theme.colorScheme.background,
-                                      width: 5,
-                                      strokeAlign:
-                                          BorderSide.strokeAlignOutside,
-                                    ),
-                                  ),
-                                  child: Icon(
-                                    Icons.add,
-                                    size: 16,
-                                    color: theme.colorScheme.background,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
+                    // Align(
+                    //   alignment: Alignment.center,
+                    //   child: GestureDetector(
+                    //     onTap: () async {
+                    //       file = await CustomFilePicker().getImageFromGallery();
+                    //       setState(() {});
+                    //     },
+                    //     child: Container(
+                    //       height: 120.v,
+                    //       width: 120.v,
+                    //       child: Stack(
+                    //         children: [
+                    //           Container(
+                    //             height: 120.v,
+                    //             width: 120.v,
+                    //             clipBehavior: Clip.hardEdge,
+                    //             decoration: BoxDecoration(
+                    //               shape: BoxShape.circle,
+                    //               image: DecorationImage(
+                    //                 image: file != null
+                    //                     ? FileImage(
+                    //                         file!,
+                    //                       ) as ImageProvider<Object>
+                    //                     : NetworkImage(
+                    //                         cubit.initialParams.userModel
+                    //                             .profilePicture!,
+                    //                       ),
+                    //                 fit: BoxFit.cover,
+                    //               ),
+                    //               border: Border.all(
+                    //                 color: theme.colorScheme.primary,
+                    //                 width: 2,
+                    //               ),
+                    //             ),
+                    //           ),
+                    //           Align(
+                    //             alignment: Alignment.bottomRight,
+                    //             child: Container(
+                    //               margin:
+                    //                   EdgeInsets.only(bottom: 5.v, right: 5.v),
+                    //               padding: EdgeInsets.all(8),
+                    //               decoration: BoxDecoration(
+                    //                 shape: BoxShape.circle,
+                    //                 color: theme.colorScheme.primary,
+                    //                 border: Border.all(
+                    //                   color: theme.colorScheme.background,
+                    //                   width: 5,
+                    //                   strokeAlign:
+                    //                       BorderSide.strokeAlignOutside,
+                    //                 ),
+                    //               ),
+                    //               child: Icon(
+                    //                 Icons.add,
+                    //                 size: 16,
+                    //                 color: theme.colorScheme.background,
+                    //               ),
+                    //             ),
+                    //           ),
+                    //         ],
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
+
                     SizedBox(height: 16.v),
                     if (cubit.initialParams.userModel.accountType == 'Tavern')
                       TavernEditFields(

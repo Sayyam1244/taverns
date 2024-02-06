@@ -4,12 +4,16 @@ import 'package:taverns/presentation/chat_list/chat_list_navigator.dart';
 import 'package:taverns/presentation/database/database_navigator.dart';
 import 'package:taverns/presentation/edit_profile/edit_profile_navigator.dart';
 import 'package:taverns/presentation/event_detail/event_detail_navigator.dart';
+import 'package:taverns/presentation/how_to/how_to_navigator.dart';
 import 'package:taverns/presentation/login_and_signup/login_and_signup_navigator.dart';
 import 'package:taverns/presentation/notification_board/notification_board_navigator.dart';
 import 'package:taverns/presentation/notifications/notifications_navigator.dart';
+import 'package:taverns/presentation/quality_of_life/quality_of_life_navigator.dart';
 import 'package:taverns/presentation/reviews/reviews_navigator.dart';
+import 'package:taverns/presentation/safety_tips/safety_tips_navigator.dart';
 import 'package:taverns/presentation/search_event/search_event_navigator.dart';
 import 'package:taverns/presentation/search_user/search_user_navigator.dart';
+import 'package:taverns/presentation/support/support_navigator.dart';
 import 'package:taverns/presentation/tavern_profile/tavern_profile_navigator.dart';
 import '../../main.dart';
 import '../../navigation/app_navigation.dart';
@@ -29,6 +33,10 @@ class TavernDashboardNavigator
         EditProfileRoute,
         DatabaseRoute,
         ChatListRoute,
+        QualityOfLifeRoute,
+        HowToRoute,
+        SupportRoute,
+        SafetyTipsRoute,
         EventDetailRoute {
   @override
   late BuildContext context;

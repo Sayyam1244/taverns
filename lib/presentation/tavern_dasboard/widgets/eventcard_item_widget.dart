@@ -38,13 +38,21 @@ class EventcardItemWidget extends StatelessWidget {
               height: 60.adaptSize,
               width: 60.adaptSize,
               decoration: BoxDecoration(
-                  border: Border.all(color: appTheme.blueGray100, width: 1),
+                  // border: Border.all(color: appTheme.blueGray100, width: 1),
                   shape: BoxShape.circle,
-                  image: event.user!.profilePicture != null
-                      ? DecorationImage(
-                          image: NetworkImage(event.user?.profilePicture ?? ''),
-                          fit: BoxFit.cover)
-                      : null),
+                  color: appTheme.blueGray100
+                  // image: event.user!.profilePicture != null
+                  //     ? DecorationImage(
+                  //         image: NetworkImage(event.user?.profilePicture ?? ''),
+                  //         fit: BoxFit.cover)
+                  //     : null
+                  ),
+              child: Center(
+                child: Icon(
+                  Icons.games_rounded,
+                  color: appTheme.white,
+                ),
+              ),
             ),
             Padding(
               padding: EdgeInsets.only(

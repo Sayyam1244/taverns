@@ -39,6 +39,8 @@ import 'package:taverns/presentation/event_detail/event_detail_initial_params.da
 import 'package:taverns/presentation/forgot_password_screen/forgot_password_cubit.dart';
 import 'package:taverns/presentation/forgot_password_screen/forgot_password_initial_params.dart';
 import 'package:taverns/presentation/forgot_password_screen/forgot_password_navigator.dart';
+import 'package:taverns/presentation/how_to/how_to_cubit.dart';
+import 'package:taverns/presentation/how_to/how_to_initial_params.dart';
 import 'package:taverns/presentation/login_and_signup/login_and_signup_cubit.dart';
 import 'package:taverns/presentation/login_and_signup/login_and_signup_initial_params.dart';
 import 'package:taverns/presentation/login_and_signup/login_and_signup_navigator.dart';
@@ -54,8 +56,12 @@ import 'package:taverns/presentation/notifications_email_screen/notification_set
 import 'package:taverns/presentation/pulls_nearby_businesses/pull_nearby_businesses_cubit.dart';
 import 'package:taverns/presentation/pulls_nearby_businesses/pull_nearby_businesses_initial_params.dart';
 import 'package:taverns/presentation/pulls_nearby_businesses/pull_nearby_businesses_navigator.dart';
+import 'package:taverns/presentation/quality_of_life/quality_of_life_cubit.dart';
+import 'package:taverns/presentation/quality_of_life/quality_of_life_initial_params.dart';
 import 'package:taverns/presentation/reviews/reviews_cubit.dart';
 import 'package:taverns/presentation/reviews/reviews_initial_params.dart';
+import 'package:taverns/presentation/safety_tips/safety_tips_cubit.dart';
+import 'package:taverns/presentation/safety_tips/safety_tips_initial_params.dart';
 import 'package:taverns/presentation/search_event/search_event_cubit.dart';
 import 'package:taverns/presentation/search_event/search_event_initial_params.dart';
 import 'package:taverns/presentation/search_user/search_user_cubit.dart';
@@ -73,6 +79,8 @@ import 'package:taverns/presentation/splash/splash_cubit.dart';
 import 'package:taverns/presentation/splash/splash_initial_params.dart';
 import 'package:taverns/presentation/splash/splash_navigator.dart';
 import 'package:taverns/presentation/splash/splash_page.dart';
+import 'package:taverns/presentation/support/support_cubit.dart';
+import 'package:taverns/presentation/support/support_initial_params.dart';
 import 'package:taverns/presentation/tavern_dasboard/tavern_dashboard_cubit.dart';
 import 'package:taverns/presentation/tavern_dasboard/tavern_dashboard_initial_params.dart';
 import 'package:taverns/presentation/tavern_dasboard/tavern_dashboard_navigator.dart';
@@ -196,7 +204,7 @@ void main() async {
   getIt.registerFactoryParam<TavernProfileCubit, TavernProfileInitialParams,
           dynamic>(
       (params, param2) =>
-          TavernProfileCubit(params, getIt(), getIt(), getIt()));
+          TavernProfileCubit(params, getIt(), getIt(), getIt(), getIt()));
   getIt.registerFactoryParam<SearchEventCubit, SearchEventInitialParams,
       dynamic>((params, param2) => SearchEventCubit(params));
   getIt.registerFactoryParam<ChatCubit, ChatInitialParams, dynamic>(
@@ -229,6 +237,15 @@ void main() async {
       (params, param2) => ChatListCubit(params, getIt(), getIt(), getIt()));
   getIt.registerFactoryParam<CompendiumCubit, CompendiumInitialParams, dynamic>(
       (params, param2) => CompendiumCubit(params, getIt()));
+  //
+  getIt.registerFactoryParam<QualityOfLifeCubit, QualityOfLifeInitialParams,
+      dynamic>((params, param2) => QualityOfLifeCubit(params));
+  getIt.registerFactoryParam<HowToCubit, HowToInitialParams, dynamic>(
+      (params, param2) => HowToCubit(params));
+  getIt.registerFactoryParam<SafetyTipsCubit, SafetyTipsInitialParams, dynamic>(
+      (params, param2) => SafetyTipsCubit(params));
+  getIt.registerFactoryParam<SupportCubit, SupportInitialParams, dynamic>(
+      (params, param2) => SupportCubit(params));
 }
 
 class MyApp extends StatelessWidget {

@@ -1,0 +1,4 @@
+class HowToInitialParams {
+
+const HowToInitialParams();
+}

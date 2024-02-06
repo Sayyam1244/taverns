@@ -32,23 +32,23 @@ class TavernProfileWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Container(
-                height: 40.adaptSize,
-                width: 40.adaptSize,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  image: state.user.profilePicture != null
-                      ? DecorationImage(
-                          image: NetworkImage(state.user.profilePicture!),
-                          fit: BoxFit.cover)
-                      : null,
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: theme.colorScheme.primary,
-                    width: 1,
-                  ),
-                ),
-              ),
+              // Container(
+              //   height: 40.adaptSize,
+              //   width: 40.adaptSize,
+              //   alignment: Alignment.center,
+              //   decoration: BoxDecoration(
+              //     image: state.user.profilePicture != null
+              //         ? DecorationImage(
+              //             image: NetworkImage(state.user.profilePicture!),
+              //             fit: BoxFit.cover)
+              //         : null,
+              //     shape: BoxShape.circle,
+              //     border: Border.all(
+              //       color: theme.colorScheme.primary,
+              //       width: 1,
+              //     ),
+              //   ),
+              // ),
               state.user.accountType == 'Tavern'
                   ? Padding(
                       padding: EdgeInsets.only(

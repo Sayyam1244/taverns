@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taverns/core/app_export.dart';
+import 'package:taverns/presentation/quality_of_life/quality_of_life_initial_params.dart';
 import 'package:taverns/presentation/tavern_dasboard/tavern_dashboard_cubit.dart';
 import 'package:taverns/presentation/tavern_dasboard/tavern_dashboard_state.dart';
 
@@ -39,7 +40,12 @@ class MorePage extends StatelessWidget {
                       ontap: () {
                         cubit.navigateToDatabase();
                       }),
-                  MoreItem(title: 'QOL (Quality of Life)', ontap: () {}),
+                  MoreItem(
+                      title: 'QOL (Quality of Life)',
+                      ontap: () {
+                        cubit.navigator
+                            .openQualityOfLife(QualityOfLifeInitialParams());
+                      }),
                   MoreItem(title: 'How-To', ontap: () {}),
                   MoreItem(title: 'Support', ontap: () {}),
                   MoreItem(title: 'Safety Tips', ontap: () {}),

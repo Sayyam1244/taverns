@@ -68,19 +68,28 @@ class _EventDetailState extends State<EventDetailPage> {
                               alignment: Alignment.center,
                               margin: EdgeInsets.only(top: 8.v),
                               decoration: BoxDecoration(
-                                image: state.event!.user!.profilePicture != null
-                                    ? DecorationImage(
-                                        image: NetworkImage(
-                                          state.event!.user!.profilePicture!,
-                                        ),
-                                        fit: BoxFit.cover,
-                                      )
-                                    : null,
+                                color: theme.colorScheme.primary,
+                                // image: state.event!.user!.profilePicture != null
+                                //     ? DecorationImage(
+                                //         image: NetworkImage(
+                                //           state.event!.user!.profilePicture!,
+                                //         ),
+                                //         fit: BoxFit.cover,
+                                //       )
+                                //     : null,
                                 shape: BoxShape.circle,
                                 border: Border.all(
                                   color: theme.colorScheme.primary,
                                   width: 1,
                                 ),
+                              ),
+                              child: Text(
+                                state.event!.user!.userName
+                                    .toString()
+                                    .characters
+                                    .first,
+                                style: CustomTextStyles.titlelarge
+                                    .copyWith(color: appTheme.white),
                               ),
                             ),
                             SizedBox(width: 16.h),
@@ -88,13 +97,24 @@ class _EventDetailState extends State<EventDetailPage> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(state.event!.eventName, style: CustomTextStyles.titleMediumSecondaryContainer),
+                                  Text(state.event!.eventName,
+                                      style: CustomTextStyles
+                                          .titleMediumSecondaryContainer),
                                   SizedBox(height: 8.v),
-                                  Text(state.event!.user!.businessName!, style: CustomTextStyles.titleSmallCircularStdBluegray800),
+                                  Text(state.event!.user!.businessName!,
+                                      style: CustomTextStyles
+                                          .titleSmallCircularStdBluegray800),
                                   SizedBox(height: 4.v),
-                                  Text(DateFormat('hh:mm:a - dd/MM/yyyy').format((state.event!.eventDatetime)), style: CustomTextStyles.titleSmallMulishGray800),
+                                  Text(
+                                      DateFormat('hh:mm:a - dd/MM/yyyy')
+                                          .format((state.event!.eventDatetime)),
+                                      style: CustomTextStyles
+                                          .titleSmallMulishGray800),
                                   SizedBox(height: 10.v),
-                                  Text(state.event!.note, style: CustomTextStyles.bodySmallCircularStdBluegray40001.copyWith(height: 1.5)),
+                                  Text(state.event!.note,
+                                      style: CustomTextStyles
+                                          .bodySmallCircularStdBluegray40001
+                                          .copyWith(height: 1.5)),
                                 ],
                               ),
                             ),
@@ -132,7 +152,8 @@ class _EventDetailState extends State<EventDetailPage> {
                                 children: [
                                   Text(
                                     'Rating   ',
-                                    style: CustomTextStyles.bodySmallMulishBluegray900,
+                                    style: CustomTextStyles
+                                        .bodySmallMulishBluegray900,
                                   ),
                                   CustomRatingBar(
                                     itemSize: 20.h,
@@ -148,7 +169,10 @@ class _EventDetailState extends State<EventDetailPage> {
                               CustomElevatedButton(
                                 onPressed: () {
                                   if (_formKey.currentState!.validate()) {
-                                    cubit.submitReview(text: reviewController.text.trim(), rating: rating.toInt(), context: context);
+                                    cubit.submitReview(
+                                        text: reviewController.text.trim(),
+                                        rating: rating.toInt(),
+                                        context: context);
                                   }
                                 },
                                 text: 'Submit',
@@ -180,7 +204,8 @@ class eventDetailsinSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: 20.v, left: 10.h, right: 10.h, bottom: 20.v),
+      padding:
+          EdgeInsets.only(top: 20.v, left: 10.h, right: 10.h, bottom: 20.v),
       child: Row(
         children: [
           Expanded(

@@ -113,13 +113,20 @@ class ChatItem extends StatelessWidget {
                 width: 43.adaptSize,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: NetworkImage(imagePath), fit: BoxFit.cover),
+                  color: theme.colorScheme.primary,
+
+                  // image: DecorationImage(
+                  //     image: NetworkImage(imagePath), fit: BoxFit.cover),
                   shape: BoxShape.circle,
                   border: Border.all(
                     color: theme.colorScheme.primary,
                     width: 1,
                   ),
+                ),
+                child: Text(
+                  title.characters.first,
+                  style: CustomTextStyles.titlelarge
+                      .copyWith(color: appTheme.white),
                 ),
               ),
               SizedBox(width: 12.h),

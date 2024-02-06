@@ -38,19 +38,6 @@ class Home extends StatelessWidget {
               TavernProfileWidget(cubit: cubit, state: state),
               SizedBox(height: 24.v),
               NotificationBoardWidget(cubit: cubit, state: state),
-              SizedBox(height: 24.v),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 18),
-                child: GestureDetector(
-                  onTap: () {
-                    cubit.navigateTosearchEvent();
-                  },
-                  child: CustomSearchView(
-                    enabled: false,
-                    hintText: "Find Event",
-                  ),
-                ),
-              ),
               SizedBox(height: 26.v),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 18, vertical: 12),

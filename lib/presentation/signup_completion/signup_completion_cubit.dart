@@ -16,9 +16,12 @@ class SignupCompletionCubit extends Cubit<SignupCompletionState> {
   final SignupCompletionNavigator navigator;
   final UserRepository _user;
   final AuthRepository _auth;
-  SignupCompletionCubit(this.initialParams, this.navigator, this._user, this._auth) : super(SignupCompletionState.initial(initialParams: initialParams));
+  SignupCompletionCubit(
+      this.initialParams, this.navigator, this._user, this._auth)
+      : super(SignupCompletionState.initial(initialParams: initialParams));
 
-  saveUserData(context, username, businessName, businessNumber, businessAddress, contactEmail, businessHour, File file) async {
+  saveUserData(context, username, businessName, businessNumber, businessAddress,
+      contactEmail, businessHour) async {
     UserModel userModel = UserModel(
         userName: username,
         businessName: businessName,
@@ -32,11 +35,14 @@ class SignupCompletionCubit extends Cubit<SignupCompletionState> {
         eventsNearMe: true,
         timeSlotsRequests: true);
     emit(state.copyWith(isloading: true));
-    await _user.createFirestoreUser(_auth.currentUser().uid, userModel, picture: file).then((value) {
+    await _user
+        .createFirestoreUser(_auth.currentUser().uid, userModel, picture: null)
+        .then((value) {
       return value.fold((l) {
         emit(state.copyWith(isloading: false));
 
-        return FlushbarDialogue().showErrorFlushbar(context: context, title: l.title, body: l.message);
+        return FlushbarDialogue().showErrorFlushbar(
+            context: context, title: l.title, body: l.message);
       }, (r) => navigator.openEnableLocation(EnableLocationInitialParams()));
     });
     emit(state.copyWith(isloading: false));

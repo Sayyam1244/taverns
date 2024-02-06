@@ -4,6 +4,7 @@ import 'notification_board_initial_params.dart';
 
 class NotificationBoardState {
   final int index;
+
   final String? eventName;
   final DateTime eventDatetime;
   final String? eventType;

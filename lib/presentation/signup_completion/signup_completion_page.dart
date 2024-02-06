@@ -80,65 +80,66 @@ class _SignupCompletionState extends State<SignupCompletionPage> {
                     ],
                   ),
                   SizedBox(height: 30.v),
-                  Align(
-                    alignment: Alignment.center,
-                    child: GestureDetector(
-                      onTap: () async {
-                        file = await CustomFilePicker().getImageFromGallery();
-                        setState(() {});
-                      },
-                      child: Container(
-                        height: 120.v,
-                        width: 120.v,
-                        child: Stack(
-                          children: [
-                            Container(
-                              height: 120.v,
-                              width: 120.v,
-                              clipBehavior: Clip.hardEdge,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                image: file != null
-                                    ? DecorationImage(
-                                        image: FileImage(
-                                          file!,
-                                        ),
-                                        fit: BoxFit.cover,
-                                      )
-                                    : null,
-                                border: Border.all(
-                                  color: theme.colorScheme.primary,
-                                  width: 2,
-                                ),
-                              ),
-                            ),
-                            Align(
-                              alignment: Alignment.bottomRight,
-                              child: Container(
-                                margin:
-                                    EdgeInsets.only(bottom: 5.v, right: 5.v),
-                                padding: EdgeInsets.all(8),
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: theme.colorScheme.primary,
-                                  border: Border.all(
-                                    color: theme.colorScheme.background,
-                                    width: 5,
-                                    strokeAlign: BorderSide.strokeAlignOutside,
-                                  ),
-                                ),
-                                child: Icon(
-                                  Icons.add,
-                                  size: 16,
-                                  color: theme.colorScheme.background,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
+                  // Align(
+                  //   alignment: Alignment.center,
+                  //   child: GestureDetector(
+                  //     onTap: () async {
+                  //       file = await CustomFilePicker().getImageFromGallery();
+                  //       setState(() {});
+                  //     },
+                  //     child: Container(
+                  //       height: 120.v,
+                  //       width: 120.v,
+                  //       child: Stack(
+                  //         children: [
+                  //           Container(
+                  //             height: 120.v,
+                  //             width: 120.v,
+                  //             clipBehavior: Clip.hardEdge,
+                  //             decoration: BoxDecoration(
+                  //               shape: BoxShape.circle,
+                  //               image: file != null
+                  //                   ? DecorationImage(
+                  //                       image: FileImage(
+                  //                         file!,
+                  //                       ),
+                  //                       fit: BoxFit.cover,
+                  //                     )
+                  //                   : null,
+                  //               border: Border.all(
+                  //                 color: theme.colorScheme.primary,
+                  //                 width: 2,
+                  //               ),
+                  //             ),
+                  //           ),
+                  //           Align(
+                  //             alignment: Alignment.bottomRight,
+                  //             child: Container(
+                  //               margin:
+                  //                   EdgeInsets.only(bottom: 5.v, right: 5.v),
+                  //               padding: EdgeInsets.all(8),
+                  //               decoration: BoxDecoration(
+                  //                 shape: BoxShape.circle,
+                  //                 color: theme.colorScheme.primary,
+                  //                 border: Border.all(
+                  //                   color: theme.colorScheme.background,
+                  //                   width: 5,
+                  //                   strokeAlign: BorderSide.strokeAlignOutside,
+                  //                 ),
+                  //               ),
+                  //               child: Icon(
+                  //                 Icons.add,
+                  //                 size: 16,
+                  //                 color: theme.colorScheme.background,
+                  //               ),
+                  //             ),
+                  //           ),
+                  //         ],
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+
                   if (cubit.initialParams.type == 'Tavern')
                     SizedBox(height: 16.v),
                   SizedBox(height: 30.v),
@@ -183,7 +184,7 @@ class _SignupCompletionState extends State<SignupCompletionPage> {
               isLoading: state.isloading,
               text: "Next",
               onPressed: () {
-                if (_formKey.currentState!.validate() == true && file != null) {
+                if (_formKey.currentState!.validate()) {
                   cubit.saveUserData(
                     context,
                     usernameController.text,
@@ -192,13 +193,8 @@ class _SignupCompletionState extends State<SignupCompletionPage> {
                     businessAddressController.text,
                     emailController.text,
                     businessHoursController.text,
-                    file!,
+                    // file!,
                   );
-                } else if (file == null) {
-                  FlushbarDialogue().showErrorFlushbar(
-                      context: context,
-                      title: 'Error',
-                      body: 'Profile photo required');
                 }
               },
             ),

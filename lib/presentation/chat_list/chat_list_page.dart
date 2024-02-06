@@ -34,13 +34,6 @@ class _ChatListState extends State<ChatListPage> with ChangeNotifier {
   }
 
   @override
-  void dispose() {
-    search.dispose();
-
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
