@@ -73,9 +73,14 @@ class _WelcomeState extends State<WelcomePage> {
                 margin: EdgeInsets.symmetric(horizontal: 24.h),
               ),
               SizedBox(height: 25.v),
-              Text(
-                "Already a member",
-                style: CustomTextStyles.titleMediumGray60001,
+              GestureDetector(
+                onTap: () {
+                  cubit.openLoginAndSignup();
+                },
+                child: Text(
+                  "Already a member",
+                  style: CustomTextStyles.titleMediumGray60001,
+                ),
               ),
               SizedBox(height: 46.v),
             ],

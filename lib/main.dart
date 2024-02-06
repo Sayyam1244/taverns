@@ -258,21 +258,22 @@ class MyApp extends StatelessWidget {
     return Sizer(
       builder: (context, orientation, deviceType) {
         return MaterialApp(
-            theme: theme.copyWith(
-                appBarTheme: Theme.of(context)
-                    .appBarTheme
-                    .copyWith(iconTheme: IconThemeData(size: 14))),
-            title: 'Taverns',
-            debugShowCheckedModeBanner: false,
-            home: TavernDashboardPage(
-              cubit: getIt(
-                param1: TavernDashboardInitialParams(),
-              ),
-            )
-            // // EnableLocationPage(
-            // //     cubit: getIt(param1: EnableLocationInitialParams()))
-            // SplashPage(cubit: getIt(param1: SplashInitialParams())),
-            );
+          theme: theme.copyWith(
+              appBarTheme: Theme.of(context)
+                  .appBarTheme
+                  .copyWith(iconTheme: IconThemeData(size: 14))),
+          title: 'Taverns',
+          debugShowCheckedModeBanner: false,
+          home:
+              // TavernDashboardPage(
+              //   cubit: getIt(
+              //     param1: TavernDashboardInitialParams(),
+              //   ),
+              // )
+              // // EnableLocationPage(
+              // //     cubit: getIt(param1: EnableLocationInitialParams()))
+              SplashPage(cubit: getIt(param1: SplashInitialParams())),
+        );
       },
     );
   }

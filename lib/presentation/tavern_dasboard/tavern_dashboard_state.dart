@@ -22,7 +22,7 @@ class TavernDashboardState {
   factory TavernDashboardState.initial(
           {required TavernDashboardInitialParams initialParams}) =>
       TavernDashboardState(
-        currentIndex: 2,
+        currentIndex: 0,
         user:
             UserModel(userName: '', accountType: 'Player', businessNumber: ''),
         isloading: true,

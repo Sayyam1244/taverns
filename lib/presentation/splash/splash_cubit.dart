@@ -16,7 +16,7 @@ class SplashCubit extends Cubit<SplashState> {
 
   navigateToWelcome() async {
     log('>>>>>>>>>>navigate to welcome');
-    await Future.delayed(Duration(seconds: 3));
+    await Future.delayed(Duration(seconds: 1));
     navigator.openWelcome(WelcomeInitialParams());
     log('>>>>>>>>>>navigated');
   }
