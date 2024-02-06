@@ -36,6 +36,8 @@ import 'package:taverns/presentation/enable_location/enable_location_initial_par
 import 'package:taverns/presentation/enable_location/enable_location_navigator.dart';
 import 'package:taverns/presentation/event_detail/event_detail_cubit.dart';
 import 'package:taverns/presentation/event_detail/event_detail_initial_params.dart';
+import 'package:taverns/presentation/faqs/faqs_cubit.dart';
+import 'package:taverns/presentation/faqs/faqs_initial_params.dart';
 import 'package:taverns/presentation/forgot_password_screen/forgot_password_cubit.dart';
 import 'package:taverns/presentation/forgot_password_screen/forgot_password_initial_params.dart';
 import 'package:taverns/presentation/forgot_password_screen/forgot_password_navigator.dart';
@@ -246,6 +248,8 @@ void main() async {
       (params, param2) => SafetyTipsCubit(params));
   getIt.registerFactoryParam<SupportCubit, SupportInitialParams, dynamic>(
       (params, param2) => SupportCubit(params));
+  getIt.registerFactoryParam<FaqsCubit, FaqsInitialParams, dynamic>(
+      (params, param2) => FaqsCubit(params));
 }
 
 class MyApp extends StatelessWidget {

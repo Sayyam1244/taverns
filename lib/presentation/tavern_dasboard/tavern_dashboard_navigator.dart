@@ -4,6 +4,7 @@ import 'package:taverns/presentation/chat_list/chat_list_navigator.dart';
 import 'package:taverns/presentation/database/database_navigator.dart';
 import 'package:taverns/presentation/edit_profile/edit_profile_navigator.dart';
 import 'package:taverns/presentation/event_detail/event_detail_navigator.dart';
+import 'package:taverns/presentation/faqs/faqs_navigator.dart';
 import 'package:taverns/presentation/how_to/how_to_navigator.dart';
 import 'package:taverns/presentation/login_and_signup/login_and_signup_navigator.dart';
 import 'package:taverns/presentation/notification_board/notification_board_navigator.dart';
@@ -36,6 +37,7 @@ class TavernDashboardNavigator
         QualityOfLifeRoute,
         HowToRoute,
         SupportRoute,
+        FaqsRoute,
         SafetyTipsRoute,
         EventDetailRoute {
   @override

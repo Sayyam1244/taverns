@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:taverns/core/app_export.dart';
+import 'package:taverns/presentation/faqs/faqs_initial_params.dart';
+import 'package:taverns/presentation/how_to/how_to_initial_params.dart';
 import 'package:taverns/presentation/quality_of_life/quality_of_life_initial_params.dart';
+import 'package:taverns/presentation/safety_tips/safety_tips_initial_params.dart';
+import 'package:taverns/presentation/support/support_initial_params.dart';
 import 'package:taverns/presentation/tavern_dasboard/tavern_dashboard_cubit.dart';
 import 'package:taverns/presentation/tavern_dasboard/tavern_dashboard_state.dart';
 
@@ -46,9 +50,28 @@ class MorePage extends StatelessWidget {
                         cubit.navigator
                             .openQualityOfLife(QualityOfLifeInitialParams());
                       }),
-                  MoreItem(title: 'How-To', ontap: () {}),
-                  MoreItem(title: 'Support', ontap: () {}),
-                  MoreItem(title: 'Safety Tips', ontap: () {}),
+                  MoreItem(
+                      title: 'How-To',
+                      ontap: () {
+                        cubit.navigator.openHowTo(HowToInitialParams());
+                      }),
+                  MoreItem(
+                    title: 'Support',
+                    ontap: () {
+                      cubit.navigator.openSupport(SupportInitialParams());
+                    },
+                  ),
+                  MoreItem(
+                      title: 'Safety Tips',
+                      ontap: () {
+                        cubit.navigator
+                            .openSafetyTips(SafetyTipsInitialParams());
+                      }),
+                  // MoreItem(
+                  //     title: 'FAQs',
+                  //     ontap: () {
+                  //       cubit.navigator.openFaqs(FaqsInitialParams());
+                  //     }),
                   SizedBox(height: 20.v),
                   GestureDetector(
                     onTap: () {

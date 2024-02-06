@@ -7,6 +7,7 @@ import 'package:taverns/core/app_export.dart';
 import 'package:taverns/domain/model/chatroom_model.dart';
 import 'package:taverns/domain/model/general_model.dart';
 import 'package:taverns/presentation/tavern_dasboard/tavern_dashboard_cubit.dart';
+import 'package:taverns/widgets/custome_loading_widget.dart';
 
 class Chats extends StatelessWidget {
   const Chats({Key? key, required this.cubit}) : super(key: key);
@@ -41,34 +42,35 @@ class Chats extends StatelessWidget {
             ),
           ),
           Expanded(
-              child: StreamBuilder<Either<GeneralError, List<ChatRoomModel>>>(
-                  stream: cubit.userHelper
-                      .getChats(userId: cubit.auth.currentUser().uid),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      List<ChatRoomModel> data = [];
-                      snapshot.data!.fold((l) => null, (r) => data = r);
-                      log(cubit.auth.currentUser().uid);
-                      log(data.length.toString());
-                      return ListView.builder(
-                          itemCount: data.length,
-                          itemBuilder: (context, index) => ChatItem(
-                                ontap: () {
-                                  cubit.navigateToChatScreen(
-                                      chatRoomModel: data[index]);
-                                },
-                                imagePath:
-                                    cubit.state.user.profilePicture ?? '',
-                                title: data[index].otherUsername!,
-                                subtitle: data[index].last!,
-                                newMessage: false,
-                                dateTime:
-                                    data[index].lastModified ?? DateTime.now(),
-                              ));
-                    } else {
-                      return Container();
-                    }
-                  }))
+            child: StreamBuilder<Either<GeneralError, List<ChatRoomModel>>>(
+              stream: cubit.userHelper
+                  .getChats(userId: cubit.auth.currentUser().uid),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  List<ChatRoomModel> data = [];
+                  snapshot.data!.fold((l) => null, (r) => data = r);
+                  log(cubit.auth.currentUser().uid);
+                  log(data.length.toString());
+                  return ListView.builder(
+                      itemCount: data.length,
+                      itemBuilder: (context, index) => ChatItem(
+                            ontap: () {
+                              cubit.navigateToChatScreen(
+                                  chatRoomModel: data[index]);
+                            },
+                            imagePath: cubit.state.user.profilePicture ?? '',
+                            title: data[index].otherUsername!,
+                            subtitle: data[index].last!,
+                            newMessage: false,
+                            dateTime:
+                                data[index].lastModified ?? DateTime.now(),
+                          ));
+                } else {
+                  return CustomLoadingWidget();
+                }
+              },
+            ),
+          ),
         ],
       ),
     );

@@ -1,0 +1,4 @@
+class FaqsInitialParams {
+
+const FaqsInitialParams();
+}
